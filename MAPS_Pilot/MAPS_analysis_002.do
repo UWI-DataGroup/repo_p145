@@ -7,7 +7,7 @@ log using "Log files/Data Preparation/MAPS_analysis_001", replace
 **  GENERAL DO-FILE COMMENTS
 **  program:		MAPS_analysis_002.do
 **  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
-**  author:			Rocke, Whiteman, Hambleton, Howitt
+**  Analyst:		Kern Rocke
 **  task:          	Prevalence Estimates of key attributes from Segment section of MAPS
 **	Date Modified:	30/07/2019
 

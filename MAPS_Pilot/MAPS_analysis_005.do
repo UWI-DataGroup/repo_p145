@@ -4,7 +4,7 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  program:		MAPS_analysis_005.do
 **  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
-**  author:			Rocke, Whiteman, Hambleton, Howitt
+**  Analyst:		Kern Rocke
 **  task:          	Distribution and Inferential Statistics of subscale scores of MAPS
 **	Date Modified:	01/08/2019
 

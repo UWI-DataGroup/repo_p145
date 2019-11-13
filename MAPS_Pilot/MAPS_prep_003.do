@@ -6,7 +6,7 @@ log using "Log files/Data Preparation/MAPS_prep_003", replace
 **  GENERAL DO-FILE COMMENTS
 **  program:		MAPS_prep_003.do
 **  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
-**  author:			Rocke, Whiteman, Hambleton, Howitt
+**  Analyst:		Kern Rocke
 **  task:          	MAPS Repeat Segments & Crossings Wide Format Data Management, Scoring and Sub-scale creation
 **	Date Modified:	25/07/2019
 

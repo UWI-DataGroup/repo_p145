@@ -5,7 +5,7 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  program:		MAPS_analysis_000.do
 **  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
-**  author:			Rocke, Whiteman, Hambleton, Howitt
+**  Analyst:		Kern Rocke
 **  task:          	Overall Audit Descriptives
 **	Date Modified:	03/08/2019
 

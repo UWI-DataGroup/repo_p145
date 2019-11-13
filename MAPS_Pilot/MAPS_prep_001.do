@@ -7,7 +7,7 @@ log using "Log files/Data Preparation/MAPS_prep_001", replace
 **  GENERAL DO-FILE COMMENTS
 **  program:		MAPS_prep_001.do
 **  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
-**  author:			Rocke, Whiteman, Hambleton, Howitt
+**  Analyst:		Kern Rocke
 **  task:          	Initial Data Cleaning 
 **	Date Modified:	25/07/2019
 
@@ -415,7 +415,7 @@ set linesize 200
 	gen time_diff = time_end - time_start
 	format time_diff %tcHH:MM
 
-	label var time_diff "Time difference (Start and End)Ó
+	label var time_diff "Time difference (Start and End)ï¿½
 
 *Note: Including the label maps route to the variable redcap_repeat_instrument
 
