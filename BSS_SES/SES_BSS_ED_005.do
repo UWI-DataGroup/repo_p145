@@ -80,41 +80,46 @@ misstable sum t_income_median
 mi register imputed t_income_median 
 set seed 29390
 *Predictive Mean Matching
-mi impute pmm $xlist, add(20) knn(5)
-				
-restore
+mi impute pmm t_income_median $xlist, add(20) knn(5)
 
+*Principle Component Analysis Model				
+pca $xlist, mineigen(1)
+pca $xlist, mineigen(1) components(5)
+rotate, varimax components(5) blank(0.3)
+predict com*
+egen ses = rowtotal(com1 com2 com3 com4 com5)
 
-vl set, categorical(4) uncertain(0)
-vl substitute ifactors = i.vlcategorical
-display "$ifactors"
-* split sample for lasso model
-splitsample, gen(sample) nsplit(2) rseed(1234)
-tab sample
+*Creating Training and Testing data for lasso mode
+*Note testing sample obtained from imputed datasets
+gen sample = _mi_m
+recode sample (1/max=1)
+
 * Group 1 - Training dataset; Group 2 - Testing dataset
-lasso linear q104($idemographics) $ifactors $vlcontinous if sample ==1, rseed(1234)
+
+egen ses = rowtotal(com1 com2 com3 com4 com5)
+lasso linear com1 $test1 if sample ==0, rseed(1234)
 cvplot
 estimate store cv
 lassoknots, display(nonzero osr2 bic)
 *Select model with lowest BIC
-lassoselect id = 9
+lassoselect id = 10
 cvplot
 estimates store minBIC
-lasso linear q104($idemographics) $ifactors $vlcontinous if sample ==1, selection(adaptive) rseed(1234)
+lasso linear com1 $test1 if sample ==0, selection(adaptive) rseed(1234)
 *Selecting an adaptive model
 estimates store adaptive
 lassocoef cv minBIC adaptive, sort(coef, standardized) nofvlabel
 lassogof cv minBIC adaptive, over(sample) postselection
 
-
+restore
 
 
 /*
 Lasso - Least Absolute Shrinkage and Selection
 
-Installing lasso2 package
+Installing lassopack package
 
-ssc install lasso2
+ssc install lassopack
 
 
 preserve
@@ -146,6 +151,90 @@ lasso2 ses $xlist if _mi_m==0, adaptive long ols postres ///
 predict ses_lasso
 
 restore
+
+**************************************************************
+
+NOTE:
+
+lasso2 ses $test1 if _mi_m==0 , adaptive long ols postres lambda()
+cvlasso $xlist
+lasso2, lic(bic) 
+
+
+*Income
+per_t_income_0_49  per_high_income 
+
+*Age
+t_age_median per_age_depend per_old_age_depend
+
+*Education
+per_education_less_secondary per_t_education_tertiary
+
+*House Tenure
+per_htenure_owned per_renting
+
+*House Ammentities 
+per_amentities_stove per_amentities_fridge per_amentities_microwave ///
+per_amentities_tv  per_amentities_radio per_amentities_wash  ///
+per_amentities_computer
+
+*Work Activity 
+per_t_wactivity_government per_private_wactivity 
+
+*Occupation
+per_prof_occupation per_prof_techoccupation per_prof_n_techoccupation
+
+*Unemployment
+per_unemployment per_t_wactivity_no_work 
+
+*Crime 
+per_crime_victim 
+
+*Single Mother
+per_smother_total 
+
+*Martial Status
+per_marital_n_married
+
+*Vehicle Ownership
+per_vehicle_presence 
+
+*Household Structure
+hsize_mean per_rooms_less_3 per_bedrooms_less_2 per_bathroom_0
+
+*Liveborn Children
+per_live_5_more 
+
+*Population Density 
+ 
+
+
+egen home = rowmean(per_amentities_stove per_amentities_fridge per_amentities_microwave per_amentities_tv  per_amentities_radio per_amentities_wash per_amentities_computer)
+
+global test per_t_income_0_49  per_high_income t_age_median per_age_depend ///
+			per_old_age_depend per_education_less_secondary ///
+			per_t_education_tertiary per_htenure_owned per_renting ///
+			per_amentities_stove per_amentities_fridge per_amentities_microwave ///
+			per_amentities_tv  per_amentities_radio per_amentities_wash /// 
+			per_amentities_computer per_t_wactivity_government ///
+			per_private_wactivity per_prof_occupation per_prof_techoccupation ///
+			per_prof_n_techoccupation per_unemployment per_t_wactivity_no_work ///
+			per_crime_victim per_smother_total per_marital_n_married ///
+			per_vehicle_presence hsize_mean per_rooms_less_3 ///
+			per_bedrooms_less_2 per_bathroom_0 per_live_5_more 
+global ED
+			
+			
+global test1 per_t_income_0_49  per_high_income t_age_median per_age_depend ///
+			per_old_age_depend per_education_less_secondary ///
+			per_t_education_tertiary per_htenure_owned per_renting ///
+			home per_t_wactivity_government ///
+			per_private_wactivity per_prof_occupation per_prof_techoccupation ///
+			per_prof_n_techoccupation per_unemployment per_t_wactivity_no_work ///
+			per_crime_victim per_smother_total per_marital_n_married ///
+			per_vehicle_presence hsize_mean per_rooms_less_3 ///
+			per_bedrooms_less_2 per_bathroom_0 per_live_5_more 
+global ED
 
 */
 
