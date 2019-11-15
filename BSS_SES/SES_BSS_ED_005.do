@@ -109,7 +109,45 @@ lassogof cv minBIC adaptive, over(sample) postselection
 
 
 
+/*
+Lasso - Least Absolute Shrinkage and Selection
 
+Installing lasso2 package
+
+ssc install lasso2
+
+
+preserve
+*Replace missing code 999999 with .
+replace t_income_median = . if t_income_median>559999
+
+*Imputation Model
+
+mi set mlong
+misstable sum t_income_median
+mi register imputed t_income_median
+set seed 29390
+*Predictive Mean Matching
+mi impute pmm t_income_median $xlist, add(20) knn(5)
+
+*PCA analysis and SES score creation
+pca $xlist, mineigen(1)
+predict com1 com2 com3 com4
+egen ses = rowtotal(com1 com2 com3 com4)
+
+*Run Lasso Model on training data (Orginal EDs 1-583)
+lasso2 ses $xlist if _mi_m==0 , adaptive long ols postres lambda()
+cvlasso $xlist
+lasso2, lic(bic) 
+
+*Use lambda=.650616022965666 (selected by EBIC)
+lasso2 ses $xlist if _mi_m==0, adaptive long ols postres ///
+								lambda(.650616022965666)
+predict ses_lasso
+
+restore
+
+*/
 
 
 
