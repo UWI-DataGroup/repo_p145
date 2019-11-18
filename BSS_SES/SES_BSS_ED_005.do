@@ -80,8 +80,9 @@ misstable sum t_income_median
 mi register imputed t_income_median 
 set seed 29390
 *Predictive Mean Matching
-mi impute pmm t_income_median $xlist, add(20) knn(5)
-
+mi impute chained (regress) t_income_median = per_t_income_0_49 per_t_income_50_99 ///
+												per_t_income_100_149 per_t_income_150_199 ///
+												per_t_income_200_more , add(20) 
 *Principle Component Analysis Model				
 pca $xlist, mineigen(1)
 pca $xlist, mineigen(1) components(5)
