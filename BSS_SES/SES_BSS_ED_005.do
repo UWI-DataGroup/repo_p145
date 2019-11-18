@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	14/11/2019
-**	Date Modified: 	14/11/2019
+**	Date Modified: 	18/11/2019
 **  Algorithm Task: Multiple Imputation and Lasso Prediction
 
 
@@ -73,6 +73,10 @@ tabstat t_income_median, by(ED)
 *Replace missing code 999999 with .
 replace t_income_median = . if t_income_median>559999
 
+gen t_cat = .
+replace t_cat = 0 if t_income_median==.
+recode t_cat (.=1)
+
 *Imputation Model
 preserve
 mi set mlong
@@ -80,9 +84,9 @@ misstable sum t_income_median
 mi register imputed t_income_median 
 set seed 29390
 *Predictive Mean Matching
-mi impute chained (regress) t_income_median = per_t_income_0_49 per_t_income_50_99 ///
-												per_t_income_100_149 per_t_income_150_199 ///
-												per_t_income_200_more , add(20) 
+mi impute chained (regress) t_income_median = t_age_median hsize_mean , add(20)	
+*Listing mean total median income for missing median income EDs											
+mi estimate: mean t_income_median if t_cat==0, over(ED)
 *Principle Component Analysis Model				
 pca $xlist, mineigen(1)
 pca $xlist, mineigen(1) components(5)
