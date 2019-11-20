@@ -22,12 +22,12 @@ set linesize 80
 
 *Setting working directory
 ** Dataset to encrypted location
-/*
-WINDOWS OS
+
+*WINDOWS OS
 local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 */
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 ** Logfiles to unencrypted location
 local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
 
@@ -389,6 +389,17 @@ gen per_age_depend = (age_depend/total_pop)*100
 label var per_age_depend "Percentage Age Dependancy (<20 years & >60 years)"
 
 *********************************************************************
+/*Creating variable and percentages for young age dependancy (<20 years)
+*/
+
+egen young_age_depend = rowtotal(t_age_0_9 t_age_10_19)
+label var young_age_depend "Yonger Age Dependancy (<20 years)"
+
+gen per_young_age_depend = (young_age_depend/total_pop)*100
+label var per_young_age_depend "Percentage Younger Age Dependancy (<20 years & >60 years)"
+
+*********************************************************************
+
 /*Creating variable and percentages for older age dependancy (>60 years)
 */
 

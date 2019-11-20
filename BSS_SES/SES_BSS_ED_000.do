@@ -94,37 +94,81 @@ Plot correlation coefficents (yaxis) and number of combinations (refer to Ian's 
 This will be a scatter plot
 
 *Note:
-Consider in addition analysis using "Lasso (availabile in STATA v16)"
+Consider in addition analysis using "Lasso (availabile in STATA v16)" or lasso2 addon availabile - 
+Not possible with no outcome variable. Consider using population density
+
 This can be used to compare to the results obtained from PCA analysis
 
+*-------------------------------------------------------------------------------
 
 BARADOS SES INDEX MODEL
 
 Proposed Variable Model for SES/SEP index
 
-1)	Total Median income
-2)	Education less than secondary
-3)	Crime murder
-4)	Crime shooting
-5)	Crime robbery
-6)	Crime victim
-7)	Median age (Total)
-8)	Household size mean
-9)	House tenure owner
-10)	House tenure private rent
-11)	House tenure government rent
-12)	Professional Occupations
-13)	Number of rooms
-14)	Number of bedrooms
-15)	Number of bathrooms
-16)	Vehicle owner
-17)	Electricity
-18)	Single/never married
-19)	Home Amenities (stove, refrigerator, microwave, television, radio, washing machine)
-20)	Single mothers 
-21)	Main activity working
-22)	Main activity no working
-23)	Work activity not working
+*Income
+per_t_income_0_49  per_high_income t_income_median
+
+*Age
+t_age_median per_young_age_depend per_old_age_depend
+
+*Education
+per_education_less_secondary per_t_education_tertiary
+
+*House Tenure
+per_htenure_owned per_renting
+
+*Household Ammentities 
+per_amentities_stove per_amentities_fridge per_amentities_microwave ///
+per_amentities_tv  per_amentities_radio per_amentities_wash  ///
+per_amentities_computer
+
+*Work Activity 
+per_t_wactivity_government per_private_wactivity 
+
+*Occupation
+per_prof_occupation per_prof_techoccupation per_prof_n_techoccupation
+
+*Unemployment
+per_unemployment per_t_wactivity_no_work 
+
+*Crime 
+per_crime_victim 
+
+*Single Mother
+per_smother_total 
+
+*Martial Status
+per_marital_n_married
+
+*Vehicle Ownership
+per_vehicle_presence 
+
+*Household Structure
+hsize_mean per_rooms_less_3 per_bedrooms_less_2 per_bathroom_0
+
+*Liveborn Children
+per_live_5_more 
+
+*-------------------------------------------------------------------------------
+
+SENSITIVITY ANALYSIS
+
+Sensitiivity analysis will be conducted repeating pca analysis using the following
+matrix (15 models)
+
+Variable model x component retention methods
+
+Variable model: 
+1) Large ses variable set
+2) Medium size ses variable set
+3) Small size ses variable set 
+
+Component retention method 
+1) Eigen Value >1
+2) Indivudal percent variance explained >5%
+3) Cummulative percent variance explained 80%
+4) Cummulative percent variance explained 90%
+5) Horn's Parallel PCA Analysis
 
 
 */
