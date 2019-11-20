@@ -2,7 +2,7 @@
 
 This repository contains the alogrithm code for the analysis SES by ED for Barbados
 
-See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki) for details of all `.do` files.
+See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/SES-Index-Computation) for details of all `.do` files.
 
 # Algorithm files 
 
