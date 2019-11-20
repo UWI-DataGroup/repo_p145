@@ -2,6 +2,8 @@
 
 This repository contains the alogrithm code for the analysis SES by ED for Barbados
 
+See [wiki] (https://github.com/UWI-DataGroup/repo_p145.wiki.git) for details of all `.do` files
+
 # Algorithm files 
 
 ### SES_BSS_ED:        Python Script Algorithm for GIS Mapping
