@@ -1,6 +1,8 @@
 # repo_p145
 Project p145 (StreetScapes). Algorithm repository
 
+See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki) for details of all `.do` files.
+
 # Repository Folders
 
 ### BSS_SES:        Socioeconomic Status by Enumeration District for Barbados
