@@ -9,7 +9,7 @@ cls
 **  Project:      	Macroscale Walkability- PhD
 **  Analyst:		Kern Rocke
 **	Date Created:	17/10/2019
-**	Date Modified: 	05/11/2019
+**	Date Modified: 	21/11/2019
 **  Algorithm Task: Data Management and Merging 
 
 
@@ -22,12 +22,12 @@ set linesize 80
 
 *Setting working directory
 ** Dataset to encrypted location
-/*
-WINDOWS OS
+
+*WINDOWS OS
 local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
-*/
+
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 ** Logfiles to unencrypted location
 local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
 

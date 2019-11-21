@@ -9,7 +9,7 @@ cls
 **  Project:      	Macroscale Walkability- PhD
 **  Analyst:		Kern Rocke
 **	Date Created:	24/10/2019
-**	Date Modified: 	08/11/2019
+**	Date Modified: 	21/11/2019
 **  Algorithm Task: Creating SES variables for PCA analysis
 
 
@@ -440,21 +440,8 @@ St. Phillip     =   10  =   23788
 St. Thomas      =   11  =   12035
 */
 
-gen pop_density = . 
-
-replace pop_density if parish ==   1 = (total_pop/43127)*100
-replace pop_density if parish ==   2 = (total_pop/4631)*100
-replace pop_density if parish ==   3 = (total_pop/18203)*100
-replace pop_density if parish ==   4 = (total_pop/21258)*100
-replace pop_density if parish ==   5 = (total_pop/8617)*100
-replace pop_density if parish ==   6 = (total_pop/5939)*100
-replace pop_density if parish ==   7 = (total_pop/8609)*100
-replace pop_density if parish ==   8 = (total_pop/69604)*100
-replace pop_density if parish ==   9 = (total_pop/10382)*100
-replace pop_density if parish ==   10 = (total_pop/23788)*100
-replace pop_density if parish ==   11 = (total_pop/12035)*100
-
-label var pop_density "Population Density"
+gen pop_density = total_pop/area
+label var pop_density "Population Density per square mile"
 
 *********************************************************************
 * Create variable for Renting (Government and Private Renting)

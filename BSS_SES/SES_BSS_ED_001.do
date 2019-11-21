@@ -20,13 +20,14 @@ set linesize 200
 
 *Setting working directory
 ** Dataset to encrypted location
-/*
-WINDOWS OS
+
+*WINDOWS OS
 local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
-*/
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
-cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 ** Logfiles to unencrypted location
 local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
 
@@ -48,6 +49,15 @@ SES data provided by BSS include the following
 11)	Liveborn children
 12)	Crime
 13)	Occupation
+14) Martial Status
+15) Religion
+16) Number of rooms
+17) Number of bedrooms
+18) Number of bathrooms
+19) Sewage
+20) Vehicles
+21) Household Amentities
+
 
 */
 
@@ -1434,13 +1444,14 @@ preserve
 
 *Data cleaning tasks
 drop in 1
-drop D E K-Q AJ AM-GC GX-HM HU-IF IW IX IZ-JB JG-JQ
+drop D E K-Q AJ AM-GC GX-HM HU-IF IW IX IZ-JB JG-JO JQ
 destring, replace
 
 *Renaming and labelling variabels
 rename A ED
 rename B parish
 rename C total_pop
+rename JP area
 *Marital Status
 rename F marital_married
 rename G marital_separated
@@ -1529,6 +1540,7 @@ rename JF amentities_computer
 label var ED "Enumeration District Number"
 label var parish "Parish"
 label var total_pop "Total Population within ED"
+label var area "Area in Square meters"
 *Marital Status
 label var marital_married "Married population"
 label var marital_separated "Separated population"
@@ -1580,14 +1592,14 @@ label var bathroom_2 "Household 2 bathrooms"
 label var bathroom_3 "Household 3 bathrooms"
 label var bathroom_shared "Household shared bathrooms"
 *Sewage
-label var sewage_wc_sewer "Sewage system available"
-label var sewage_wc_no_sewer "No sewage system"
+label var sewage_wc_sewer "W.C linked to Sewer"
+label var sewage_wc_no_sewer "W.C not linked to Sewer"
 label var sewage_other_toilet "Other Toilet"
 label var sewage_pit "Sewage Pit"
 label var sewage_no_toilet "Sewage no toilet"
 label var sewage_shared_toilet "Sewage share toilet"
 *Electrcity
-label var electricity "Electricity"
+label var electricity "Electricity - Type of household ligthing"
 *Number of vehciles 
 label var vehicles_0 "Number of vehicles 0"
 label var vehicles_1 "Number of vehicles 1"

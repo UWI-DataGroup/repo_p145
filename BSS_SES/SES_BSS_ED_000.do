@@ -172,3 +172,96 @@ Component retention method
 
 
 */
+
+*-------------------------------------------------------------------------------
+
+
+*LARGE VARIABLE MODEL
+
+
+*1) Income: per_t_income_0_49 per_high_income t_income_median
+
+
+*2) Education: per_education_less_secondary per_t_education_tertiary
+
+
+*3) Age: t_age_median per_young_age_depend per_old_age_depend
+
+
+*4) Home Amentities:  per_amentities_stove per_amentities_fridge per_amentities_microwave per_amentities_tv per_amentities_radio per_amentities_wash per_amentities_computer
+
+
+*5) Occupation: per_prof_occupation per_prof_techoccupation per_prof_n_techoccupation 
+
+
+*6) House Tenure: per_htenure_owned per_renting
+
+
+*7) Work Activity: per_t_wactivity_government per_private_wactivity
+
+
+*8) Crime: per_crime_victim
+
+
+*9) Household Size: hsize_mean
+
+
+*10) Crowding: per_live_5_more
+
+
+*11) Single Mother: per_smother_total
+
+
+*12) Marital Status: per_marital_n_married
+
+
+*13) Household Structure: per_rooms_less_3 per_bedrooms_less_2 per_bathroom_0
+
+
+*14) Vehicle Ownership: per_vehicle_presence *****per_vehicles_0
+
+
+*15) Unemployment: per_unemployment per_t_wactivity_no_work
+
+
+
+/*
+
+Ethnicity
+Non-black population (Total Population)
+
+Age
+Median Age; young age dependancy; old age dependancy (Total Population)
+
+Household Size
+Mean household size; ****house hold size >=6 persons (Total Population)
+
+Housing Tenure
+House tenure: Owner; House tenure: renting (Government and Private) (Total Population)
+
+Single Mother (Total Population)
+
+Education
+Education less than secondary; Teritary Education (Total Population / Male or Female breakdown?)
+
+Income (Yearly Pay)
+Median Income (Total / Male or Female); Low income; High income
+
+Work Activity
+Unemployment (Student, Retired, looked for work, home duties, incapaciated)  [Total population  /  Male or Female?]
+
+Women with liveborn children
+Liveborn children >5
+
+Crime
+Crime Victim
+
+Occupation
+Management; Professional; Technical; Non-technical Occupation (Male / Female)
+
+Marital Status
+Single (Never married & seperated), Married
+
+Household structure
+Number of rooms; number of bedrooms; number of bathrooms, toilet
+
