@@ -18,7 +18,7 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 80
+set linesize 150
 
 *Setting working directory
 ** Dataset to encrypted location
@@ -80,12 +80,12 @@ global ED
 
 
 * Lasso Model
-lasso2 pop_density $xlist , adaptive long ols postres lambda()
-lasso2, lic(bic)
+lasso2 pop_density $xlist , adaptive long ols postres lambda() 
+lasso2, lic(ebic)
 cvlasso $xlist
 
 *Lasso Model with Lambda = 592439480.9524772
-lasso2 pop_density $xlist , adaptive long ols postres lambda(592439480.9524772)
+lasso2 pop_density $xlist , adaptive long ols postres lambda()
 lasso2, lic(bic)
 cvlasso $xlist
 

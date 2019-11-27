@@ -248,7 +248,7 @@ Income (Yearly Pay)
 Median Income (Total / Male or Female); Low income; High income
 
 Work Activity
-Unemployment (Student, Retired, looked for work, home duties, incapaciated)  [Total population  /  Male or Female?]
+Unemployment (Student****, Retired***, looking for work, home duties*****, incapaciated****)  [Total population  /  Male or Female?]
 
 Women with liveborn children
 Liveborn children >5
@@ -259,9 +259,14 @@ Crime Victim
 Occupation
 Management; Professional; Technical; Non-technical Occupation (Male / Female)
 
-Marital Status
+Marital Status****
 Single (Never married & seperated), Married
 
 Household structure
 Number of rooms; number of bedrooms; number of bathrooms, toilet
 
+Vehicle Ownership 
+No Vehicle; Vehicle
+
+Household Amentities
+Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine, Computer
