@@ -84,3 +84,4 @@ edit.stoptOperation()
 # Start the edit session
 edit.stopEditing(True)
 
+print ("Script Completed")
