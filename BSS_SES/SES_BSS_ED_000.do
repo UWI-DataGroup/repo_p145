@@ -270,3 +270,42 @@ No Vehicle; Vehicle
 
 Household Amentities
 Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine, Computer
+
+
+*-------------------------------------------------------------------------------
+
+
+Note: Analysis change
+
+Analysis will be based on the following criteria
+
+1) Variable Selection Model
+	a) Large size variable set 
+	b) Medium size variable set
+	c) Small size variable set 
+	
+	*Note consider adding variable one by one using the jack-knife approach
+	
+2) Component retention models	
+	a) PCA eigen >1
+	b) Indivdual component variance explained >5%
+	c) Cummulative variance explained >70/80%
+	d) Horn parallel analysis
+	
+3) Rotation method
+	a) Orthogonal rotation - Varimax
+	b) Non-Orthogonal rotation - Oblique
+	
+	
+Once combinations of each criteria is conducted predicted variable scores for 
+each method will be ranked based on the enumeration district.
+
+An examination of the differences between rankings will be used to determine which 
+method will be preferential.
+
+Following this ses scores will be mapped by enumeration district for Barbados
+
+Future work may examine linking neighbourhood variability in SES by cardiovascular
+risk/walkability for Barbados  - Possible PhD outputs. 
+
+*-------------------------------------------------------------------------------
