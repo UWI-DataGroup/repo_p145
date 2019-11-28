@@ -13,3 +13,5 @@ See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/SES-Index-Computation
 ### SES_BSS_ED_003:    PCA Analysis Preparation
 ### SES_BSS_ED_004:    Correlations and PCA Analysis
 ### SES_BSS_ED_005:    Multiple Imputation and LASSO Regression
+### SES_BSS_ED_006:    LASSO Regression Model and PCA Senstivity Analysis
+### SES_BSS_ED_007:    Final LASSO Regression Model and PCA Senstivity Analysis
