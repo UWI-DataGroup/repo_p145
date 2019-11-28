@@ -249,4 +249,15 @@ tabstat ses_score_adpat, by(parish) stat(mean)
 export excel ses_score_cv ses_score_bic ses_score_adpat using "C:\Users\810000689\Desktop\ses_score.xlsx", ///
 firstrow(variables) replace
 
+*Remove component variables
+drop com*
+
+*-------------------------------------------------------------------------------
+
+*Ranking of ses_scores by lasso regression method
+
+egen rank_cv = rank(-ses_score_cv)
+egen rank_bic = rank(-ses_score_bic)
+egen rank_adpat = rank(-ses_score_adpat)
+
 *--------------------------------END--------------------------------------------
