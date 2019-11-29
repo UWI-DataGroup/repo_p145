@@ -38,7 +38,7 @@ local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 
 use "`datapath'/version01/2-working/BSS_SES/BSS_SES_002", clear
 
-/////	 LASSO MODEL	/////
+
 
 **Initalize macros
 global xlist	per_t_income_0_49  per_high_income 	///
@@ -94,21 +94,43 @@ tab data
 Method: Each variable will be added individually for the PCA model
 Different component retention methods will be utilized begining with eign values
 >1 for inital component retention method
-Scores from each model will be computed using either varimax or Direc oblique
-Oblamin rotation.  
+Scores from each model will be computed using either varimax orthogonal rotation
+or promax direct oblique rotation.  
 */
+
+*Variable Loop - Using Varimax Rotation
 
 keep if data == 0
 
 local predictors $xlist
 local X
+
+*Varimax Rotation
 foreach x of loc predictors {
     local X `X' `x'
     pca pop_density `X', mineigen(1)
 	rotate, varimax blank (0.3)
-	predict com*_vari_eigen1
+	predict Vcom`x'*
+
+}
+	
+*Promax Rotation
+foreach x of loc predictors {
+    local X `X' `x'
+    pca pop_density `X', mineigen(1)
+	rotate, varimax blank (0.3)
+	predict Pcom`x'*
 }
 
+*-------------------------------------------------------------------------------
 
+*Label data
+label data "SES Index Computation - Variable Selection Models (PCA)"
+
+*Save dataset to encrypted location
+save "`datapath'/version01/2-working/BSS_SES/BSS_SES_004", replace
+
+
+*-------------------------------END---------------------------------------------
 
 
