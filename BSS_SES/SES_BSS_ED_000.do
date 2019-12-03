@@ -308,4 +308,21 @@ Following this ses scores will be mapped by enumeration district for Barbados
 Future work may examine linking neighbourhood variability in SES by cardiovascular
 risk/walkability for Barbados  - Possible PhD outputs. 
 
+Consider creating structural equation model for the analysis of socioeconomic 
+status (takes into account measurement error)
+
+/////////
+
+References
+
+Geyer S, Hemstrom O, Peter R, Vagero D. Education, income, and occupational class 
+cannot be used interchangeably in social epidemiology. Empirical evidence against a 
+common practice. Journal of epidemiology and community health 2006;60(9):804-10.
+
+Davey Smith G, Hart C, Hole D, et al. Education and occupational social class: which 
+is the more important indicator of mortality risk? Journal of epidemiology and community 
+health 1998;52(3):153-60
+
+////////
+
 *-------------------------------------------------------------------------------
