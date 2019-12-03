@@ -99,8 +99,33 @@ Vehicle Ownership
 No Vehicle; Vehicle
 
 Household Amentities
-Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine, Computer
+Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine
 
 /////////////
 
 */
+
+
+*SEM MODEL
+
+sem (age -> t_age_median, ) (age -> per_young_age_depend, ) ///
+	(age -> per_old_age_depend, ) (income -> per_high_income, ) ///
+	(income -> per_t_income_0_49, ) (house_amenities -> per_amentities_stove, ) ///
+	(house_amenities -> per_amentities_fridge, ) (house_amenities -> per_amentities_microwave, ) ///
+	(house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, ) ///
+	(house_amenities -> per_amentities_radio, ) (house_amenities -> per_amentities_computer, ) ///
+	(education -> per_education_less_secondary, ) (education -> per_t_education_tertiary, ), ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) latent(age income house_amenities education ) ///
+	cov( age*house_amenities income*age house_amenities*income house_amenities*education education*age) ///
+	nocapslatent
+	
+predict ses_com*, scores
+
+*Create summed ses index scores
+egen ses_score = rowtotal(ses_com*)
+
+*Summary Statistics of ses index score by parish
+tabstat ses_score, by(parish) stat(mean) col(stat)
+
+
+*-------------------------END---------------------------------------------------
