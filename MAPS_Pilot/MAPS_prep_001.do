@@ -1,29 +1,46 @@
-** CLOSE ANY OPEN LOG FILE AND OPEN A NEW LOG FILE
+clear
 capture log close
-cd "/Users/kernrocke/Documents/Statistical Data Anlaysis/2019/Walkability/MAPS/Data"
-log using "Log files/Data Preparation/MAPS_prep_001", replace
+cls
 
-
-**  GENERAL DO-FILE COMMENTS
-**  program:		MAPS_prep_001.do
-**  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
+**  DO-FILE META DATA INFORMATION
+**  Program:		MAPS_prep_001.do
+**  Project:      	Streetscapres- PhD & Walkability
+**	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
-**  task:          	Initial Data Cleaning 
-**	Date Modified:	25/07/2019
+**	Date Created:	25/07/2019
+**	Date Modified: 	12/06/2019
+**  Algorithm Task: Inital Data Cleaning - RedCap Export
+
 
 ** DO-FILE SET UP COMMANDS
 version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
+
+*Setting working directory
+** Dataset to encrypted location
+
+*WINDOWS OS
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+** Logfiles to unencrypted location
+local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+
+
 
 ** DO-FILE SECTION 01 - Importing Data from RedCap
 
 
-	import delimited record_id redcap_repeat_instrument redcap_repeat_instance routeid auditorid type side crossstreet_s crossstreet_e starttime endtime mapsadmin_variables_complete land1 land2___1 land2___2 land2___3 land2___4 land2___5 land3a land3b land3c land3d land3e land3f land3g land3h land3i land3j land3k land3l land3m land3n land3o land3p land3q land3r land3s land3t land3u land3v land3w land3x land3y land3z land4___1 land4___2 land4___3 land4___4 street1 street2a street2b___1 street2b___2 street2b___3 street3___1 street3___2 street3___3 street3a street3b street4 street5 street6___0 street6___1 street6___2 street6___3 street6___4 street7 street8 street8a street8b aesthetics1 aesthetics2 aesthetics3 aesthetics4 aesthetics5 aesthetics6 aesthetics7 maps_route_complete type_segment segment1 segment2 segment3a segment3b segment4___0 segment4___1 segment4___2 segment4___3 segment4___4 segment5 segment6 segment7 segment8 segment9a segment9b segment10 segment11 segment12 segment13 segment14 segment15 maps_segment_complete intesection1 intersection2 streetfrom streetto crossings1 crossings2___1 crossings2___2 crossings2___3 crossings2___4 crossings3a crossings3b crossings4 crossings5___1 crossings5___2 crossings5___3 crossings5___4 crossings6 mapscrossings_complete using "MAPS_DATA_NOHDRS_2019-07-25_1148", varnames(nonames)
+import delimited record_id redcap_repeat_instrument redcap_repeat_instance routeid auditorid type side crossstreet_s crossstreet_e starttime endtime mapsadmin_variables_complete land1 land2___1 land2___2 land2___3 land2___4 land2___5 land3a land3b land3c land3d land3e land3f land3g land3h land3i land3j land3k land3l land3m land3n land3o land3p land3q land3r land3s land3t land3u land3v land3w land3x land3y land3z land4___1 land4___2 land4___3 land4___4 street1 street2a street2b___1 street2b___2 street2b___3 street3___1 street3___2 street3___3 street3a street3b street4 street5 street6___0 street6___1 street6___2 street6___3 street6___4 street7 street8 street8a street8b aesthetics1 aesthetics2 aesthetics3 aesthetics4 aesthetics5 aesthetics6 aesthetics7 maps_route_complete type_segment segment1 segment2 segment3a segment3b segment4___0 segment4___1 segment4___2 segment4___3 segment4___4 segment5 segment6 segment7 segment8 segment9a segment9b segment10 segment11 segment12 segment13 segment14 segment15 maps_segment_complete intesection1 intersection2 streetfrom streetto crossings1 crossings2___1 crossings2___2 crossings2___3 crossings2___4 crossings3a crossings3b crossings4 crossings5___1 crossings5___2 crossings5___3 crossings5___4 crossings6 mapscrossings_complete using "`datapath'/version01/1-input/MAPS/MAPS_DATA_NOHDRS_2019-12-05_1001", varnames(nonames)
 
-	label data "MAPS_DATA_NOHDRS_2019-07-22_0729.csv"
+	label data "MAPS_DATA_NOHDRS_2019-12-05_1001.csv"
 
 	label define type_ 1 "Residential" 2 "Commercial" 3 "Mixed" 
 	label define side_ 1 "Left" 2 "Right" 
@@ -527,6 +544,7 @@ label var time_start "Route Start Time"
 label var time_end "Route End Time"
 
 
-save "MAPS_cleaned", replace
+save "`datapath'/version01/1-input/MAPS/MAPS_cleaned", replace
 
-log close
+
+*-------------------------END---------------------------------------------------

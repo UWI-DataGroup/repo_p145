@@ -1,14 +1,16 @@
-** CLOSE ANY OPEN LOG FILE AND OPEN A NEW LOG FILE
-capture log close
-cd "/Users/kernrocke/Documents/Statistical Data Anlaysis/2019/Walkability/MAPS/Data"
-log using "Log files/Data Preparation/MAPS_prep_003", replace
 
-**  GENERAL DO-FILE COMMENTS
-**  program:		MAPS_prep_003.do
-**  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
+clear
+capture log close
+cls
+
+**  DO-FILE META DATA INFORMATION
+**  Program:		MAPS_prep_002.do
+**  Project:      	Streetscapres- PhD & Walkability
+**	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
-**  task:          	MAPS Repeat Segments & Crossings Wide Format Data Management, Scoring and Sub-scale creation
-**	Date Modified:	25/07/2019
+**	Date Created:	25/07/2019
+**	Date Modified: 	12/06/2019
+**  Algorithm Task: MAPS Repeat Segments & Crossings Wide Format Data Management, Scoring and Sub-scale creation
 
 
 ** DO-FILE SET UP COMMANDS
@@ -16,7 +18,23 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
+
+*Setting working directory
+** Dataset to encrypted location
+
+*WINDOWS OS
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+** Logfiles to unencrypted location
+local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+
+
 
 /*	IMPORTANT: 
 	The following STATA do files should be excuted prior the excuting this 
@@ -25,8 +43,8 @@ set linesize 200
 	2) MAPS_prep_002.do
 */
 
-
-use "MAPS Recoding Scoring", clear
+*Load in dataset from encrypted location
+use "`datapath'/version01/2-working/MAPS/MAPS_Recoding_Scoring", clear
 
 ********************************************************************************
 
@@ -306,11 +324,7 @@ gen pedestrian_design = LU7c + SS7b + SS7c + S1_26_27_points + C1_3b + C1_3c + C
 label var pedestrian_design "Pedestrian Design"
 
 
-save "MAPS Overall", replace
+save "`datapath'/version01/2-working/MAPS/MAPS_Overall", replace
 
 restore
-
-
-
-
-log close
+*--------------------------END--------------------------------------------------

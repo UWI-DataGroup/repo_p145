@@ -1,13 +1,16 @@
+
 clear
 capture log close
 cls
 
-**  GENERAL DO-FILE COMMENTS
-**  program:		MAPS_analysis_000.do
-**  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
+**  DO-FILE META DATA INFORMATION
+**  Program:		MAPS_analysis_000.do
+**  Project:      	Streetscapres- PhD & Walkability
+**	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
-**  task:          	Overall Audit Descriptives
-**	Date Modified:	03/08/2019
+**	Date Created:	03/08/2019
+**	Date Modified: 	12/06/2019
+**  Algorithm Task: Overall Audit Descriptives
 
 
 ** DO-FILE SET UP COMMANDS
@@ -15,7 +18,21 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
+
+*Setting working directory
+** Dataset to encrypted location
+
+*WINDOWS OS
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+** Logfiles to unencrypted location
+local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
 
 
 /*	IMPORTANT: 
@@ -25,12 +42,13 @@ set linesize 200
 
 	1) MAPS_prep_001.do
 	2) MAPS_prep_002.do
-	3) MAPS_prep_003.do
-	
+
 */
 
+*Load in dataset from encrypted location
+use "`datapath'/version01/2-working/MAPS/MAPS_Recoding_Scoring.dta", clear
 
-use "MAPS Recoding Scoring.dta", clear
+*----------------------BEGIN----------------------------------------------------
 
 **Overall Descriptives
 
@@ -67,5 +85,7 @@ sum type_crossing
 restore
 
 *Internal Consistency - Cronh Alpha
-use "MAPS Overall", clear
+use "`datapath'/version01/2-working/MAPS/MAPS_Overall", clear
 alpha Res_Density_Mix_recode - C1_7c
+
+*---------------------END-------------------------------------------------------

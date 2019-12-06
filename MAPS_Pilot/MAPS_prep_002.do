@@ -1,15 +1,16 @@
-** CLOSE ANY OPEN LOG FILE AND OPEN A NEW LOG FILE
+
+clear
 capture log close
-cd "/Users/kernrocke/Documents/Statistical Data Anlaysis/2019/Walkability/MAPS/Data"
-log using "Log files/Data Preparation/MAPS_prep_002", replace
+cls
 
-**  GENERAL DO-FILE COMMENTS
-**  program:		MAPS_prep_002.do
-**  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
+**  DO-FILE META DATA INFORMATION
+**  Program:		MAPS_prep_002.do
+**  Project:      	Streetscapres- PhD & Walkability
+**	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
-**  task:          	Creation of MAPS scores and subscales 
-**	Date Modified:	25/07/2019
-
+**	Date Created:	25/07/2019
+**	Date Modified: 	12/06/2019
+**  Algorithm Task: Creation of MAPS scores and subscales
 
 
 ** DO-FILE SET UP COMMANDS
@@ -17,7 +18,23 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
+
+*Setting working directory
+** Dataset to encrypted location
+
+*WINDOWS OS
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+** Logfiles to unencrypted location
+local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+
+
 
 /*	IMPORTANT: 
 	The following STATA do files should be excuted prior the excuting this 
@@ -26,8 +43,8 @@ set linesize 200
 	
 */
 
-
-use "MAPS_cleaned", clear
+*Load in dataset from encrypted location
+use "`datapath'/version01/1-input/MAPS/MAPS_cleaned", clear
 
 ********************************************************************************
 
@@ -459,6 +476,6 @@ gen OverallCrossScore_C1 = PosCrossChars_C1
 label var OverallCrossScore_C1 "Overall Crossing Scale"
 
 
-save "MAPS Recoding Scoring", replace
+save "`datapath'/version01/2-working/MAPS/MAPS_Recoding_Scoring", replace
 
-log close
+*--------------------------END--------------------------------------------------

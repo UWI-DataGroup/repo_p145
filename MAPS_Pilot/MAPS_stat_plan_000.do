@@ -16,7 +16,7 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
 
 /*
 
@@ -25,4 +25,14 @@ This file details the statistical analysis plan for the analysis of the microsca
 pedestrian streetscapes pilot of Bridgetown and the Garriosn, Barbados WI. 
 
 
+Analysis Tasks
+
+1) Presentation of instrument metrics
+	1) Length and time taken to conduct audit
+	2) Internal consistency of sub-scales and the overall tool (Cronbach alpha)
+	
+2) Prevalence estimates with 95% CI of all sub-scales for route, segement and crossing 
+
+3) Examine differences between prevalence estimates between residential and commercial areas
+	using Wald tests.
 
