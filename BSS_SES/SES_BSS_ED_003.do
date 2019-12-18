@@ -7,9 +7,10 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  Program:		SES_BSS_ED_003.do
 **  Project:      	Macroscale Walkability- PhD
+**	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	24/10/2019
-**	Date Modified: 	21/11/2019
+**	Date Modified: 	17/12/2019
 **  Algorithm Task: Creating SES variables for PCA analysis
 
 
@@ -65,6 +66,28 @@ label var per_t_race_`x' "Total Percentage Race `x'"
             }
 
 *********************************************************************
+*Creating variable for Non-black population
+
+foreach x in f m t{
+
+egen `x'_non_black = rowtotal(`x'_race_white `x'_race_oriental `x'_race_east_indian ///
+							`x'_race_middle_eastern `x'_race_mixed ///
+							`x'_race_other)
+							
+							}
+							
+label var f_non_black "Female Non-Black"
+label var m_non_black "Male Non-Black"
+label var t_non_black "Total Non-Black"
+
+foreach x in f m t{
+gen per_`x'_non_black = (`x'_non_black/total_pop)*100	}
+
+label var per_f_non_black "Percentage Female Non-Black"
+label var per_m_non_black "Percentage Male Non-Black"
+label var per_t_non_black "Percentage Total Non-Black"
+
+*********************************************************************
 *Convert Age variables to percentages
 
 foreach x in 0_9 10_19 20_29 30_39 40_49 50_59 60_69 70_79 80_89 ///
@@ -77,6 +100,63 @@ label var per_m_age_`x' "Percentage Male Percentage Age `x'"
 label var per_f_age_`x' "Percentage Female Percentage Age `x'"
 label var per_t_age_`x' "Percentage Total Percentage Age `x'"
              }
+
+*********************************************************************
+/*Creating variable and percentages for age dependancy (<20 years & >60 years)
+*/
+
+foreach x in f m t {
+egen `x'_age_depend = rowtotal(`x'_age_0_9 `x'_age_10_19 `x'_age_60_69 `x'_age_70_79    ///
+                            `x'_age_80_89 `x'_age_90_99 `x'_age_100_over)
+							}
+							
+label var t_age_depend "Total Age Dependancy (<20 years & >60 years)"
+label var f_age_depend "Female Age Dependancy (<20 years & >60 years)"
+label var m_age_depend "Male Age Dependancy (<20 years & >60 years)"
+
+foreach x in f m t {
+gen per_`x'_age_depend = (`x'_age_depend/total_pop)*100 }
+
+
+label var per_t_age_depend "Percentage Total Age Dependancy (<20 years & >60 years)"
+label var per_f_age_depend "Percentage Female Age Dependancy (<20 years & >60 years)"
+label var per_m_age_depend "Percentage Male Age Dependancy (<20 years & >60 years)"
+
+*********************************************************************
+/*Creating variable and percentages for young age dependancy (<20 years)
+*/
+
+foreach x in f m t {
+egen `x'_young_age_depend = rowtotal(`x'_age_0_9 `x'_age_10_19) }
+
+
+label var t_young_age_depend "Total Yonger Age Dependancy (<20 years)"
+label var f_young_age_depend "Female Yonger Age Dependancy (<20 years)"
+label var m_young_age_depend "Male Yonger Age Dependancy (<20 years)"
+
+foreach x in f m t {
+gen per_`x'_young_age_depend = (`x'_young_age_depend/total_pop)*100 }
+
+label var per_t_young_age_depend "Percentage Total Younger Age Dependancy (<20 years)"
+label var per_f_young_age_depend "Percentage Female Younger Age Dependancy (<20 years)"
+label var per_m_young_age_depend "Percentage Male Younger Age Dependancy (<20 years)"
+
+
+*********************************************************************
+
+/*Creating variable and percentages for older age dependancy (>60 years)
+*/
+
+foreach x in f m t {
+egen `x'_old_age_depend = rowtotal(`x'_age_60_69 `x'_age_70_79    ///
+                            `x'_age_80_89 `x'_age_90_99 `x'_age_100_over) }
+							
+label var t_old_age_depend "Total Older Age Dependancy (>60 years)"
+label var f_old_age_depend "Female Older Age Dependancy (>60 years)"
+label var m_old_age_depend "Male Older Age Dependancy (>60 years)"
+
+gen per_old_age_depend = (old_age_depend/total_pop)*100
+label var per_old_age_depend "Percentage Older Age Dependancy (>60 years)"
 
 *********************************************************************
 *Convert Household Size variables to percentages
@@ -138,6 +218,33 @@ label var per_t_education_`x' "Total Percentage Education `x'"
             }
                                                  
 *********************************************************************
+
+/*Creating variable and percentages for residents with education less than 
+secondary education
+*/
+
+foreach x in f m t {
+egen `x'_education_less_secondary = rowtotal(`x'_education_preprimary  ///
+											`x'_education_primary ///
+											`x'_education_composite ///
+											`x'_education_none)
+											}
+											
+label var t_education_less_secondary "Total Less than Secondary Education"
+label var f_education_less_secondary "Female Less than Secondary Education"
+label var m_education_less_secondary "Male Less than Secondary Education"
+
+foreach x in f m t {
+gen per_`x'_education_less_secondary = (`x'_education_less_secondary / ///
+										total_pop)*100
+										}
+										
+label var per_t_education_less_secondary "Percentage Total Less than Secondary Education"
+label var per_f_education_less_secondary "Percentage Female Less than Secondary Education"
+label var per_m_education_less_secondary "Percentage Male Less than Secondary Education"
+
+*********************************************************************
+
 *Convert Yearly Pay (Income) variables to percentages
 
 foreach x in 0_49 50_99 100_149 150_199 200_over total  {
@@ -151,6 +258,26 @@ label var per_f_income_`x' "Female Percentage Income $`x' ($xxx,000)"
 label var per_t_income_`x' "Total Percentage Income $`x' ($xxx,000)"
             }
                                                  
+*********************************************************************
+/*Creating variable and percentages for high income (>$150000)
+*/
+
+foreach x in f m t {
+egen `x'_high_income = rowtotal(`x'_income_150_199 `x'_income_200_over) }
+
+
+label var t_high_income "Total High income >$150000"
+label var f_high_income "Female High income >$150000"
+label var m_high_income "Male High income >$150000"
+
+foreach x in f m t {
+gen per_`x'_high_income = (`x'_high_income/total_pop)*100 }
+
+
+label var per_t_high_income "Percentage Total High income >$150000"
+label var per_f_high_income "Percentage Female High income >$150000"
+label var per_m_high_income "Percentage Male High income >$150000"
+
 *********************************************************************
 *Convert Main Activity variables to percentages
 
@@ -284,6 +411,16 @@ label var per_sewage_`x' "Percentage Sewage `x'"
 }
 
 *********************************************************************
+*Create variable for toilet presence
+
+egen toilet_presence = rowtotal(wc_sewer wc_no_sewer shared_toilet)
+label var toilet_presence "Households with the presence of a functioning toilet"
+
+gen per_toilet_presence = (toilet_presence/total_pop)*100
+label var per_toilet_presence "Percentage Households with the presence of a functioning toilet"
+
+*********************************************************************
+
 *Convert Number of vehicles variables to percentages
 
 foreach x in 0 1 2 3 4_more {
@@ -313,20 +450,6 @@ label var per_amentities_`x' "Percentage Persons Amentities (`x')"
 }
                                                  
 *********************************************************************
-
-/*Creating variable and percentages for residents with education less than 
-secondary education
-*/
-
-egen education_less_secondary = rowtotal(t_education_preprimary ///
-								t_education_primary t_education_composite)
-label var education_less_secondary "Less than Secondary Education"
-
-gen per_education_less_secondary = (education_less_secondary / total_pop) *100
-label var per_education_less_secondary "Percentage Less than Secondary Education"
-
-*********************************************************************
-
 /*Creating variable and percentages for vehicle ownership
 */
 
@@ -361,66 +484,6 @@ label var per_bedrooms_less_2 "Percentage Less than 2 bedrooms"
 
 *********************************************************************
 
-/*Creating variable and percentages for professional occupations
-*/
-
-egen prof_occupation = rowtotal(t_occupation_exec t_occupation_exec ///
-						t_occupation_admin_mange t_occupation_prod_mange ///
-						t_occupation_hosp_mange t_occupation_sci_prof ///
-						t_occupation_health_prof t_occupation_teach_prof ///
-						t_occupation_busi_prof t_occupation_info_prof ///
-						t_occupation_legal_prof t_occupation_sci_a_prof ///
-						t_occupation_health_a_prof t_occupation_busi_a_prof ///
-						t_occupation_legal_a_prof)
-label var prof_occupation "Professional Occupation"
-
-gen per_prof_occupation = (prof_occupation/total_pop)*100
-label var per_prof_occupation "Percentage Professional Occupation"
-
-**********************************************************************
-/*Creating variable and percentages for age dependancy (<20 years & >60 years)
-*/
-
-egen age_depend = rowtotal(t_age_0_9 t_age_10_19 t_age_60_69 t_age_70_79    ///
-                            t_age_80_89 t_age_90_99 t_age_100_over)
-label var age_depend "Age Dependancy (<20 years & >60 years)"
-
-gen per_age_depend = (age_depend/total_pop)*100
-label var per_age_depend "Percentage Age Dependancy (<20 years & >60 years)"
-
-*********************************************************************
-/*Creating variable and percentages for young age dependancy (<20 years)
-*/
-
-egen young_age_depend = rowtotal(t_age_0_9 t_age_10_19)
-label var young_age_depend "Yonger Age Dependancy (<20 years)"
-
-gen per_young_age_depend = (young_age_depend/total_pop)*100
-label var per_young_age_depend "Percentage Younger Age Dependancy (<20 years & >60 years)"
-
-*********************************************************************
-
-/*Creating variable and percentages for older age dependancy (>60 years)
-*/
-
-egen old_age_depend = rowtotal(t_age_60_69 t_age_70_79    ///
-                            t_age_80_89 t_age_90_99 t_age_100_over)
-label var old_age_depend "Older Age Dependancy (>60 years)"
-
-gen per_old_age_depend = (old_age_depend/total_pop)*100
-label var per_old_age_depend "Percentage Older Age Dependancy (>60 years)"
-
-*********************************************************************
-/*Creating variable and percentages for high income (>$150000)
-*/
-
-egen high_income = rowtotal(t_income_150_199 t_income_200_over)
-label var high_income "High income >$150000"
-
-gen per_high_income = (high_income/total_pop)*100
-label var per_high_income "Percentage High income >$150000"
-
-*********************************************************************
 *Calculate population density by ED
 
 /*
@@ -482,38 +545,98 @@ gen per_live_5_more = (live_5_more/total_pop)*100
 label var per_live_5_more "Percentage Women with >5 Liveborn children"
 
 *********************************************************************
-/*Creating variable and percentages for Non-Technical/Professional occupations
-*/
+*Creating variable and percentages for management occupations
 
-egen prof_n_techoccupation = rowtotal(t_occupation_gen_clerk t_occupation_cust_clerk ///
-                                t_occupation_num_clerk t_occupation_other_clerk ///
-                                t_occupation_per_work t_occupation_sale_work ///
-                                t_occupation_care_work t_occupation_prot_work ///
-                                t_occupation_clean t_occupation_food_prep ///
-                                t_occupation_street_ser)
-label var prof_n_techoccupation "Non Technical/Professional Occupation"
+foreach x in f m t {
+egen `x'_manage_occupation = rowtotal(`x'_occupation_exec `x'_occupation_exec	///
+									`x'_occupation_admin_mange ///
+									`x'_occupation_prod_mange ///
+									`x'_occupation_hosp_mange) }
+									
+label var t_manage_occupation "Total Management Level Occupation"
+label var f_manage_occupation "Female Management Level Occupation"
+label var m_manage_occupation "Male Management Level Occupation"
 
-gen per_prof_n_techoccupation = (prof_n_techoccupation/total_pop)*100
-label var per_prof_n_techoccupation "Percentage Non Technical/Professional Occupation"
+foreach x in f m t {
+gen per_`x'_manage_occupation = (`x'_manage_occupation/total_pop)*100 }
+
+label var per_t_manage_occupation "Percentage Total Management Occupation"
+label var per_f_manage_occupation "Percentage Female Management Occupation"
+label var per_m_manage_occupation "Percentage Male Management Occupation"
+
+*********************************************************************
+*Creating variable and percentages for professional occupations
+
+foreach x in f m t {
+egen `x'_prof_occupation = rowtotal(`x'_occupation_sci_prof ///
+						`x'_occupation_health_prof `x'_occupation_teach_prof ///
+						`x'_occupation_busi_prof `x'_occupation_info_prof ///
+						`x'_occupation_legal_prof `x'_occupation_sci_a_prof ///
+						`x'_occupation_health_a_prof `x'_occupation_busi_a_prof ///
+						`x'_occupation_legal_a_prof)	}
+						
+label var t_prof_occupation "Total Professional Occupation"
+label var f_prof_occupation "Female Professional Occupation"
+label var m_prof_occupation "Male Professional Occupation"
+
+foreach x in f m t {
+gen per_`x'_prof_occupation = (`x'_prof_occupation/total_pop)*100 }
+
+label var per_t_prof_occupation "Percentage Total Professional Occupation"
+label var per_f_prof_occupation "Percentage Female Professional Occupation"
+label var per_m_prof_occupation "Percentage Male Professional Occupation"
 
 **********************************************************************
-/*Creating variable and percentages for Technical occupations
-*/
+*Creating variable and percentages for Technical occupations
 
-egen prof_techoccupation = rowtotal(t_occupation_info_tech t_occupation_mar_agri ///
-                            t_occupation_mar_fores t_occupation_s_farm ///
-                            t_occupation_build_work t_occupation_metal_work ///
-                            t_occupation_handicraft t_occupation_elec_work ///
-                            t_occupation_food_process t_occupation_plant_assemble ///
-                            t_occupation_drive_oper)
-label var prof_techoccupation "Technical Occupation"
+foreach x in f m t {
+egen `x'_prof_techoccupation = rowtotal(`x'_occupation_info_tech `x'_occupation_mar_agri ///
+                            `x'_occupation_mar_fores `x'_occupation_s_farm ///
+                            `x'_occupation_build_work `x'_occupation_metal_work ///
+                            `x'_occupation_handicraft `x'_occupation_elec_work ///
+                            `x'_occupation_food_process `x'_occupation_plant_assemble ///
+                            `x'_occupation_drive_oper) }
+							
+label var t_prof_techoccupation "Total Technical Occupation"
+label var f_prof_techoccupation "Female Technical Occupation"
+label var m_prof_techoccupation "Male Technical Occupation"
 
-gen per_prof_techoccupation = (prof_techoccupation/total_pop)*100
-label var per_prof_techoccupation "Percentage Technical Occupation"
+foreach x in f m t {
+gen per_`x'_prof_techoccupation = (`x'_prof_techoccupation/total_pop)*100 }
+
+label var per_t_prof_techoccupation "Percentage Total Technical Occupation"
+label var per_f_prof_techoccupation "Percentage Female Technical Occupation"
+label var per_m_prof_techoccupation "Percentage Male Technical Occupation"
 
 **********************************************************************
+*Creating variable and percentages for Non-Technical/Professional occupations
+
+foreach x in f m t {
+egen `x'_prof_n_techoccupation = rowtotal(`x'_occupation_gen_clerk `x'_occupation_cust_clerk ///
+                                `x'_occupation_num_clerk `x'_occupation_other_clerk ///
+                                `x'_occupation_per_work `x'_occupation_sale_work ///
+                                `x'_occupation_care_work `x'_occupation_prot_work ///
+                                `x'_occupation_clean `x'_occupation_food_prep ///
+                                `x'_occupation_street_ser) }
+								
+label var t_prof_n_techoccupation "Total Non Technical/Professional Occupation"
+label var f_prof_n_techoccupation "Female Non Technical/Professional Occupation"
+label var m_prof_n_techoccupation "Male Non Technical/Professional Occupation"
+
+foreach x in f m t {
+gen per_`x'_prof_n_techoccupation = (`x'_prof_n_techoccupation/total_pop)*100 }
+
+label var per_t_prof_n_techoccupation "Percentage Total Non Technical/Professional Occupation"
+label var per_f_prof_n_techoccupation "Percentage Female Non Technical/Professional Occupation"
+label var per_m_prof_n_techoccupation "Percentage Male Non Technical/Professional Occupation"
+
+**********************************************************************
+
 
 label data "SES Indicators by Ennumeration Districts - Barbabdos Statistical Service (p2)"
 
 *Save dataset
 save "`datapath'/version01/2-working/BSS_SES/BSS_SES_002", replace
+
+
+*------------------------------END----------------------------------------------
