@@ -106,22 +106,229 @@ Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine
 */
 
 
-*SEM MODEL
+*-------------------------------------------------------------------------------	
+*						SMALL VARIABLE SEM MODELS	
+*-------------------------------------------------------------------------------
 
-sem (age -> t_age_median, ) (age -> per_young_age_depend, ) ///
-	(age -> per_old_age_depend, ) (income -> per_high_income, ) ///
-	(income -> per_t_income_0_49, ) (house_amenities -> per_amentities_stove, ) ///
-	(house_amenities -> per_amentities_fridge, ) (house_amenities -> per_amentities_microwave, ) ///
-	(house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, ) ///
-	(house_amenities -> per_amentities_radio, ) (house_amenities -> per_amentities_computer, ) ///
-	(education -> per_education_less_secondary, ) (education -> per_t_education_tertiary, ), ///
+*Small Variable Model (FULL MODEL)
+
+sem (age -> t_age_median, ) ///
+	(education -> per_t_education_less_secondary, ) ///
+	(income -> per_t_income_0_49, ) ///
+	(occupation -> per_t_prof_occupation, ) ///
+	(unemployment -> per_t_unemployment, ) ///
+	(house_amenities -> per_amentities_stove, ) (house_amenities -> per_amentities_fridge, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, ) (house_amenities -> per_amentities_computer, ) ///
+	(vehicle -> per_vehicles_0, ) ///
 	covstruct(_lexogenous, diagonal) vce(jackknife) latent(age income house_amenities education ) ///
 	cov( age*house_amenities income*age house_amenities*income house_amenities*education education*age) ///
 	nocapslatent
 
-	
-	
-	
+predict ses_com_s_full*, scores
+
+*Create summed ses index scores
+egen ses_score_s_full = rowtotal(ses_com_s_full*)
+
+*Ranking ses scores
+egen rank_ses_score_s_full = rank(ses_score_s_full)
+label var rank_ses_score_s_full "Ranking of SES Score using SEM Full VSM model"
+
+*-------------------------------------------------------------------------------	
+					
+*Small Variable Model (LASSO CV MODEL)
+
+sem (vehicle -> per_vehicles_0, ) ///
+	(education -> per_t_education_less_secondary, ) ///
+	(house_amenities -> per_amentities_stove, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, )  (house_amenities -> per_amentities_computer, ) ///
+	(age -> t_age_median, ) ///
+	(occupation -> per_t_prof_occupation, ) ///
+	(income -> per_t_income_0_49, ) ///
+	(unemployment -> per_t_unemployment, ) ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) latent(age income house_amenities education ) ///
+	cov( age*house_amenities income*age house_amenities*income house_amenities*education education*age) ///
+	nocapslatent
+
+predict ses_com_cv*, scores
+
+*Create summed ses index scores
+egen ses_score_cv = rowtotal(ses_com_cv*)
+
+*Ranking ses scores
+egen rank_ses_score_cv = rank(ses_score_cv)
+label var rank_ses_score_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
+
+*-------------------------------------------------------------------------------	
+					
+*Small Variable Model (LASSO minBIC MODEL)
+
+sem (vehicle -> per_vehicles_0, ) ///
+	(education -> per_t_education_less_secondary, ) ///
+	(house_amenities -> per_amentities_stove, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_computer, ) ///
+	(age -> t_age_median, ) ///
+	(occupation -> per_t_prof_occupation, ) ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) latent(age house_amenities education ) ///
+	cov( age*house_amenities house_amenities*education education*age) ///
+	nocapslatent
+
+predict ses_com_minBIC*, scores
+
+*Create summed ses index scores
+egen ses_score_minBIC = rowtotal(ses_com_minBIC*)
+
+*Ranking ses scores
+egen rank_ses_score_minBIC = rank(ses_score_minBIC)
+label var rank_ses_score_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
+
+*-------------------------------------------------------------------------------	
+
+*Small Variable Model (LASSO Adaptive MODEL)
+
+sem (vehicle -> per_vehicles_0, ) ///
+	(education -> per_t_education_less_secondary, ) ///
+	(house_amenities -> per_amentities_stove, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, )  (house_amenities -> per_amentities_computer, ) ///
+	(age -> t_age_median, ) ///
+	(occupation -> per_t_prof_occupation, ) ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) latent(age house_amenities education ) ///
+	cov( age*house_amenities house_amenities*education education*age) ///
+	nocapslatent
+
+predict ses_com_adapt*, scores
+
+*Create summed ses index scores
+egen ses_score_adapt = rowtotal(ses_com_adapt*)
+
+*Ranking ses scores
+egen rank_ses_score_adapt = rank(ses_score_adapt)
+label var rank_ses_score_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
+
+
+*-------------------------------------------------------------------------------	
+
+*-------------------------------------------------------------------------------	
+*						MEDIUM VARIABLE SEM MODELS	
+*-------------------------------------------------------------------------------
+
+*Medium Variable Model (FULL MODEL)
+
+sem (race -> per_t_non_black, )	///
+	(age -> t_age_median, ) (age -> per_t_young_age_depend, ) (age -> per_t_old_age_depend, ) ///
+	(education -> per_t_education_less_secondary, ) (education -> per_t_education_tertiary, ) ///
+	(income -> per_t_income_0_49, ) (income -> per_t_high_income, ) (income -> t_income_median, ) 
+	(occupation -> per_t_manage_occupation, ) (occupation -> per_t_prof_occupation, ) (occupation -> per_t_prof_techoccupation, ) (occupation -> per_t_prof_n_techoccupation, ) ///
+	(house_amenities -> per_amentities_stove, ) (house_amenities -> per_amentities_fridge, ) (house_amenities -> per_amentities_microwave, ) (house_amenities -> per_amentities_tv, ) (house_amenities -> per_amentities_radio, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_computer, ) ///
+	(unemployment -> per_t_unemployment, ) ///
+	(house_tenure -> per_htenure_owned, ) (house_tenure -> per_renting, ) ///
+	(crime -> per_crime_victim, ) ///
+	(house_size -> hsize_mean, ) ///
+	(single_parent -> per_smother_total, ) ///
+	(crowding -> per_live_5_more, ) ///
+	(vehicle -> per_vehicle_presence, ) (vehicle -> per_vehicles_0, ) ///
+	(house_structure -> per_rooms_less_3, ) (house_structure -> per_bedrooms_less_2, ) (house_structure -> per_bathroom_0, ) (house_structure -> per_electricity, ) (house_structure -> per_toilet_presence, ) ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) ///
+	latent (race age education income unemployment crime crowding occupation vehicle house_amentities house_tenure house_size single_parent house_structure) ///
+	cov( education*age income*age occupation*income unemployment*income income*house_amentities) ///
+	nocapslatent
+
+predict ses_com_m_full*, scores
+
+*Create summed ses index scores
+egen ses_score_m_full = rowtotal(ses_com_m_full*)
+
+*Ranking ses scores
+egen rank_ses_score_m_full = rank(ses_score_m_full)
+label var rank_ses_score_m_full "Ranking of SES Score using SEM Full VSM model"	
+		  
+*-------------------------------------------------------------------------------
+
+*Medium Variable Model (CV MODEL)
+
+sem (race -> per_t_non_black, )	///
+	(age -> per_t_young_age_depend, ) (age -> per_t_old_age_depend, ) ///
+	(education -> per_t_education_less_secondary, ) (education -> per_t_education_tertiary, ) ///
+	(income -> per_t_income_0_49, ) (income -> per_t_high_income, ) (income -> t_income_median, ) 
+	(occupation -> per_t_manage_occupation, ) (occupation -> per_t_prof_techoccupation, ) (occupation -> per_t_prof_n_techoccupation, ) ///
+	(house_amenities -> per_amentities_microwave, ) (house_amenities -> per_amentities_tv, ) (house_amenities -> per_amentities_wash, )  ///
+	(house_tenure -> per_renting, ) ///
+	(house_size -> hsize_mean, ) ///
+	(single_parent -> per_smother_total, ) ///
+	(vehicle -> per_vehicle_presence, )  ///
+	(house_structure -> per_bedrooms_less_2, ) (house_structure -> per_bathroom_0, )  ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) ///
+	latent (race age education income unemployment crime crowding occupation vehicle house_amentities house_tenure house_size single_parent house_structure) ///
+	cov( education*age income*age occupation*income income*house_amentities) ///
+	nocapslatent
+
+predict ses_com_cv*, scores
+
+*Create summed ses index scores
+egen ses_score_cv = rowtotal(ses_com_cv*)
+
+*Ranking ses scores
+egen rank_ses_score_cv = rank(ses_score_cv)
+label var rank_ses_score_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
+
+*-------------------------------------------------------------------------------
+
+*Medium Variable Model (minBIC MODEL)
+
+sem (race -> per_t_non_black, )	///
+	(age -> per_t_young_age_depend, )  ///
+	(education -> per_t_education_less_secondary, ) (education -> per_t_education_tertiary, ) ///
+	(income -> per_t_high_income, ) (income -> t_income_median, ) 
+	(occupation -> per_t_manage_occupation, ) (occupation -> per_t_prof_occupation, ) (occupation -> per_t_prof_n_techoccupation, ) ///
+	(house_amenities -> per_amentities_microwave, )  ///
+	(house_tenure -> per_htenure_owned, ) (house_tenure -> per_renting, ) ///
+	(single_parent -> per_smother_total, ) ///
+	(crowding -> per_live_5_more, ) ///
+	(vehicle -> per_vehicle_presence, )  ///
+	(house_structure -> per_bedrooms_less_2, ) (house_structure -> per_bathroom_0, )  ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) ///
+	latent (race age education income unemployment crime crowding occupation vehicle house_amentities house_tenure house_size single_parent house_structure) ///
+	cov( education*age income*age occupation*income income*house_amentities) ///
+	nocapslatent
+
+predict ses_com_minBIC*, scores
+
+*Create summed ses index scores
+egen ses_score_minBIC = rowtotal(ses_com_minBIC*)
+
+*Ranking ses scores
+egen rank_ses_score_minBIC = rank(ses_score_minBIC)
+label var rank_ses_score_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
+
+*-------------------------------------------------------------------------------
+
+*Medium Variable Model (Adaptive MODEL)
+
+sem (race -> per_t_non_black, )	///
+	(age -> per_t_young_age_depend, )  ///
+	(education -> per_t_education_less_secondary, )  ///
+	(income -> t_income_median, ) 
+	(occupation -> per_t_prof_techoccupation, )  ///
+	(house_amenities -> per_amentities_microwave, )   (house_amenities -> per_amentities_wash, )  ///
+	(unemployment -> per_t_unemployment, ) ///
+	(house_tenure -> per_htenure_owned, ) (house_tenure -> per_renting, ) ///
+	(crime -> per_crime_victim, ) ///
+	(house_size -> hsize_mean, ) ///
+	(single_parent -> per_smother_total, ) ///
+	(crowding -> per_live_5_more, ) ///
+	(vehicle -> per_vehicle_presence, ) (vehicle -> per_vehicles_0, ) ///
+	(house_structure -> per_rooms_less_3, ) (house_structure -> per_bedrooms_less_2, ) (house_structure -> per_bathroom_0, ) (house_structure -> per_electricity, ) (house_structure -> per_toilet_presence, ) ///
+	covstruct(_lexogenous, diagonal) vce(jackknife) ///
+	latent (race age education income unemployment crime crowding occupation vehicle house_amentities house_tenure house_size single_parent house_structure) ///
+	cov( education*age income*age occupation*income unemployment*income income*house_amentities) ///
+	nocapslatent
+
+predict ses_com_adapt*, scores
+
+*Create summed ses index scores
+egen ses_score_adapt = rowtotal(ses_com_adapt*)
+
+*Ranking ses scores
+egen rank_ses_score_adapt = rank(ses_score_adapt)
+label var rank_ses_score_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
+
+*-------------------------------------------------------------------------------
+
 *-------------------------------------------------------------------------------	
 *						LARGE VARIABLE SEM MODELS	
 *-------------------------------------------------------------------------------
