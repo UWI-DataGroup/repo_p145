@@ -7,10 +7,11 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  Program:		SES_BSS_ED_004.do
 **  Project:      	Macroscale Walkability- PhD
+**	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	28/10/2019
-**	Date Modified: 	20/11/2019
-**  Algorithm Task: Correlations and Inital PCA Analysis
+**	Date Modified: 	18/12/2019
+**  Algorithm Task: Correlations, PCA Analysis and LASSO regression (Small Variable Model)
 
 
 ** DO-FILE SET UP COMMANDS
@@ -18,7 +19,7 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 80
+set linesize 150
 
 *Setting working directory
 ** Dataset to encrypted location
@@ -30,10 +31,14 @@ local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_
 *local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 ** Logfiles to unencrypted location
-local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+*local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
 
-**Aggregated data path
+**Aggregated output path
+*WINDOWS
 local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
+*MAC
+*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
 
 /*
 Note check correlations between variables. Correlations giving r=0.99 should not be 
@@ -77,30 +82,19 @@ use "`datapath'/version01/2-working/BSS_SES/BSS_SES_002", clear
 
 
 **Initalize macros
-global xlist	per_t_income_0_49  per_high_income t_income_median	///
-				t_age_median per_young_age_depend per_old_age_depend	///
-				per_education_less_secondary per_t_education_tertiary	///
-				per_htenure_owned per_renting	///
-				per_amentities_stove per_amentities_fridge ///
-				per_amentities_microwave per_amentities_tv ///
-				per_amentities_radio per_amentities_wash  ///
-				per_amentities_computer	///
-				per_t_wactivity_government per_private_wactivity ///
-				per_prof_occupation per_prof_techoccupation ///
-				per_prof_n_techoccupation		///
-				per_unemployment per_t_wactivity_no_work	///
-				per_crime_victim per_smother_total per_marital_n_married	///
-				per_vehicle_presence ///
-				hsize_mean per_rooms_less_3 per_bedrooms_less_2 	///
-				per_bathroom_0 per_live_5_more 	///
+global small_list	t_age_median per_t_education_less_secondary per_t_income_0_49 ///
+					per_vehicles_0 per_t_prof_occupation per_t_unemployment ///
+					per_amentities_stove per_amentities_fridge ///
+					per_amentities_wash per_amentities_tv ///
+					per_amentities_computer
 			
 global ED
 
 ** Describe SES categories
-des $xlist
-sum $xlist
-tabstat $xlist, by(parish) stat(mean)
-corr $xlist
+des $small_list
+sum $small_list
+tabstat $small_list, by(parish) stat(mean)
+corr $small_list
 
 **Correlations between SES categories
 preserve
@@ -126,10 +120,10 @@ gen ind = _n
 			graphregion(color(gs16)) 
             ysize(5) xsize(10)
 
-			xlab(0(25)550 , labs(3) tlc(gs0) labc(gs0) nogrid glc(gs16))
+			xlab(0(5)60 , labs(3) tlc(gs0) labc(gs0) nogrid glc(gs16))
 			xscale(fill lc(gs0))
 			xtitle("Correlations", size(3) color(gs0) margin(l=2 r=2 t=5 b=2))
-			xmtick(0(25)550, tlc(gs0))
+			xmtick(0(5)60, tlc(gs0))
 
 			ylab(-1.0(0.1)1.0
 			,
@@ -149,16 +143,18 @@ gen ind = _n
             name(corelations)
             ;
     #delimit cr
-graph export "`outputpath'/SES_Index/05_Outputs/scatter_plot_ses.png", replace height(550)
+graph export "`outputpath'/SES_Index/05_Outputs/scatter_plot_ses_vsm_small.png", replace height(550)
 restore
 
 *-------------------------------------------------------------------------------
+*PCA Analysis - Unrotated
+
 *Inital PCA analysis
-pca $xlist, blanks(0.3)
+pca $small_list, blanks(0.3)
 
 *Screeplot
 screeplot, yline(1)
-graph export "`outputpath'/SES_Index/05_Outputs/screeplot_ses.png", replace height(550)
+graph export "`outputpath'/SES_Index/05_Outputs/screeplot_ses_vsm_small.png", replace height(550)
 
 *Orthogonal rotation
 rotate, varimax blanks(0.3)
@@ -170,192 +166,279 @@ rotate, promax blanks(0.3)
 estat loadings
 predict ses_score_pca*
 
-egen ses_score_pca = rowtotal(ses_score*)
+egen ses_score_pca = rowtotal(ses_score_pca*)
 label var ses_score_pca "SES Score for all components after PCA"
-drop ses_score_pca1 - ses_score_pca33
+drop ses_score_pca1 - ses_score_pca11
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
 estat kmo 
 
+*Ranking of SES index score using PCA - no-rotation				
+egen rank_ses_score_pca = rank(-ses_score_pca)
+label var rank_ses_score_pca "Ranking of PCA SES scores for VSM small model usnig unrotated PCA"
+
+
 *-------------------------------------------------------------------------------
-*PCA Analysis using eigen values >1 = 7 components
+*PCA Analysis using eigen values >1 = 3 components using Orthogonal rotation
 
 *Inital PCA analysis
-pca $xlist, mineigen(1) blanks(0.3)
+pca $small_list, mineigen(1) blanks(0.3)
 
 *Orthogonal rotation
-rotate, varimax components(7) blanks(0.3)
-
-*Oblique rotation
-rotate, promax components(7) blanks(0.3)
+rotate, varimax components(3) blanks(0.3)
 
 **Adding loadings estimates to the existing dataset
 estat loadings
-predict ses_score_eigen*
+predict ses_score_eigen_vari*
 
-egen ses_score_eigen = rowtotal(ses_score_eigen*)
-label var ses_score_eigen "SES Score for all components using eigen >1"
-drop ses_score_eigen1 - ses_score_eigen7
+egen ses_score_eigen_vari = rowtotal(ses_score_eigen_vari*)
+label var ses_score_eigen_vari "SES Score for all components using eigen >1 using Varimax rotation"
+drop ses_score_eigen_vari1 - ses_score_eigen_vari3
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
 estat kmo 
 
+*Ranking of SES index score using PCA - Eigen >1 and varimax rotation			
+egen rank_ses_score_eigen_vari = rank(-ses_score_eigen_vari)
+label var rank_ses_score_eigen_vari  "Ranking of PCA SES scores for VSM small model usnig Eigen >1 and Varimax Rotated PCA"
+
 *-------------------------------------------------------------------------------
-*PCA Analysis using individual variance (>5%) = 5 components
+*PCA Analysis using eigen values >1 = 3 components using Oblique rotation
+
+*Inital PCA analysis
+pca $small_list, mineigen(1) blanks(0.3)
+
+*Oblique rotation
+rotate, promax components(3) blanks(0.3)
+
+**Adding loadings estimates to the existing dataset
+estat loadings
+predict ses_score_eigen_pro*
+
+egen ses_score_eigen_pro = rowtotal(ses_score_eigen_pro*)
+label var ses_score_eigen_pro "SES Score for all components using eigen >1 using Promax rotation"
+drop ses_score_eigen_pro1 - ses_score_eigen_pro3
+
+**KMO measure for sampling adequacy
+**Note: values 0.70 and higher are desireable 
+estat kmo 
+
+*Ranking of SES index score using PCA - Eigen >1 and promax rotation				
+egen rank_ses_score_eigen_pro = rank(-ses_score_eigen_pro)
+label var rank_ses_score_eigen_pro  "Ranking of PCA SES scores for VSM small model usnig Eigen >1 and Promax Rotated PCA"
+
+
+*-------------------------------------------------------------------------------
+*PCA Analysis using individual variance (>5%) = 5 components using Varimax rotation
 
 /*
     --------------------------------------------------------------------------
        Component |   Eigenvalue   Difference         Proportion   Cumulative
     -------------+------------------------------------------------------------
-           Comp1 |      12.6344      9.80967             0.3829       0.3829
-           Comp2 |      2.82478      .195424             0.0856       0.4685
-           Comp3 |      2.62936      .358153             0.0797       0.5481
-           Comp4 |       2.2712      .585077             0.0688       0.6170
-           Comp5 |      1.68613       .34913             0.0511       0.6681
-           Comp6 |        1.337      .290586             0.0405       0.7086
-           Comp7 |      1.04641     .0886104             0.0317       0.7403
-           Comp8 |        .9578      .159713             0.0290       0.7693
-           Comp9 |      .798087     .0196157             0.0242       0.7935
-          Comp10 |      .778471     .0928513             0.0236       0.8171
-          Comp11 |       .68562     .0511191             0.0208       0.8379
-          Comp12 |      .634501     .0693547             0.0192       0.8571
-          Comp13 |      .565146    .00964337             0.0171       0.8742
-          Comp14 |      .555503      .100081             0.0168       0.8910
-          Comp15 |      .455421    .00657658             0.0138       0.9048
-          Comp16 |      .448845     .0633384             0.0136       0.9184
-          Comp17 |      .385506     .0564637             0.0117       0.9301
-          Comp18 |      .329043     .0202059             0.0100       0.9401
-          Comp19 |      .308837     .0531587             0.0094       0.9495
-          Comp20 |      .255678     .0287641             0.0077       0.9572
-          Comp21 |      .226914     .0304081             0.0069       0.9641
-          Comp22 |      .196506     .0376352             0.0060       0.9700
-          Comp23 |      .158871     .0149684             0.0048       0.9749
-          Comp24 |      .143902    .00981023             0.0044       0.9792
-          Comp25 |      .134092     .0308772             0.0041       0.9833
-          Comp26 |      .103215    .00921606             0.0031       0.9864
-          Comp27 |     .0939987     .0139721             0.0028       0.9893
-          Comp28 |     .0800266    .00572894             0.0024       0.9917
-          Comp29 |     .0742976    .00734626             0.0023       0.9939
-          Comp30 |     .0669514    .00543985             0.0020       0.9960
-          Comp31 |     .0615115     .0172721             0.0019       0.9978
-          Comp32 |     .0442394      .016537             0.0013       0.9992
-          Comp33 |     .0277024            .             0.0008       1.0000
+           Comp1 |      6.02972      4.36909             0.5482       0.5482
+           Comp2 |      1.66063      .492305             0.1510       0.6991
+           Comp3 |      1.16832      .374791             0.1062       0.8053
+           Comp4 |      .793532      .206051             0.0721       0.8775
+           Comp5 |      .587481      .291092             0.0534       0.9309
+           Comp6 |      .296389      .120966             0.0269       0.9578
+           Comp7 |      .175423     .0581858             0.0159       0.9738
+           Comp8 |      .117238     .0232056             0.0107       0.9844
+           Comp9 |      .094032     .0460069             0.0085       0.9930
+          Comp10 |     .0480251     .0188195             0.0044       0.9973
+          Comp11 |     .0292056            .             0.0027       1.0000
     --------------------------------------------------------------------------
+
 */
 
 *Inital PCA analysis
-pca $xlist, components(5) blanks(0.3)
+pca $small_list, components(5) blanks(0.3)
 
 *Orthogonal rotation
 rotate, varimax components(5) blanks(0.3)
+
+**Adding loadings estimates to the existing dataset
+estat loadings
+predict ses_score_i_5percent_vari*
+
+egen ses_score_i_5percent_vari = rowtotal(ses_score_i_5percent_vari*)
+label var ses_score_i_5percent_vari "SES Score for all components using individual percentage variance explained >5% using varimax rotation"
+drop ses_score_i_5percent_vari1 - ses_score_i_5percent_vari5
+
+*Ranking of SES index score using PCA - individual variance (>5%) and varimax rotation			
+egen rank_ses_score_i_5percent_vari = rank(-ses_score_i_5percent_vari)
+label var rank_ses_score_i_5percent_vari  "Ranking of PCA SES scores for VSM small model usnig Indivdual variance (>5%) and Varimax Rotated PCA"
+
+
+*************
 
 *Oblique rotation
 rotate, promax components(5) blanks(0.3)
 
 **Adding loadings estimates to the existing dataset
 estat loadings
-predict ses_score_i_5percent*
+predict ses_score_i_5percent_pro*
 
-egen ses_score_i_5percent = rowtotal(ses_score_i_5percent*)
-label var ses_score_i_5percent "SES Score for all components using individual percentage variance explained >5%"
-drop ses_score_i_5percent1 - ses_score_i_5percent5
+egen ses_score_i_5percent_pro = rowtotal(ses_score_i_5percent_pro*)
+label var ses_score_i_5percent_pro "SES Score for all components using individual percentage variance explained >5% using promax rotation"
+drop ses_score_i_5percent_pro1 - ses_score_i_5percent_pro5
+
+*Ranking of SES index score using PCA - individual variance (>5%) and promax rotation			
+egen rank_ses_score_i_5percent_pro = rank(-ses_score_i_5percent_pro)
+label var rank_ses_score_i_5percent_pro  "Ranking of PCA SES scores for VSM small model usnig Indivdual variance (>5%) and promax Rotated PCA"
+
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
 estat kmo 
 
 *-------------------------------------------------------------------------------
-*PCA Analysis using cummulative variance (80%) = 10 components
+*PCA Analysis using cummulative variance (80%) = 3 components
 
 *Inital PCA analysis
-pca $xlist, components(10) blanks(0.3)
+pca $small_list, components(3) blanks(0.3)
 
 *Orthogonal rotation
-rotate, varimax components(10) blanks(0.3)
-
-*Oblique rotation
-rotate, promax components(10) blanks(0.3)
+rotate, varimax components(3) blanks(0.3)
 
 **Adding loadings estimates to the existing dataset
 estat loadings
-predict ses_score_c_80percent*
+predict ses_score_c_80percent_vari*
 
-egen ses_score_c_80percent = rowtotal(ses_score_c_80percent*)
-label var ses_score_c_80percent "SES Score for all components using cummulative percentage variance explained 80%"
-drop ses_score_c_80percent1 - ses_score_c_80percent10
+egen ses_score_c_80percent_vari = rowtotal(ses_score_c_80percent_vari*)
+label var ses_score_c_80percent_vari "SES Score for all components using cummulative percentage variance explained 80% using varimax rotation"
+drop ses_score_c_80percent_vari1 - ses_score_c_80percent_vari3
 
-**KMO measure for sampling adequacy
-**Note: values 0.70 and higher are desireable 
-estat kmo 
+*Ranking of SES index score using PCA - individual variance (>5%) and promax rotation			
+egen rank_ses_score_c_80percent_vari = rank(-ses_score_c_80percent_vari)
+label var rank_ses_score_c_80percent_vari  "Ranking of PCA SES scores for VSM small model usnig Cummulative variance (>90%) and varimax Rotated PCA"
 
-*-------------------------------------------------------------------------------
-*PCA Analysis using cummulative variance (90%) = 15 components
 
-*Inital PCA analysis
-pca $xlist, components(15) blanks(0.3)
-
-*Orthogonal rotation
-rotate, varimax components(15) blanks(0.3)
+*************
 
 *Oblique rotation
-rotate, promax components(15) blanks(0.3)
+rotate, promax components(3) blanks(0.3)
 
 **Adding loadings estimates to the existing dataset
 estat loadings
-predict ses_score_c_90percent*
+predict ses_score_c_80percent_pro*
 
-egen ses_score_c_90percent = rowtotal(ses_score_c_90percent*)
-label var ses_score_c_90percent "SES Score for all components using cummulative percentage variance explained 90%"
-drop ses_score_c_90percent1 - ses_score_c_90percent15
+egen ses_score_c_80percent_pro = rowtotal(ses_score_c_80percent_pro*)
+label var ses_score_c_80percent_pro "SES Score for all components using cummulative percentage variance explained 80% using promax Rotated PCA"
+drop ses_score_c_80percent_pro1 - ses_score_c_80percent_pro3
+
+*Ranking of SES index score using PCA - individual variance (>5%) and promax rotation			
+egen rank_ses_score_c_80percent_pro = rank(-ses_score_c_80percent_pro)
+label var rank_ses_score_c_80percent_pro  "Ranking of PCA SES scores for VSM small model usnig Cummulative variance (>80%) and promax Rotated PCA"
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
 estat kmo 
 
 *-------------------------------------------------------------------------------
-* Horn Parallel PCA analysis = 6 components
+*PCA Analysis using cummulative variance (90%) = 5 components
+
+*Inital PCA analysis
+pca $small_list, components(5) blanks(0.3)
+
+*Orthogonal rotation
+rotate, varimax components(5) blanks(0.3)
+
+**Adding loadings estimates to the existing dataset
+estat loadings
+predict ses_score_c_90percent_vari*
+
+egen ses_score_c_90percent_vari = rowtotal(ses_score_c_90percent_vari*)
+label var ses_score_c_90percent_vari "SES Score for all components using cummulative percentage variance explained 90% using varimax Rotated PCA"
+drop ses_score_c_90percent_vari1 - ses_score_c_90percent_vari5
+
+*Ranking of SES index score using PCA - cummulative variance (>90%) and varimax rotation			
+egen rank_ses_score_c_90percent_vari = rank(-ses_score_c_90percent_vari)
+label var rank_ses_score_c_90percent_vari  "Ranking of PCA SES scores for VSM small model usnig Cummulative variance (>90%) and varimax Rotated PCA"
+
+
+*****************************
+
+*Oblique rotation
+rotate, promax components(5) blanks(0.3)
+
+**Adding loadings estimates to the existing dataset
+estat loadings
+predict ses_score_c_90percent_pro*
+
+egen ses_score_c_90percent_pro = rowtotal(ses_score_c_90percent_pro*)
+label var ses_score_c_90percent_pro "SES Score for all components using cummulative percentage variance explained 90% using promax Rotated PCA"
+drop ses_score_c_90percent_pro1 - ses_score_c_90percent_pro5
+
+*Ranking of SES index score using PCA - cummulative variance (>90%) and promax rotation			
+egen rank_ses_score_c_90percent_pro = rank(-ses_score_c_90percent_pro)
+label var rank_ses_score_c_90percent_pro  "Ranking of PCA SES scores for VSM small model usnig Cummulative variance (>90%) and promax Rotated PCA"
+
+**KMO measure for sampling adequacy
+**Note: values 0.70 and higher are desireable 
+estat kmo 
+
+*-------------------------------------------------------------------------------
+* Horn Parallel PCA analysis = 3 components
 
 /*
+
 Results of Horn's Parallel Analysis for principal components
-990 iterations, using the mean estimate
+330 iterations, using the mean estimate
 
 --------------------------------------------------
 Component   Adjusted    Unadjusted    Estimated
 or Factor   Eigenvalue  Eigenvalue    Bias
 --------------------------------------------------
- 1          12.168001   12.634446     .46644461
- 2          2.41983     2.8247803     .40495038
- 3          2.2983861   2.629356      .33096993
- 4          1.9595735   2.2712033     .31162977
- 5          1.3866227   1.686126      .29950333
- 6          1.0767359   1.3369963     .26026046
- 7          .7986174    1.0464099     .24779248
+ 1          5.8084057   6.0297224     .2213167
+ 2          1.4933177   1.6606285     .16731083
+ 3          1.0524206   1.1683235     .1159029
 --------------------------------------------------
 Criterion: retain adjusted components > 1
+
 */
 
 *Horn's Parallel Analysis
-paran $xlist, graph color 
-graph export "`outputpath'/SES_Index/05_Outputs/horn_pca.png", replace
+paran $small_list, graph color iterations(1000)
+graph export "`outputpath'/SES_Index/05_Outputs/horn_pca_vsm_small.png", replace
 
 *Inital PCA analysis
-pca $xlist, components(6) blanks(0.3)
+pca $small_list, components(3) blanks(0.3)
 
 *Orthogonal rotation
-rotate, varimax components(6) blanks(0.3)
-
-*Oblique rotation
-rotate, promax components(6) blanks(0.3)
+rotate, varimax components(3) blanks(0.3)
 
 **Adding loadings estimates to the existing dataset
 estat loadings
-predict ses_score_horn*
+predict ses_score_horn_vari*
 
-egen ses_score_horn = rowtotal(ses_score_horn*)
-label var ses_score_horn "SES Score for all components using Horn Parallel Analysis"
-drop ses_score_horn1 - ses_score_horn6
+egen ses_score_horn_vari = rowtotal(ses_score_horn_vari*)
+label var ses_score_horn_vari "SES Score for all components using Horn Parallel Analysis"
+drop ses_score_horn_vari1 - ses_score_horn_vari3
+
+*Ranking of SES index score using PCA - Horn Parallel Analysis and promax rotation			
+egen rank_ses_score_horn_vari = rank(-ses_score_horn_vari)
+label var rank_ses_score_horn_vari  "Ranking of PCA SES scores for VSM small model usnig Horn Paralell Analysis and varimax Rotated PCA"
+
+
+*************
+
+*Oblique rotation
+rotate, promax components(3) blanks(0.3)
+
+**Adding loadings estimates to the existing dataset
+estat loadings
+predict ses_score_horn_pro*
+
+egen ses_score_horn_pro = rowtotal(ses_score_horn_pro*)
+label var ses_score_horn_pro "SES Score for all components using Horn Parallel Analysis"
+drop ses_score_horn_pro1 - ses_score_horn_pro3
+
+*Ranking of SES index score using PCA - Horn Parallel Analysis and promax rotation			
+egen rank_ses_score_horn_pro = rank(-ses_score_horn_pro)
+label var rank_ses_score_horn_pro  "Ranking of PCA SES scores for VSM small model usnig Horn Paralell Analysis and promax Rotated PCA"
+
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
@@ -367,33 +450,345 @@ estat kmo
 sum ses_score*
 tabstat ses_score*, by(parish) stat(mean median)
 
+*-------------------------------------------------------------------------------
 
-*Loop for SES categortization
-foreach x in  ses_score_pca ses_score_eigen ses_score_i_5percent ///
-				ses_score_c_80percent ses_score_c_90percent ses_score_horn {
+*-----------------------------LASSO---------------------------------------------
+preserve
+*Replace missing code 999999 with .
+replace t_income_median = . if t_income_median>559999
 
-**Categorize SES index scores into deciles				
-xtile ses_dec_`x' = `x', nq(10)			
+gen t_cat = .
+replace t_cat = 0 if t_income_median==.
+recode t_cat (.=1)
 
-**Categorize deciles into high and low SES
-gen ses_cat_`x' = ses_dec_`x'
-recode ses_cat_`x' (1/4=1) (5/6=2) (7/10=3)
-label var ses_cat_`x' "Socioeconomic Index Categories `x'"
-label define ses_cat_`x' 3"High" 1"Low" 2"Medium"
-label value ses_cat_`x' ses_cat_`x'			
-		
-**Tabulate SES by ED and parishes
-tab ses_cat_`x' parish
-				}
+tab t_cat
+
+*Imputation Model
+mi set mlong
+misstable sum t_income_median
+mi register imputed t_income_median 
+set seed 29390
+
+*Predictive Mean Matching
+mi impute chained (regress) t_income_median = t_age_median hsize_mean , add(20)
+	
+*Listing mean total median income for missing median income EDs											
+mi estimate: mean t_income_median if t_cat==0, over(ED)
+
+gen data = _mi_m
+recode data (2/max=1) 
+tab data
+
+*-------------------------------------------------------------------------------
+
+*Lasso linear model
+lasso linear pop_density $small_list if data==0, rseed(1234)
+cvplot					// Cross-validation plot
+estimates store cv 		// Storing estimates of linear model
+
+
+*LASSO BIC model
+lassoknots, display(nonzero osr2 bic)
+lassoselect id = 36		// Selecting model 36- Model with the lowest BIC
+cvplot					// Cross-validation plot with bic and linear model
+estimates store minBIC	// Storing estimates minimum BIC model
+
+
+*LASSO Adapative model
+lasso linear pop_density $small_list if data==0, selection(adaptive) rseed(1234)
+estimates store adaptive	// Storing estimates of adaptive model
+
+
+* Table of standardized coeficients used for each model
+lassocoef cv minBIC adaptive, sort(coef, standardized) nofvlabel
+
+
+*Assess goodness of fit for each of the models used on training datasets
+lassogof cv minBIC adaptive,  over(data) postselection
+
+tabstat _est_cv _est_minBIC _est_adaptive, by(parish) stat(mean)
+
+restore 
+
+*-------------------------------------------------------------------------------
+/* LASSO Variable Selection outputpath
+
+----------------------------------------------------------------
+                               |    cv       minBIC    adaptive 
+-------------------------------+--------------------------------
+                per_vehicles_0 |     x         x          x     
+          per_amentities_stove |     x         x          x     
+           per_amentities_wash |     x         x          x     
+per_t_education_less_secondary |     x         x          x     
+                  t_age_median |     x         x          x     
+             per_amentities_tv |     x                    x     
+       per_amentities_computer |     x         x          x     
+         per_t_prof_occupation |     x         x          x     
+             per_t_income_0_49 |     x    
+            per_t_unemployment |     x    
+                         _cons |     x         x          x     
+----------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+*/
+
+*PCA Model with LASSO variable selection
+
+global small_list_cv		per_vehicles_0 per_amentities_stove per_amentities_wash	///
+							per_t_education_less_secondary t_age_median per_amentities_tv	///
+							per_amentities_computer per_t_prof_occupation per_t_income_0_49	///
+							per_t_unemployment
+
+global small_list_minBIC	per_vehicles_0 per_amentities_stove per_amentities_wash	///
+							per_t_education_less_secondary t_age_median 	///
+							per_amentities_computer per_t_prof_occupation 
+
+global small_list_adaptive	per_vehicles_0 per_amentities_stove per_amentities_wash	///
+							per_t_education_less_secondary t_age_median per_amentities_tv	///
+							per_amentities_computer per_t_prof_occupation 
+
+*-------------------------------------------------------------------------------
+
+*Horn Paralell Analysis
+paran $small_list_cv, graph color iterations(1000)
+
+/*
+Results of Horn's Parallel Analysis for principal components
+1000 iterations, using the mean estimate
+
+--------------------------------------------------
+Component   Adjusted    Unadjusted    Estimated
+or Factor   Eigenvalue  Eigenvalue    Bias
+--------------------------------------------------
+ 1          5.106238    5.2793273     .17308939
+ 2          1.3760642   1.5108869     .13482273
+ 3          1.0436198   1.1356932     .09207344
+--------------------------------------------------
+Criterion: retain adjusted components > 1
+
+*/
+
+
+*Principle Component Analysis Model							
+pca $small_list_cv, mineigen(1)
+
+/*
+
+ --------------------------------------------------------------------------
+       Component |   Eigenvalue   Difference         Proportion   Cumulative
+    -------------+------------------------------------------------------------
+           Comp1 |      5.27933      3.76844             0.5279       0.5279
+           Comp2 |      1.51089      .375194             0.1511       0.6790
+           Comp3 |      1.13569      .353401             0.1136       0.7926
+           Comp4 |      .782293       .20769             0.0782       0.8708
+           Comp5 |      .574602      .278927             0.0575       0.9283
+           Comp6 |      .295675      .120284             0.0296       0.9578
+           Comp7 |      .175391     .0617707             0.0175       0.9754
+           Comp8 |      .113621      .019864             0.0114       0.9867
+           Comp9 |     .0937567     .0550028             0.0094       0.9961
+          Comp10 |     .0387539            .             0.0039       1.0000
+    --------------------------------------------------------------------------
+
+	*/
+
+*Varimax Rotation
+rotate, varimax components(3) blank(.3)
+
+*Predicting component scores
+predict com*
+
+*Generation of SES score varimax rotation
+egen ses_score_vsm_small_cv_vari = rowtotal( com*)
+tabstat ses_score_vsm_small_cv_vari, by(parish) stat(mean)
+
+drop com*
+
+*Ranking of ses score from lasso variable selection method
+egen rank_vsm_small_cv_vari = rank(-ses_score_vsm_small_cv_vari)
+label var rank_vsm_small_cv_vari "Ranking of PCA Scores using varimax for VSM small modell using CV from LASSO Regression"
+
+**********************
+
+*Oblique rotation
+rotate, promax components(3) blanks(0.3)
+
+*Predicting component scores
+predict com*
+
+*Generation of SES score promax rotation
+egen ses_score_vsm_small_cv_pro = rowtotal( com*)
+tabstat ses_score_vsm_small_cv_pro, by(parish) stat(mean)
+
+drop com*
+
+*Ranking of ses score from lasso variable selection method
+egen rank_vsm_small_cv_pro = rank(-ses_score_vsm_small_cv_pro)
+label var rank_vsm_small_cv_pro "Ranking of PCA Scores using promax for VSM small modell using CV from LASSO Regression"
+
+
+*-------------------------------------------------------------------------------
+
+*Horn Paralell Analysis
+paran $small_list_minBIC, graph color iterations(1000)
+
+/*
+Results of Horn's Parallel Analysis for principal components
+1000 iterations, using the mean estimate
+
+--------------------------------------------------
+Component   Adjusted    Unadjusted    Estimated
+or Factor   Eigenvalue  Eigenvalue    Bias
+--------------------------------------------------
+ 1          4.3277629   4.4407981     .1130352
+ 2          1.0060924   1.0680717     .06197929
+--------------------------------------------------
+Criterion: retain adjusted components > 1
+
+*/
+
+
+*Principle Component Analysis Model							
+pca $small_list_minBIC, mineigen(1)
+
+/*
+
+ 
+    --------------------------------------------------------------------------
+       Component |   Eigenvalue   Difference         Proportion   Cumulative
+    -------------+------------------------------------------------------------
+           Comp1 |       4.4408      3.37273             0.6344       0.6344
+           Comp2 |      1.06807      .348758             0.1526       0.7870
+           Comp3 |      .719313      .327757             0.1028       0.8897
+           Comp4 |      .391556      .208844             0.0559       0.9457
+           Comp5 |      .182713     .0765356             0.0261       0.9718
+           Comp6 |      .106177     .0148064             0.0152       0.9869
+           Comp7 |     .0913708            .             0.0131       1.0000
+    --------------------------------------------------------------------------
+
+	*/
+
+*Varimax Rotation
+rotate, varimax components(2) blank(.3)
+
+*Predicting component scores
+predict com*
+
+*Generation of SES score varimax rotation
+egen ses_score_vsm_small_minBIC_vari = rowtotal( com*)
+tabstat ses_score_vsm_small_minBIC_vari, by(parish) stat(mean)
+
+drop com*
+
+*Ranking of ses score from lasso variable selection method
+egen rank_vsm_small_minBIC_vari = rank(-ses_score_vsm_small_minBIC_vari)
+label var rank_vsm_small_minBIC_vari "Ranking of PCA Scores using varimax for VSM small modell using minBIC from LASSO Regression"
+
+**********************
+
+*Oblique rotation
+rotate, promax components(2) blanks(0.3)
+
+*Predicting component scores
+predict com*
+
+*Generation of SES score promax rotation
+egen ses_score_vsm_small_minBIC_pro = rowtotal( com*)
+tabstat ses_score_vsm_small_minBIC_pro, by(parish) stat(mean)
+
+drop com*
+
+*Ranking of ses score from lasso variable selection method
+egen rank_vsm_small_minBIC_pro = rank(-ses_score_vsm_small_minBIC_pro)
+label var rank_vsm_small_minBIC_pro "Ranking of PCA Scores using promax for VSM small modell using minBIC from LASSO Regression"
+
+
+*-------------------------------------------------------------------------------
+
+*Horn Paralell Analysis
+paran $small_list_adaptive, graph color iterations(1000)
+
+/*
+Results of Horn's Parallel Analysis for principal components
+1000 iterations, using the mean estimate
+
+--------------------------------------------------
+Component   Adjusted    Unadjusted    Estimated
+or Factor   Eigenvalue  Eigenvalue    Bias
+--------------------------------------------------
+ 1          4.8674841   5.0457323     .17824817
+ 2          1.2094838   1.3568093     .14732552
+--------------------------------------------------
+
+Criterion: retain adjusted components > 1
+*/
+
+
+*Principle Component Analysis Model							
+pca $small_list_adaptive, mineigen(1)
+
+/*
+
+  --------------------------------------------------------------------------
+       Component |   Eigenvalue   Difference         Proportion   Cumulative
+    -------------+------------------------------------------------------------
+           Comp1 |      5.04573      3.68892             0.6307       0.6307
+           Comp2 |      1.35681      .627668             0.1696       0.8003
+           Comp3 |      .729141      .292577             0.0911       0.8915
+           Comp4 |      .436564      .253559             0.0546       0.9460
+           Comp5 |      .183005     .0671847             0.0229       0.9689
+           Comp6 |       .11582     .0217334             0.0145       0.9834
+           Comp7 |     .0940865     .0552439             0.0118       0.9951
+           Comp8 |     .0388426            .             0.0049       1.0000
+    --------------------------------------------------------------------------
+
+
+	*/
+
+*Varimax Rotation
+rotate, varimax components(2) blank(.3)
+
+*Predicting component scores
+predict com*
+
+*Generation of SES score varimax rotation
+egen ses_score_vsm_small_adapt_vari = rowtotal( com*)
+tabstat ses_score_vsm_small_adapt_vari, by(parish) stat(mean)
+
+drop com*
+
+*Ranking of ses score from lasso variable selection method
+egen rank_vsm_small_adapt_vari = rank(-ses_score_vsm_small_adapt_vari)
+label var rank_vsm_small_adapt_vari "Ranking of PCA Scores using varimax for VSM small modell using Selection Adaptive from LASSO Regression"
+
+**********************
+
+*Oblique rotation
+rotate, promax components(2) blanks(0.3)
+
+*Predicting component scores
+predict com*
+
+*Generation of SES score promax rotation
+egen ses_score_vsm_small_adapt_pro = rowtotal( com*)
+tabstat ses_score_vsm_small_adapt_pro, by(parish) stat(mean)
+
+drop com*
+
+*Ranking of ses score from lasso variable selection method
+egen rank_vsm_small_adapt_pro = rank(-ses_score_vsm_small_adapt_pro)
+label var rank_vsm_small_adapt_pro "Ranking of PCA Scores using promax for VSM small modell using Selection Adaptive from LASSO Regression"
+
+*-------------------------------------------------------------------------------
+*-------------------------------------------------------------------------------
 
 *Label Data
-label data "SES Indicators by Ennumeration Districts - Barbabdos Statistical Service (p3)"
+label data "SES Indicators by Ennumeration Districts - Barbabdos Statistical Service (Samll SES Variable Model)"
 
 *Save dataset
-save "`datapath'/version01/2-working/BSS_SES/BSS_SES_003", replace
+save "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_small", replace
 
 *Save data in Excel format for GIS import
-export excel "`datapath'/version01/2-working/BSS_SES/SES_data.xlsx", firstrow(variables) replace
+export excel "`datapath'/version01/2-working/BSS_SES/SES_data_vsm_small.xlsx", firstrow(variables) replace
 
 
 *-------------------------End---------------------------------------------------

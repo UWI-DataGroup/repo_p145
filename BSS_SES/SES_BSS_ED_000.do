@@ -5,6 +5,7 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  Program:		SES_BSS_ED_000.do
 **  Project:      	Macroscale Walkability- PhD
+**	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	21/10/2019
 **	Date Modified: 	05/11/2019
@@ -322,6 +323,15 @@ common practice. Journal of epidemiology and community health 2006;60(9):804-10.
 Davey Smith G, Hart C, Hole D, et al. Education and occupational social class: which 
 is the more important indicator of mortality risk? Journal of epidemiology and community 
 health 1998;52(3):153-60
+
+
+*Examine differences between ranks for different methods
+
+These test are: 
+
+1) Sign Test. ------sign test method1 = method2
+2) Wilcoxon Signed-Rank Test (Preferred method). ----- signrank method1 = method2
+
 
 ////////
 

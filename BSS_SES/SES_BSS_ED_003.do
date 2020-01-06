@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	24/10/2019
-**	Date Modified: 	17/12/2019
+**	Date Modified: 	18/12/2019
 **  Algorithm Task: Creating SES variables for PCA analysis
 
 
@@ -19,7 +19,7 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 80
+set linesize 150
 
 *Setting working directory
 ** Dataset to encrypted location
@@ -81,7 +81,8 @@ label var m_non_black "Male Non-Black"
 label var t_non_black "Total Non-Black"
 
 foreach x in f m t{
-gen per_`x'_non_black = (`x'_non_black/total_pop)*100	}
+gen per_`x'_non_black = (`x'_non_black/total_pop)*100	
+}
 
 label var per_f_non_black "Percentage Female Non-Black"
 label var per_m_non_black "Percentage Male Non-Black"
@@ -115,7 +116,8 @@ label var f_age_depend "Female Age Dependancy (<20 years & >60 years)"
 label var m_age_depend "Male Age Dependancy (<20 years & >60 years)"
 
 foreach x in f m t {
-gen per_`x'_age_depend = (`x'_age_depend/total_pop)*100 }
+gen per_`x'_age_depend = (`x'_age_depend/total_pop)*100 
+}
 
 
 label var per_t_age_depend "Percentage Total Age Dependancy (<20 years & >60 years)"
@@ -127,7 +129,8 @@ label var per_m_age_depend "Percentage Male Age Dependancy (<20 years & >60 year
 */
 
 foreach x in f m t {
-egen `x'_young_age_depend = rowtotal(`x'_age_0_9 `x'_age_10_19) }
+egen `x'_young_age_depend = rowtotal(`x'_age_0_9 `x'_age_10_19) 
+}
 
 
 label var t_young_age_depend "Total Yonger Age Dependancy (<20 years)"
@@ -135,7 +138,8 @@ label var f_young_age_depend "Female Yonger Age Dependancy (<20 years)"
 label var m_young_age_depend "Male Yonger Age Dependancy (<20 years)"
 
 foreach x in f m t {
-gen per_`x'_young_age_depend = (`x'_young_age_depend/total_pop)*100 }
+gen per_`x'_young_age_depend = (`x'_young_age_depend/total_pop)*100 
+}
 
 label var per_t_young_age_depend "Percentage Total Younger Age Dependancy (<20 years)"
 label var per_f_young_age_depend "Percentage Female Younger Age Dependancy (<20 years)"
@@ -149,14 +153,20 @@ label var per_m_young_age_depend "Percentage Male Younger Age Dependancy (<20 ye
 
 foreach x in f m t {
 egen `x'_old_age_depend = rowtotal(`x'_age_60_69 `x'_age_70_79    ///
-                            `x'_age_80_89 `x'_age_90_99 `x'_age_100_over) }
-							
+                            `x'_age_80_89 `x'_age_90_99 `x'_age_100_over) 
+							}
+
 label var t_old_age_depend "Total Older Age Dependancy (>60 years)"
 label var f_old_age_depend "Female Older Age Dependancy (>60 years)"
 label var m_old_age_depend "Male Older Age Dependancy (>60 years)"
 
-gen per_old_age_depend = (old_age_depend/total_pop)*100
-label var per_old_age_depend "Percentage Older Age Dependancy (>60 years)"
+foreach x in f m t {
+gen per_`x'_old_age_depend = (`x'_old_age_depend/total_pop)*100
+}
+
+label var per_t_old_age_depend "Percentage Total Older Age Dependancy (>60 years)"
+label var per_f_old_age_depend "Percentage Female Older Age Dependancy (>60 years)"
+label var per_m_old_age_depend "Percentage Male Older Age Dependancy (>60 years)"
 
 *********************************************************************
 *Convert Household Size variables to percentages
@@ -263,15 +273,16 @@ label var per_t_income_`x' "Total Percentage Income $`x' ($xxx,000)"
 */
 
 foreach x in f m t {
-egen `x'_high_income = rowtotal(`x'_income_150_199 `x'_income_200_over) }
-
+egen `x'_high_income = rowtotal(`x'_income_150_199 `x'_income_200_over) 
+}
 
 label var t_high_income "Total High income >$150000"
 label var f_high_income "Female High income >$150000"
 label var m_high_income "Male High income >$150000"
 
 foreach x in f m t {
-gen per_`x'_high_income = (`x'_high_income/total_pop)*100 }
+gen per_`x'_high_income = (`x'_high_income/total_pop)*100 
+}
 
 
 label var per_t_high_income "Percentage Total High income >$150000"
@@ -413,7 +424,8 @@ label var per_sewage_`x' "Percentage Sewage `x'"
 *********************************************************************
 *Create variable for toilet presence
 
-egen toilet_presence = rowtotal(wc_sewer wc_no_sewer shared_toilet)
+egen toilet_presence = rowtotal(sewage_wc_sewer sewage_wc_no_sewer ///
+								sewage_shared_toilet)
 label var toilet_presence "Households with the presence of a functioning toilet"
 
 gen per_toilet_presence = (toilet_presence/total_pop)*100
@@ -518,12 +530,22 @@ label var per_renting "Percentage Renting (Government and Private)"
 *********************************************************************
 * Create variable for Main Activity No Job (Unemployed)
 
-egen unemployment = rowtotal(t_mactivity_retired t_mactivity_student ///
-                    t_mactivity_home t_mactivity_look_work)
-label var unemployment "Unemployment"
+foreach x in  f m t {
+egen `x'_unemployment = rowtotal(`x'_mactivity_retired `x'_mactivity_student ///
+                    `x'_mactivity_home `x'_mactivity_look_work)
+					}
+					
+label var t_unemployment "Total Unemployment"
+label var f_unemployment "Female Unemployment"
+label var m_unemployment "Male Unemployment"
 
-gen per_unemployment = (unemployment/total_pop)*100
-label var per_unemployment "Percentage Unemployment"
+foreach x in f m t {
+gen per_`x'_unemployment = (`x'_unemployment/total_pop)*100
+}
+
+label var per_t_unemployment "Percentage Total Unemployment"
+label var per_f_unemployment "Percentage Female Unemployment"
+label var per_m_unemployment "Percentage Male Unemployment"
 
 *********************************************************************
 *Create variable for Private Working Activity (Private Enterprise/ Household)
@@ -551,14 +573,16 @@ foreach x in f m t {
 egen `x'_manage_occupation = rowtotal(`x'_occupation_exec `x'_occupation_exec	///
 									`x'_occupation_admin_mange ///
 									`x'_occupation_prod_mange ///
-									`x'_occupation_hosp_mange) }
+									`x'_occupation_hosp_mange) 
+									}
 									
 label var t_manage_occupation "Total Management Level Occupation"
 label var f_manage_occupation "Female Management Level Occupation"
 label var m_manage_occupation "Male Management Level Occupation"
 
 foreach x in f m t {
-gen per_`x'_manage_occupation = (`x'_manage_occupation/total_pop)*100 }
+gen per_`x'_manage_occupation = (`x'_manage_occupation/total_pop)*100 
+}
 
 label var per_t_manage_occupation "Percentage Total Management Occupation"
 label var per_f_manage_occupation "Percentage Female Management Occupation"
@@ -573,14 +597,16 @@ egen `x'_prof_occupation = rowtotal(`x'_occupation_sci_prof ///
 						`x'_occupation_busi_prof `x'_occupation_info_prof ///
 						`x'_occupation_legal_prof `x'_occupation_sci_a_prof ///
 						`x'_occupation_health_a_prof `x'_occupation_busi_a_prof ///
-						`x'_occupation_legal_a_prof)	}
+						`x'_occupation_legal_a_prof)	
+						}
 						
 label var t_prof_occupation "Total Professional Occupation"
 label var f_prof_occupation "Female Professional Occupation"
 label var m_prof_occupation "Male Professional Occupation"
 
 foreach x in f m t {
-gen per_`x'_prof_occupation = (`x'_prof_occupation/total_pop)*100 }
+gen per_`x'_prof_occupation = (`x'_prof_occupation/total_pop)*100 
+}
 
 label var per_t_prof_occupation "Percentage Total Professional Occupation"
 label var per_f_prof_occupation "Percentage Female Professional Occupation"
@@ -595,14 +621,16 @@ egen `x'_prof_techoccupation = rowtotal(`x'_occupation_info_tech `x'_occupation_
                             `x'_occupation_build_work `x'_occupation_metal_work ///
                             `x'_occupation_handicraft `x'_occupation_elec_work ///
                             `x'_occupation_food_process `x'_occupation_plant_assemble ///
-                            `x'_occupation_drive_oper) }
+                            `x'_occupation_drive_oper) 
+							}
 							
 label var t_prof_techoccupation "Total Technical Occupation"
 label var f_prof_techoccupation "Female Technical Occupation"
 label var m_prof_techoccupation "Male Technical Occupation"
 
 foreach x in f m t {
-gen per_`x'_prof_techoccupation = (`x'_prof_techoccupation/total_pop)*100 }
+gen per_`x'_prof_techoccupation = (`x'_prof_techoccupation/total_pop)*100 
+}
 
 label var per_t_prof_techoccupation "Percentage Total Technical Occupation"
 label var per_f_prof_techoccupation "Percentage Female Technical Occupation"
@@ -617,14 +645,16 @@ egen `x'_prof_n_techoccupation = rowtotal(`x'_occupation_gen_clerk `x'_occupatio
                                 `x'_occupation_per_work `x'_occupation_sale_work ///
                                 `x'_occupation_care_work `x'_occupation_prot_work ///
                                 `x'_occupation_clean `x'_occupation_food_prep ///
-                                `x'_occupation_street_ser) }
+                                `x'_occupation_street_ser) 
+								}
 								
 label var t_prof_n_techoccupation "Total Non Technical/Professional Occupation"
 label var f_prof_n_techoccupation "Female Non Technical/Professional Occupation"
 label var m_prof_n_techoccupation "Male Non Technical/Professional Occupation"
 
 foreach x in f m t {
-gen per_`x'_prof_n_techoccupation = (`x'_prof_n_techoccupation/total_pop)*100 }
+gen per_`x'_prof_n_techoccupation = (`x'_prof_n_techoccupation/total_pop)*100 
+}
 
 label var per_t_prof_n_techoccupation "Percentage Total Non Technical/Professional Occupation"
 label var per_f_prof_n_techoccupation "Percentage Female Non Technical/Professional Occupation"

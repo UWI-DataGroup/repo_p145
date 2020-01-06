@@ -7,6 +7,7 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  Program:		SES_BSS_ED_002.do
 **  Project:      	Macroscale Walkability- PhD
+**	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	17/10/2019
 **	Date Modified: 	21/11/2019
