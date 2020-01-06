@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	03/12/2019
-**	Date Modified: 	03/12/2019
+**	Date Modified: 	06/01/2020
 **  Algorithm Task: Structural Equation Model
 
 
@@ -105,6 +105,22 @@ Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine
 
 */
 
+/*
+
+sem (Age -> t_age_median, ) ///
+	(education -> per_t_education_less_secondary, ) ///
+	(Income -> per_t_income_0_49, ) ///
+	(occupation -> per_t_prof_occupation, ) ///
+	(unemployment -> per_t_unemployment, ) ///
+	(vehicle -> per_vehicles_0, ) ///
+	(house_amenities -> per_amentities_stove, ) ///
+	(house_amenities -> per_amentities_fridge, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, ) (house_amenities -> per_amentities_computer, ), ///
+	covstruct(_lexogenous, diagonal) vce(robust) ///
+	latent(Age education Income occupation unemployment vehicle house_amenities ) ///
+	cov( Age*education education*Income Income*occupation Income*vehicle unemployment*Income house_amenities*Income) ///
+	nocapslatent
+
+*/
 
 *-------------------------------------------------------------------------------	
 *						SMALL VARIABLE SEM MODELS	
@@ -147,14 +163,14 @@ sem (vehicle -> per_vehicles_0, ) ///
 	cov( age*house_amenities income*age house_amenities*income house_amenities*education education*age) ///
 	nocapslatent
 
-predict ses_com_cv*, scores
+predict ses_com_s_cv*, scores
 
 *Create summed ses index scores
-egen ses_score_cv = rowtotal(ses_com_cv*)
+egen ses_score_s_cv = rowtotal(ses_com_s_cv*)
 
 *Ranking ses scores
-egen rank_ses_score_cv = rank(ses_score_cv)
-label var rank_ses_score_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
+egen rank_ses_score_s_cv = rank(ses_score_s_cv)
+label var rank_ses_score_s_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
 
 *-------------------------------------------------------------------------------	
 					
@@ -169,14 +185,14 @@ sem (vehicle -> per_vehicles_0, ) ///
 	cov( age*house_amenities house_amenities*education education*age) ///
 	nocapslatent
 
-predict ses_com_minBIC*, scores
+predict ses_com_s_minBIC*, scores
 
 *Create summed ses index scores
-egen ses_score_minBIC = rowtotal(ses_com_minBIC*)
+egen ses_score_s_minBIC = rowtotal(ses_com_s_minBIC*)
 
 *Ranking ses scores
-egen rank_ses_score_minBIC = rank(ses_score_minBIC)
-label var rank_ses_score_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
+egen rank_ses_score_s_minBIC = rank(ses_score_s_minBIC)
+label var rank_ses_score_s_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
 
 *-------------------------------------------------------------------------------	
 
@@ -191,14 +207,14 @@ sem (vehicle -> per_vehicles_0, ) ///
 	cov( age*house_amenities house_amenities*education education*age) ///
 	nocapslatent
 
-predict ses_com_adapt*, scores
+predict ses_com_s_adapt*, scores
 
 *Create summed ses index scores
-egen ses_score_adapt = rowtotal(ses_com_adapt*)
+egen ses_score_s_adapt = rowtotal(ses_com_s_adapt*)
 
 *Ranking ses scores
-egen rank_ses_score_adapt = rank(ses_score_adapt)
-label var rank_ses_score_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
+egen rank_ses_score_s_adapt = rank(ses_score_s_adapt)
+label var rank_ses_score_s_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
 
 
 *-------------------------------------------------------------------------------	
@@ -257,14 +273,14 @@ sem (race -> per_t_non_black, )	///
 	cov( education*age income*age occupation*income income*house_amentities) ///
 	nocapslatent
 
-predict ses_com_cv*, scores
+predict ses_com_m_cv*, scores
 
 *Create summed ses index scores
-egen ses_score_cv = rowtotal(ses_com_cv*)
+egen ses_score_m_cv = rowtotal(ses_com_m_cv*)
 
 *Ranking ses scores
-egen rank_ses_score_cv = rank(ses_score_cv)
-label var rank_ses_score_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
+egen rank_ses_score_m_cv = rank(ses_score_m_cv)
+label var rank_ses_score_m_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
 
 *-------------------------------------------------------------------------------
 
@@ -286,14 +302,14 @@ sem (race -> per_t_non_black, )	///
 	cov( education*age income*age occupation*income income*house_amentities) ///
 	nocapslatent
 
-predict ses_com_minBIC*, scores
+predict ses_com_m_minBIC*, scores
 
 *Create summed ses index scores
-egen ses_score_minBIC = rowtotal(ses_com_minBIC*)
+egen ses_score_m_minBIC = rowtotal(ses_com_m_minBIC*)
 
 *Ranking ses scores
-egen rank_ses_score_minBIC = rank(ses_score_minBIC)
-label var rank_ses_score_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
+egen rank_ses_score_m_minBIC = rank(ses_score_m_minBIC)
+label var rank_ses_score_m_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
 
 *-------------------------------------------------------------------------------
 
@@ -318,14 +334,14 @@ sem (race -> per_t_non_black, )	///
 	cov( education*age income*age occupation*income unemployment*income income*house_amentities) ///
 	nocapslatent
 
-predict ses_com_adapt*, scores
+predict ses_com_m_adapt*, scores
 
 *Create summed ses index scores
-egen ses_score_adapt = rowtotal(ses_com_adapt*)
+egen ses_score_m_adapt = rowtotal(ses_com_m_adapt*)
 
 *Ranking ses scores
-egen rank_ses_score_adapt = rank(ses_score_adapt)
-label var rank_ses_score_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
+egen rank_ses_score_m_adapt = rank(ses_score_m_adapt)
+label var rank_ses_score_m_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
 
 *-------------------------------------------------------------------------------
 
@@ -386,14 +402,14 @@ sem 	(education -> per_m_education_less_secondary, ) (education -> per_m_educati
 		cov( education*age income*age occupation*income unemployment*income income*house_amentities) ///
 		nocapslatent
 			
-predict ses_com_cv*, scores
+predict ses_com_l_cv*, scores
 
 *Create summed ses index scores
-egen ses_score_cv = rowtotal(ses_com_cv*)
+egen ses_score_l_cv = rowtotal(ses_com_l_cv*)
 
 *Ranking ses scores
-egen rank_ses_score_cv = rank(ses_score_cv)
-label var rank_ses_score_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
+egen rank_ses_score_l_cv = rank(ses_score_l_cv)
+label var rank_ses_score_l_cv "Ranking of SES Score using SEM and LASSO CV VSM model"
 
 *-------------------------------------------------------------------------------
 
@@ -416,14 +432,14 @@ sem 	(education -> per_m_education_less_secondary, ) (education -> per_m_educati
 		cov( education*age income*age occupation*income unemployment*income income*house_amentities) ///
 		nocapslatent
 
-predict ses_com_minBIC*, scores
+predict ses_com_l_minBIC*, scores
 
 *Create summed ses index scores
-egen ses_score_minBIC = rowtotal(ses_com_minBIC*)
+egen ses_score_l_minBIC = rowtotal(ses_com_l_minBIC*)
 
 *Ranking ses scores
-egen rank_ses_score_minBIC = rank(ses_score_minBIC)
-label var rank_ses_score_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
+egen rank_ses_score_l_minBIC = rank(ses_score_l_minBIC)
+label var rank_ses_score_l_minBIC "Ranking of SES Score using SEM and LASSO minBIC VSM model"
 
 *-------------------------------------------------------------------------------
 
@@ -447,21 +463,21 @@ sem 	(education -> per_m_education_less_secondary, ) (education -> per_m_educati
 		cov( education*age income*age occupation*income unemployment*income income*house_amentities) ///
 		nocapslatent
 
-predict ses_com_adapt*, scores
+predict ses_com_l_adapt*, scores
 
 *Create summed ses index scores
-egen ses_score_adapt = rowtotal(ses_com_adapt*)
+egen ses_score_l_adapt = rowtotal(ses_com_l_adapt*)
 
 *Ranking ses scores
-egen rank_ses_score_adapt = rank(ses_score_adapt)
-label var rank_ses_score_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
+egen rank_ses_score_l_adapt = rank(ses_score_l_adapt)
+label var rank_ses_score_l_adapt "Ranking of SES Score using SEM and LASSO Adaptive VSM model"
 
 
 *-------------------------------------------------------------------------------
 
 
 *Summary Statistics of ses index score by parish
-tabstat ses_score_l_full ses_score_cv ses_score_minBIC ses_score_adapt, by(parish) stat(mean) col(stat)
+tabstat ses_score_s_* ses_score_m_* ses_score_l_* , by(parish) stat(mean) col(stat)
 
 
 *-------------------------END---------------------------------------------------
