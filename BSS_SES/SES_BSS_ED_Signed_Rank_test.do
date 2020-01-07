@@ -46,7 +46,11 @@ rank__pca rank__eigen_var rank__eigen_pro rank__i5per_var rank__i5per_pro rank__
 
 *Wilcoxon Signed Rank Test of rankings
 
-foreach x in 	rank__eigen_var rank__eigen_pro rank__i5per_var rank__i5per_pro ///
+*-------------------------------------------------------------------------------
+
+*Within VSM large rank Model
+
+foreach x in 	rank__pca rank__eigen_var rank__eigen_pro rank__i5per_var rank__i5per_pro ///
 				rank__c80pe_var rank__c80pe_pro rank__c90pe_var rank__c90pe_pro ///
 				rank__horn_var rank__horn_pro rank_vsm_large_cv_eigen_var ///
 				rank_vsm_large_cv_eigen_pro rank_vsm_large_cv_i5per_var ///
@@ -65,6 +69,28 @@ foreach x in 	rank__eigen_var rank__eigen_pro rank__i5per_var rank__i5per_pro //
 				rank_vsm_large_adapt_c90pe_pro rank_vsm_large_adapt_horn_var ///
 				rank_vsm_large_adapt_horn_pro {
 
-signrank rank_pca = `x'
+	foreach y in rank__pca rank__eigen_var rank__eigen_pro rank__i5per_var rank__i5per_pro ///
+				rank__c80pe_var rank__c80pe_pro rank__c90pe_var rank__c90pe_pro ///
+				rank__horn_var rank__horn_pro rank_vsm_large_cv_eigen_var ///
+				rank_vsm_large_cv_eigen_pro rank_vsm_large_cv_i5per_var ///
+				rank_vsm_large_cv_i5per_pro rank_vsm_large_cv_c80pe_var ///
+				rank_vsm_large_cv_c80pe_pro rank_vsm_large_cv_c90pe_var ///
+				rank_vsm_large_cv_c90pe_pro rank_vsm_large_cv_horn_var ///
+				rank_vsm_large_cv_horn_pro rank_vsm_large_minBIC_eigen_var ///
+				rank_vsm_large_minBIC_eigen_pro rank_vsm_large_minBIC_i5per_var ///
+				rank_vsm_large_minBIC_i5per_pro rank_vsm_large_minBIC_c80pe_var ///
+				rank_vsm_large_minBIC_c80pe_pro rank_vsm_large_minBIC_c90pe_var ///
+				rank_vsm_large_minBIC_c90pe_pro rank_vsm_large_minBIC_horn_var ///
+				rank_vsm_large_minBIC_horn_pro rank_vsm_large_adapt_eigen_var ///
+				rank_vsm_large_adapt_eigen_pro rank_vsm_large_adapt_i5per_var ///
+				rank_vsm_large_adapt_i5per_pro rank_vsm_large_adapt_c80pe_var ///
+				rank_vsm_large_adapt_c80pe_pro rank_vsm_large_adapt_c90pe_var ///
+				rank_vsm_large_adapt_c90pe_pro rank_vsm_large_adapt_horn_var ///
+				rank_vsm_large_adapt_horn_pro {
+				
+signrank `x' = `y'
+
+}
 }
 
+*-------------------------------------------------------------------------------

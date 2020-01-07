@@ -335,4 +335,8 @@ These test are:
 
 ////////
 
+*Merge vsm model datasets for one final data set for signrank analysis 
+(Wilcoxon matched-pairs signed-rank test)
+
+
 *-------------------------------------------------------------------------------
