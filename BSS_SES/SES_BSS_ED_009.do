@@ -107,17 +107,17 @@ Stove, Refridgerator, Microwave, Computer, Radio, Television, Washing Machine
 
 /*
 
-sem (Age -> t_age_median, ) ///
+sem (age -> t_age_median, ) ///
 	(education -> per_t_education_less_secondary, ) ///
-	(Income -> per_t_income_0_49, ) ///
+	(income -> per_t_income_0_49, ) ///
 	(occupation -> per_t_prof_occupation, ) ///
 	(unemployment -> per_t_unemployment, ) ///
 	(vehicle -> per_vehicles_0, ) ///
 	(house_amenities -> per_amentities_stove, ) ///
 	(house_amenities -> per_amentities_fridge, ) (house_amenities -> per_amentities_wash, ) (house_amenities -> per_amentities_tv, ) (house_amenities -> per_amentities_computer, ), ///
-	covstruct(_lexogenous, diagonal) vce(robust) ///
-	latent(Age education Income occupation unemployment vehicle house_amenities ) ///
-	cov( Age*education education*Income Income*occupation Income*vehicle unemployment*Income house_amenities*Income) ///
+	covstruct(_lexogenous, diagonal)  ///
+	latent(age education income occupation unemployment vehicle house_amenities ) ///
+	cov( age*education education*income income*occupation income*vehicle unemployment*income house_amenities*income) ///
 	nocapslatent
 
 */
