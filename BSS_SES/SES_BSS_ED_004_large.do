@@ -197,8 +197,8 @@ drop _pca1 - _pca34
 estat kmo 
 
 *Ranking of SES index score using PCA - no-rotation				
-egen rank__pca = rank(-_pca)
-label var rank__pca "Ranking of PCA SES scores for VSM large model usnig unrotated PCA"
+egen rank_l_pca = rank(-_pca)
+label var rank_l_pca "Ranking of PCA SES scores for VSM large model usnig unrotated PCA"
 
 
 *-------------------------------------------------------------------------------
@@ -223,8 +223,8 @@ drop _eigen_var1 - _eigen_var6
 estat kmo 
 
 *Ranking of SES index score using PCA - Eigen >1 and varimax rotation			
-egen rank__eigen_var = rank(-_eigen_var)
-label var rank__eigen_var  "Ranking of PCA SES scores for VSM large model usnig Eigen >1 and Varimax Rotated PCA"
+egen rank_l_eigen_var = rank(-_eigen_var)
+label var rank_l_eigen_var  "Ranking of PCA SES scores for VSM large model usnig Eigen >1 and Varimax Rotated PCA"
 
 *-------------------------------------------------------------------------------
 *PCA Analysis using eigen values >1 = 3 components using Oblique rotation
@@ -248,8 +248,8 @@ drop _eigen_pro1 - _eigen_pro6
 estat kmo 
 
 *Ranking of SES index score using PCA - Eigen >1 and promax rotation				
-egen rank__eigen_pro = rank(-_eigen_pro)
-label var rank__eigen_pro  "Ranking of PCA SES scores for VSM large model usnig Eigen >1 and Promax Rotated PCA"
+egen rank_l_eigen_pro = rank(-_eigen_pro)
+label var rank_l_eigen_pro  "Ranking of PCA SES scores for VSM large model usnig Eigen >1 and Promax Rotated PCA"
 
 
 *-------------------------------------------------------------------------------
@@ -328,8 +328,8 @@ label var _i5per_var "SES Score for all components using individual percentage v
 drop _i5per_var1 - _i5per_var4
 
 *Ranking of SES index score using PCA - individual variance (>5%) and varimax rotation			
-egen rank__i5per_var = rank(-_i5per_var)
-label var rank__i5per_var  "Ranking of PCA SES scores for VSM large model usnig Indivdual variance (>5%) and Varimax Rotated PCA"
+egen rank_l_i5per_var = rank(-_i5per_var)
+label var rank_l_i5per_var  "Ranking of PCA SES scores for VSM large model usnig Indivdual variance (>5%) and Varimax Rotated PCA"
 
 
 *************
@@ -346,8 +346,8 @@ label var _i5per_pro "SES Score for all components using individual percentage v
 drop _i5per_pro1 - _i5per_pro4
 
 *Ranking of SES index score using PCA - individual variance (>5%) and promax rotation			
-egen rank__i5per_pro = rank(-_i5per_pro)
-label var rank__i5per_pro  "Ranking of PCA SES scores for VSM large model usnig Indivdual variance (>5%) and promax Rotated PCA"
+egen rank_l_i5per_pro = rank(-_i5per_pro)
+label var rank_l_i5per_pro  "Ranking of PCA SES scores for VSM large model usnig Indivdual variance (>5%) and promax Rotated PCA"
 
 
 **KMO measure for sampling adequacy
@@ -372,8 +372,8 @@ label var _c80pe_var "SES Score for all components using cummulative percentage 
 drop _c80pe_var1 - _c80pe_var9
 
 *Ranking of SES index score using PCA - individual variance (>5%) and promax rotation			
-egen rank__c80pe_var = rank(-_c80pe_var)
-label var rank__c80pe_var  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>90%) and varimax Rotated PCA"
+egen rank_l_c80pe_var = rank(-_c80pe_var)
+label var rank_l_c80pe_var  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>90%) and varimax Rotated PCA"
 
 
 *************
@@ -390,8 +390,8 @@ label var _c80pe_pro "SES Score for all components using cummulative percentage 
 drop _c80pe_pro1 - _c80pe_pro9
 
 *Ranking of SES index score using PCA - individual variance (>5%) and promax rotation			
-egen rank__c80pe_pro = rank(-_c80pe_pro)
-label var rank__c80pe_pro  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>80%) and promax Rotated PCA"
+egen rank_l_c80pe_pro = rank(-_c80pe_pro)
+label var rank_l_c80pe_pro  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>80%) and promax Rotated PCA"
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
@@ -415,8 +415,8 @@ label var _c90pe_var "SES Score for all components using cummulative percentage 
 drop _c90pe_var1 - _c90pe_var14
 
 *Ranking of SES index score using PCA - cummulative variance (>90%) and varimax rotation			
-egen rank__c90pe_var = rank(-_c90pe_var)
-label var rank__c90pe_var  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>90%) and varimax Rotated PCA"
+egen rank_l_c90pe_var = rank(-_c90pe_var)
+label var rank_l_c90pe_var  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>90%) and varimax Rotated PCA"
 
 
 *****************************
@@ -433,8 +433,8 @@ label var _c90pe_pro "SES Score for all components using cummulative percentage 
 drop _c90pe_pro1 - _c90pe_pro14
 
 *Ranking of SES index score using PCA - cummulative variance (>90%) and promax rotation			
-egen rank__c90pe_pro = rank(-_c90pe_pro)
-label var rank__c90pe_pro  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>90%) and promax Rotated PCA"
+egen rank_l_c90pe_pro = rank(-_c90pe_pro)
+label var rank_l_c90pe_pro  "Ranking of PCA SES scores for VSM large model usnig Cummulative variance (>90%) and promax Rotated PCA"
 
 **KMO measure for sampling adequacy
 **Note: values 0.70 and higher are desireable 
@@ -486,8 +486,8 @@ label var _horn_var "SES Score for all components using Horn Parallel Analysis"
 drop _horn_var1 - _horn_var6
 
 *Ranking of SES index score using PCA - Horn Parallel Analysis and promax rotation			
-egen rank__horn_var = rank(-_horn_var)
-label var rank__horn_var  "Ranking of PCA SES scores for VSM large model usnig Horn Paralell Analysis and varimax Rotated PCA"
+egen rank_l_horn_var = rank(-_horn_var)
+label var rank_l_horn_var  "Ranking of PCA SES scores for VSM large model usnig Horn Paralell Analysis and varimax Rotated PCA"
 
 
 *************
@@ -504,8 +504,8 @@ label var _horn_pro "SES Score for all components using Horn Parallel Analysis"
 drop _horn_pro1 - _horn_pro6
 
 *Ranking of SES index score using PCA - Horn Parallel Analysis and promax rotation			
-egen rank__horn_pro = rank(-_horn_pro)
-label var rank__horn_pro  "Ranking of PCA SES scores for VSM large model usnig Horn Paralell Analysis and promax Rotated PCA"
+egen rank_l_horn_pro = rank(-_horn_pro)
+label var rank_l_horn_pro  "Ranking of PCA SES scores for VSM large model usnig Horn Paralell Analysis and promax Rotated PCA"
 
 
 **KMO measure for sampling adequacy
