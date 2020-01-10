@@ -43,3 +43,14 @@ local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 *-------------------------------------------------------------------------------
 
 *Open data from encrypted location
+use "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_small", clear
+
+
+*Merge in VSM medium dataset
+merge 1:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_medium.dta"
+
+drop _merge
+
+*Merge in VSM large dataset
+merge 1:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_large.dta"
+
