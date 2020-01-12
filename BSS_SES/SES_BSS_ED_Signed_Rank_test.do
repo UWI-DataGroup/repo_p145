@@ -3,10 +3,10 @@ clear
 capture log close
 cls
 
-//Note: This algorithm can only be run after SES_BSS_ED_002
+//Note: This algorithm can only be run after SES_BSS_merge
 
 **  GENERAL DO-FILE COMMENTS
-**  Program:		SES_BSS_ED_003.do
+**  Program:		SES_BSS_ED_Sign_Rank_test.do
 **  Project:      	Macroscale Walkability- PhD
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
@@ -191,3 +191,93 @@ signrank `e' = `f'
 }
 
 *-------------------------------------------------------------------------------
+
+*BETWEEN VSM Models
+
+foreach a in 	rank_s_pca rank_s_eigen_var rank_s_eigen_pro rank_s_i5per_var rank_s_i5per_pro ///
+				rank_s_c80pe_var rank_s_c80pe_pro rank_s_c90pe_var rank_s_c90pe_pro ///
+				rank_s_horn_var rank_s_horn_pro rank_vsm_small_cv_eigen_var ///
+				rank_vsm_small_cv_eigen_pro rank_vsm_small_cv_i5per_var ///
+				rank_vsm_small_cv_i5per_pro rank_vsm_small_cv_c80pe_var ///
+				rank_vsm_small_cv_c80pe_pro rank_vsm_small_cv_c90pe_var ///
+				rank_vsm_small_cv_c90pe_pro  ///
+				rank_vsm_small_minBIC_eigen_var ///
+				rank_vsm_small_minBIC_eigen_pro rank_vsm_small_minBIC_i5per_var ///
+				rank_vsm_small_minBIC_i5per_pro rank_vsm_small_minBIC_c80pe_var ///
+				rank_vsm_small_minBIC_c80pe_pro rank_vsm_small_minBIC_c90pe_var ///
+				rank_vsm_small_minBIC_c90pe_pro  ///
+				 rank_vsm_small_adapt_eigen_var ///
+				rank_vsm_small_adapt_eigen_pro rank_vsm_small_adapt_i5per_var ///
+				rank_vsm_small_adapt_i5per_pro rank_vsm_small_adapt_c80pe_var ///
+				rank_vsm_small_adapt_c80pe_pro rank_vsm_small_adapt_c90pe_var ///
+				rank_vsm_small_adapt_c90pe_pro  ///
+				 {
+
+	foreach c in rank_m_pca rank_m_eigen_var rank_m_eigen_pro rank_m_i5per_var rank_m_i5per_pro ///
+				rank_m_c80pe_var rank_m_c80pe_pro rank_m_c90pe_var rank_m_c90pe_pro ///
+				rank_m_horn_var rank_m_horn_pro rank_vsm_medium_cv_eigen_var ///
+				rank_vsm_medium_cv_eigen_pro rank_vsm_medium_cv_i5per_var ///
+				rank_vsm_medium_cv_i5per_pro rank_vsm_medium_cv_c80pe_var ///
+				rank_vsm_medium_cv_c80pe_pro rank_vsm_medium_cv_c90pe_var ///
+				rank_vsm_medium_cv_c90pe_pro rank_vsm_medium_cv_horn_var ///
+				rank_vsm_medium_cv_horn_pro rank_vsm_medium_minBIC_eigen_var ///
+				rank_vsm_medium_minBIC_eigen_pro rank_vsm_medium_minBIC_i5per_var ///
+				rank_vsm_medium_minBIC_i5per_pro rank_vsm_medium_minBIC_c80pe_var ///
+				rank_vsm_medium_minBIC_c80pe_pro rank_vsm_medium_minBIC_c90pe_var ///
+				rank_vsm_medium_minBIC_c90pe_pro rank_vsm_medium_minBIC_horn_var ///
+				rank_vsm_medium_minBIC_horn_pro rank_vsm_medium_adapt_eigen_var ///
+				rank_vsm_medium_adapt_eigen_pro rank_vsm_medium_adapt_i5per_var ///
+				rank_vsm_medium_adapt_i5per_pro rank_vsm_medium_adapt_c80pe_var ///
+				rank_vsm_medium_adapt_c80pe_pro rank_vsm_medium_adapt_c90pe_var ///
+				rank_vsm_medium_adapt_c90pe_pro rank_vsm_medium_adapt_horn_var ///
+				rank_vsm_medium_adapt_horn_pro {
+
+		
+				
+	foreach e in rank_l_pca rank_l_eigen_var rank_l_eigen_pro rank_l_i5per_var rank_l_i5per_pro ///
+				rank_l_c80pe_var rank_l_c80pe_pro rank_l_c90pe_var rank_l_c90pe_pro ///
+				rank_l_horn_var rank_l_horn_pro rank_vsm_large_cv_eigen_var ///
+				rank_vsm_large_cv_eigen_pro rank_vsm_large_cv_i5per_var ///
+				rank_vsm_large_cv_i5per_pro rank_vsm_large_cv_c80pe_var ///
+				rank_vsm_large_cv_c80pe_pro rank_vsm_large_cv_c90pe_var ///
+				rank_vsm_large_cv_c90pe_pro rank_vsm_large_cv_horn_var ///
+				rank_vsm_large_cv_horn_pro rank_vsm_large_minBIC_eigen_var ///
+				rank_vsm_large_minBIC_eigen_pro rank_vsm_large_minBIC_i5per_var ///
+				rank_vsm_large_minBIC_i5per_pro rank_vsm_large_minBIC_c80pe_var ///
+				rank_vsm_large_minBIC_c80pe_pro rank_vsm_large_minBIC_c90pe_var ///
+				rank_vsm_large_minBIC_c90pe_pro rank_vsm_large_minBIC_horn_var ///
+				rank_vsm_large_minBIC_horn_pro rank_vsm_large_adapt_eigen_var ///
+				rank_vsm_large_adapt_eigen_pro rank_vsm_large_adapt_i5per_var ///
+				rank_vsm_large_adapt_i5per_pro rank_vsm_large_adapt_c80pe_var ///
+				rank_vsm_large_adapt_c80pe_pro rank_vsm_large_adapt_c90pe_var ///
+				rank_vsm_large_adapt_c90pe_pro rank_vsm_large_adapt_horn_var ///
+				rank_vsm_large_adapt_horn_pro {
+
+*-------------------------------------------------------------------------------	
+
+*	VSM small vs VSM medium		
+	
+signrank `a' = `c'
+
+*-------------------------------------------------------------------------------
+
+*	VSM small vs VSM large		
+	
+signrank `a' = `e'
+
+}
+
+*-------------------------------------------------------------------------------
+
+*	VSM medium vs VSM large		
+	
+signrank `c' = `e'
+
+*-------------------------------------------------------------------------------
+
+}
+
+}
+
+
+*-----------------------------------END-----------------------------------------

@@ -5,12 +5,12 @@ cls
 //Note: This algorithm can only be run after SES_BSS_ED_003
 
 **  GENERAL DO-FILE COMMENTS
-**  Program:		SES_BSS_ED_004.do
+**  Program:		SES_BSS_ED_004_small.do
 **  Project:      	Macroscale Walkability- PhD
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	28/10/2019
-**	Date Modified: 	18/12/2019
+**	Date Modified: 	10/01/2019
 **  Algorithm Task: Correlations, PCA Analysis and LASSO regression (Small Variable Model)
 
 
@@ -1150,7 +1150,7 @@ label var rank_vsm_small_adapt_c90pe_pro "Ranking of PCA Scores using Cummulativ
 *-------------------------------------------------------------------------------
 
 *Label Data
-label data "SES Indicators by Ennumeration Districts - Barbabdos Statistical Service (Samll SES Variable Model)"
+label data "SES Indicators by Ennumeration Districts - Barbabdos Statistical Service (Small SES Variable Model)"
 
 *Save dataset
 save "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_small", replace

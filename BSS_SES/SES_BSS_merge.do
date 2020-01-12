@@ -54,3 +54,15 @@ drop _merge
 *Merge in VSM large dataset
 merge 1:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_large.dta"
 
+
+*-------------------------------------------------------------------------------
+
+*Label Data
+label data "SES Indicators by Ennumeration Districts - Barbabdos Statistical Service (Merged)"
+
+*Save dataset
+save "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_merge", replace
+
+
+*----------------------------END------------------------------------------------
+

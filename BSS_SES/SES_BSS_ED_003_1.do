@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	28/10/2019
-**	Date Modified: 	18/12/2019
+**	Date Modified: 	10/01/2019
 **  Algorithm Task: Normality and Transformations
 
 

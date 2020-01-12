@@ -6,12 +6,12 @@ cls
 //Note: This algorithm can only be run after SES_BSS_ED_003
 
 **  GENERAL DO-FILE COMMENTS
-**  Program:		SES_BSS_ED_005.do
+**  Program:		SES_BSS_ED_004_large.do
 **  Project:      	Macroscale Walkability- PhD
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	28/10/2019
-**	Date Modified: 	18/12/2019
+**	Date Modified: 	10/01/2019
 **  Algorithm Task: Correlations, PCA Analysis and LASSO regression (Large Variable Model)
 
 
