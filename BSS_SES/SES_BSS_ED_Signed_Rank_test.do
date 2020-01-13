@@ -41,7 +41,7 @@ log using "`logpath'/version01\3-output\BSS_SES\Sign_Rank_Results/pairwise_compa
 
 *Open dataset from encrypted location
 
-use "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_large", clear
+use "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_merge", clear
 
 
 
@@ -265,7 +265,7 @@ signrank `a' = `c'
 	
 signrank `a' = `e'
 
-}
+
 
 *-------------------------------------------------------------------------------
 
@@ -274,10 +274,11 @@ signrank `a' = `e'
 signrank `c' = `e'
 
 *-------------------------------------------------------------------------------
-
 }
 
 }
 
+}
 
+log close
 *-----------------------------------END-----------------------------------------
