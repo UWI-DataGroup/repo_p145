@@ -239,26 +239,6 @@ label var rank_s_eigen_pro  "Ranking of PCA SES scores for VSM small model usnig
 
 
 *-------------------------------------------------------------------------------
-*PCA Analysis using individual variance (>5%) = 5 components using Varimax rotation
-
-/*
-    --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      6.02972      4.36909             0.5482       0.5482
-           Comp2 |      1.66063      .492305             0.1510       0.6991
-           Comp3 |      1.16832      .374791             0.1062       0.8053
-           Comp4 |      .793532      .206051             0.0721       0.8775
-           Comp5 |      .587481      .291092             0.0534       0.9309
-           Comp6 |      .296389      .120966             0.0269       0.9578
-           Comp7 |      .175423     .0581858             0.0159       0.9738
-           Comp8 |      .117238     .0232056             0.0107       0.9844
-           Comp9 |      .094032     .0460069             0.0085       0.9930
-          Comp10 |     .0480251     .0188195             0.0044       0.9973
-          Comp11 |     .0292056            .             0.0027       1.0000
-    --------------------------------------------------------------------------
-
-*/
 
 *Inital PCA analysis
 pca $small_list, components(5) blanks(0.3)
@@ -389,23 +369,6 @@ estat kmo
 
 *-------------------------------------------------------------------------------
 * Horn Parallel PCA analysis = 3 components
-
-/*
-
-Results of Horn's Parallel Analysis for principal components
-330 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          5.8084057   6.0297224     .2213167
- 2          1.4933177   1.6606285     .16731083
- 3          1.0524206   1.1683235     .1159029
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-*/
 
 *Horn's Parallel Analysis
 paran $small_list, graph color iterations(1000)
@@ -558,48 +521,8 @@ global small_list_adapt		per_vehicles_0 per_amentities_stove per_amentities_wash
 *Horn Paralell Analysis
 paran $small_list_cv, graph color iterations(1000)
 
-/*
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          5.106238    5.2793273     .17308939
- 2          1.3760642   1.5108869     .13482273
- 3          1.0436198   1.1356932     .09207344
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-*/
-
-
 *Principle Component Analysis Model							
 pca $small_list_cv, mineigen(1)
-
-/*
-
- --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      5.27933      3.76844             0.5279       0.5279
-           Comp2 |      1.51089      .375194             0.1511       0.6790
-           Comp3 |      1.13569      .353401             0.1136       0.7926
-           Comp4 |      .782293       .20769             0.0782       0.8708
-           Comp5 |      .574602      .278927             0.0575       0.9283
-           Comp6 |      .295675      .120284             0.0296       0.9578
-           Comp7 |      .175391     .0617707             0.0175       0.9754
-           Comp8 |      .113621      .019864             0.0114       0.9867
-           Comp9 |     .0937567     .0550028             0.0094       0.9961
-          Comp10 |     .0387539            .             0.0039       1.0000
-    --------------------------------------------------------------------------
-
-	*/
-
-
-	*NOTE: Eigen and Horn Paralell Analysis same number of retained components
-	
 	
 *Varimax Rotation
 rotate, varimax components(3) blank(.3)
@@ -762,43 +685,10 @@ label var rank_vsm_small_cv_c90pe_pro "Ranking of PCA Scores using Cummulative v
 *Horn Paralell Analysis
 paran $small_list_minBIC, graph color iterations(1000)
 
-/*
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          4.3277629   4.4407981     .1130352
- 2          1.0060924   1.0680717     .06197929
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-*/
-
-
 *Principle Component Analysis Model							
 pca $small_list_minBIC, components(2)
 
-/*
-
- 
-    --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |       4.4408      3.37273             0.6344       0.6344
-           Comp2 |      1.06807      .348758             0.1526       0.7870
-           Comp3 |      .719313      .327757             0.1028       0.8897
-           Comp4 |      .391556      .208844             0.0559       0.9457
-           Comp5 |      .182713     .0765356             0.0261       0.9718
-           Comp6 |      .106177     .0148064             0.0152       0.9869
-           Comp7 |     .0913708            .             0.0131       1.0000
-    --------------------------------------------------------------------------
-
-	*/
-
-	*NOTE: Eigen and Horn Paralell Analysis same number of retained components
+*NOTE: Eigen and Horn Paralell Analysis same number of retained components
 	
 	
 *Varimax Rotation
@@ -961,42 +851,8 @@ label var rank_vsm_small_minBIC_c90pe_pro "Ranking of PCA Scores using Cummulati
 *Horn Paralell Analysis
 paran $small_list_adapt, graph color iterations(1000)
 
-/*
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          4.8674841   5.0457323     .17824817
- 2          1.2094838   1.3568093     .14732552
---------------------------------------------------
-
-Criterion: retain adjusted components > 1
-*/
-
-
 *Principle Component Analysis Model							
 pca $small_list_adapt, mineigen(1)
-
-/*
-
-  --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      5.04573      3.68892             0.6307       0.6307
-           Comp2 |      1.35681      .627668             0.1696       0.8003
-           Comp3 |      .729141      .292577             0.0911       0.8915
-           Comp4 |      .436564      .253559             0.0546       0.9460
-           Comp5 |      .183005     .0671847             0.0229       0.9689
-           Comp6 |       .11582     .0217334             0.0145       0.9834
-           Comp7 |     .0940865     .0552439             0.0118       0.9951
-           Comp8 |     .0388426            .             0.0049       1.0000
-    --------------------------------------------------------------------------
-
-
-	*/
 
 *Varimax Rotation
 rotate, varimax components(2) blank(.3)

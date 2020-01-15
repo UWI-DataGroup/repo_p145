@@ -41,7 +41,7 @@ local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 *local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/BSS_SES/PCA Results/VSM_medium.log", name(VSM_medium) replace
+log using "`logpath'/version01/3-output/BSS_SES/PCA_Results/VSM_medium.log", name(VSM_medium) replace
 
 *-------------------------------------------------------------------------------
 
@@ -253,49 +253,6 @@ label var rank_m_eigen_pro  "Ranking of PCA SES scores for VSM medium model usni
 *-------------------------------------------------------------------------------
 *PCA Analysis using individual variance (>5%) = 4 components using Varimax rotation
 
-/*
-   --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      14.3839      10.8624             0.4231       0.4231
-           Comp2 |      3.52151      1.13001             0.1036       0.5266
-           Comp3 |       2.3915       .22291             0.0703       0.5970
-           Comp4 |      2.16859      .626139             0.0638       0.6607
-           Comp5 |      1.54245      .243378             0.0454       0.7061
-           Comp6 |      1.29907      .323195             0.0382       0.7443
-           Comp7 |      .975874      .173241             0.0287       0.7730
-           Comp8 |      .802634     .0789591             0.0236       0.7966
-           Comp9 |      .723674     .0441472             0.0213       0.8179
-          Comp10 |      .679527     .0568522             0.0200       0.8379
-          Comp11 |      .622675     .0394132             0.0183       0.8562
-          Comp12 |      .583262     .0723968             0.0172       0.8734
-          Comp13 |      .510865     .0417348             0.0150       0.8884
-          Comp14 |       .46913     .0563175             0.0138       0.9022
-          Comp15 |      .412813      .043207             0.0121       0.9143
-          Comp16 |      .369606    .00888058             0.0109       0.9252
-          Comp17 |      .360725     .0557177             0.0106       0.9358
-          Comp18 |      .305007      .050994             0.0090       0.9448
-          Comp19 |      .254013     .0254348             0.0075       0.9523
-          Comp20 |      .228579     .0133026             0.0067       0.9590
-          Comp21 |      .215276      .038243             0.0063       0.9653
-          Comp22 |      .177033     .0104863             0.0052       0.9705
-          Comp23 |      .166547     .0217543             0.0049       0.9754
-          Comp24 |      .144792     .0190556             0.0043       0.9797
-          Comp25 |      .125737     .0101103             0.0037       0.9834
-          Comp26 |      .115626       .02378             0.0034       0.9868
-          Comp27 |     .0918465    .00708583             0.0027       0.9895
-          Comp28 |     .0847607    .00521802             0.0025       0.9920
-          Comp29 |     .0795427    .00973258             0.0023       0.9943
-          Comp30 |     .0698101     .0255449             0.0021       0.9964
-          Comp31 |     .0442652    .00811312             0.0013       0.9977
-          Comp32 |     .0361521     .0111493             0.0011       0.9987
-          Comp33 |     .0250027    .00676212             0.0007       0.9995
-          Comp34 |     .0182406            .             0.0005       1.0000
-    --------------------------------------------------------------------------
-
-
-*/
-
 *Inital PCA analysis
 pca $medium_list, components(4) blanks(0.3)
 
@@ -426,27 +383,6 @@ estat kmo
 *-------------------------------------------------------------------------------
 * Horn Parallel PCA analysis = 3 components
 
-/*
-
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          13.943316   14.383874     .44055867
- 2          3.0964143   3.5215095     .4250952
- 3          2.0074587   2.3914965     .38403773
- 4          1.8262894   2.1685866     .3422972
- 5          1.2224535   1.5424472     .31999373
- 6          1.0159452   1.2990695     .28312433
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-
-*/
-
 *Horn's Parallel Analysis
 paran $medium_list, graph color iterations(1000)
 graph export "`outputpath'/SES_Index/05_Outputs/horn_pca_vsm_medium.png", replace
@@ -551,65 +487,9 @@ tabstat _est_cv _est_minBIC _est_adaptive, by(parish) stat(mean)
 
 restore 
 
-*-------------------------------------------------------------------------------
-/* LASSO Variable Selection outputpath
-
-----------------------------------------------------------------
-                               |    cv       minBIC    adaptive 
--------------------------------+--------------------------------
-                   per_renting |     x         x          x     
-          per_vehicle_presence |     x         x          x     
-per_t_education_less_secondary |     x         x          x     
-             per_smother_total |     x         x          x     
-           per_bedrooms_less_2 |     x         x          x     
-                    hsize_mean |     x                    x     
-           per_amentities_wash |     x                    x     
-      per_amentities_microwave |     x         x          x     
-               per_t_non_black |     x         x          x     
-               t_income_median |     x         x          x     
-     per_t_prof_techoccupation |     x         x          x     
-        per_t_young_age_depend |     x         x          x     
-      per_t_education_tertiary |     x         x     
-             per_amentities_tv |     x    
-                per_bathroom_0 |     x         x          x     
-   per_t_prof_n_techoccupation |     x         x     
-             per_t_high_income |     x         x     
-               per_live_5_more |     x         x     
-              per_rooms_less_3 |     x    
-              per_crime_victim |     x    
-          per_t_old_age_depend |     x    
-                per_vehicles_0 |     x    
-             per_t_income_0_49 |     x    
-       per_t_manage_occupation |     x         x     
-            per_t_unemployment |     x    
-             per_htenure_owned |               x     
-                         _cons |     x         x          x     
-----------------------------------------------------------------
-
-NOTE:
-
-Postselection	coefficients
-				
-Name	data	MSE	R-squared	Obs
-				
-cv	          
-	0	1.58e+07	0.5024	504
-	1	1.31e+07	0.3707	1,580
-				
-minBIC	          
-	0	1.62e+07	0.4873	504
-	1	1.15e+07	0.4502	1,580
-				
-adaptive	          
-	0	1.62e+07	0.4885	504
-	1	1.12e+07	0.4626	1,580
-				
-
-After assessing goodness of fit the following models should be considered for final 
-selection: CV and minBIC
 
 --------------------------------------------------------------------------------
-*/
+
 
 *PCA Model with LASSO variable selection
 
@@ -647,27 +527,6 @@ global medium_list_adaptive		per_renting per_vehicle_presence ///
 *Horn Paralell Analysis
 paran $medium_list_cv, graph color iterations(1000)
 
-/*
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          9.005173    9.3591393     .35396636
- 2          2.3929114   2.7226836     .32977223
- 3          1.7158778   2.0023188     .28644097
- 4          1.3942023   1.6344442     .24024189
- 5          1.1692612   1.3855433     .21628213
- 6          .82285574   1.0129953     .19013953
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-RETAIN 5 components
-
-*/
-
 *-------------------------------------------------------------------------------
 
 *LASSO CROSS-VALIDATION VARIABLE SELECTION MODEL
@@ -675,43 +534,8 @@ RETAIN 5 components
 *Principle Component Analysis Model	(EIGEN VALUE >1)						
 pca $medium_list_cv, mineigen(1)
 
-/*
-
- --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      9.35914      6.63646             0.3744       0.3744
-           Comp2 |      2.72268      .720365             0.1089       0.4833
-           Comp3 |      2.00232      .367875             0.0801       0.5634
-           Comp4 |      1.63444      .248901             0.0654       0.6287
-           Comp5 |      1.38554      .372548             0.0554       0.6842
-           Comp6 |        1.013       .14382             0.0405       0.7247
-           Comp7 |      .869175      .138018             0.0348       0.7595
-           Comp8 |      .731157     .0545327             0.0292       0.7887
-           Comp9 |      .676625     .0331073             0.0271       0.8158
-          Comp10 |      .643517     .0835612             0.0257       0.8415
-          Comp11 |      .559956     .0548644             0.0224       0.8639
-          Comp12 |      .505092     .0586199             0.0202       0.8841
-          Comp13 |      .446472     .0645967             0.0179       0.9020
-          Comp14 |      .381875     .0205212             0.0153       0.9172
-          Comp15 |      .361354     .0706743             0.0145       0.9317
-          Comp16 |       .29068     .0128137             0.0116       0.9433
-          Comp17 |      .277866      .033918             0.0111       0.9544
-          Comp18 |      .243948     .0248268             0.0098       0.9642
-          Comp19 |      .219121     .0464291             0.0088       0.9730
-          Comp20 |      .172692     .0157341             0.0069       0.9799
-          Comp21 |      .156958     .0246387             0.0063       0.9861
-          Comp22 |      .132319     .0282258             0.0053       0.9914
-          Comp23 |      .104093     .0192728             0.0042       0.9956
-          Comp24 |     .0848206     .0596643             0.0034       0.9990
-          Comp25 |     .0251562            .             0.0010       1.0000
-    --------------------------------------------------------------------------
-
-
-	*/
-
 *Varimax Rotation
-rotate, varimax components(6) blank(.3)
+rotate, varimax components(5) blank(.3)
 
 *Predicting component scores
 predict com*
@@ -729,7 +553,7 @@ label var rank_vsm_medium_cv_eigen_var "Ranking of PCA Scores using Eigen value 
 **********************
 
 *Oblique rotation
-rotate, promax components(6) blanks(0.3)
+rotate, promax components(5) blanks(0.3)
 
 *Predicting component scores
 predict com*
@@ -915,59 +739,11 @@ label var rank_vsm_medium_cv_horn_pro "Ranking of PCA Scores using Horn parallel
 *Horn Paralell Analysis
 paran $medium_list_minBIC, graph color iterations(1000)
 
-/*
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          6.2984365   6.5756779     .27724135
- 2          1.7682507   2.0073871     .23913646
- 3          1.2693523   1.4926261     .22327375
- 4          .95174136   1.1369665     .18522513
- 5          .8903262    1.0346004     .14427423
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-RETAIN 3 components for horn's analysis
-*/
-
-
 *Principle Component Analysis Model							
 pca $medium_list_minBIC, mineigen(1)
 
-/*
-
- --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      6.57568      4.56829             0.3868       0.3868
-           Comp2 |      2.00739      .514761             0.1181       0.5049
-           Comp3 |      1.49263       .35566             0.0878       0.5927
-           Comp4 |      1.13697      .102366             0.0669       0.6596
-           Comp5 |       1.0346      .340545             0.0609       0.7204
-           Comp6 |      .694056     .0322597             0.0408       0.7613
-           Comp7 |      .661796     .0451011             0.0389       0.8002
-           Comp8 |      .616695      .124306             0.0363       0.8365
-           Comp9 |      .492388     .0433656             0.0290       0.8654
-          Comp10 |      .449023     .0439731             0.0264       0.8918
-          Comp11 |       .40505     .0591154             0.0238       0.9157
-          Comp12 |      .345934      .025416             0.0203       0.9360
-          Comp13 |      .320518     .0184274             0.0189       0.9549
-          Comp14 |      .302091     .0968359             0.0178       0.9726
-          Comp15 |      .205255     .0646099             0.0121       0.9847
-          Comp16 |      .140645     .0213523             0.0083       0.9930
-          Comp17 |      .119293            .             0.0070       1.0000
-    --------------------------------------------------------------------------
-
-
-	*/
-
-
 *Varimax Rotation
-rotate, varimax components(5) blank(.3)
+rotate, varimax components(4) blank(.3)
 
 *Predicting component scores
 predict com*
@@ -985,7 +761,7 @@ label var rank_vsm_medium_minBIC_eigen_var "Ranking of PCA Scores using Eigen va
 **********************
 
 *Oblique rotation
-rotate, promax components(5) blanks(0.3)
+rotate, promax components(4) blanks(0.3)
 
 *Predicting component scores
 predict com*
@@ -1168,50 +944,8 @@ label var rank_vsm_medium_minBIC_horn_pro "Ranking of PCA Scores using Horn para
 *Horn Paralell Analysis
 paran $medium_list_adaptive, graph color iterations(1000)
 
-/*
-Results of Horn's Parallel Analysis for principal components
-1000 iterations, using the mean estimate
-
---------------------------------------------------
-Component   Adjusted    Unadjusted    Estimated
-or Factor   Eigenvalue  Eigenvalue    Bias
---------------------------------------------------
- 1          5.0949893   5.3417539     .24676454
- 2          1.6367507   1.8344287     .19767797
- 3          .96161849   1.1432195     .18160105
- 4          .88589837   1.0051469     .11924851
---------------------------------------------------
-Criterion: retain adjusted components > 1
-
-*/
-
-
 *Principle Component Analysis Model							
 pca $medium_list_adaptive, mineigen(1)
-
-/*
-
- --------------------------------------------------------------------------
-       Component |   Eigenvalue   Difference         Proportion   Cumulative
-    -------------+------------------------------------------------------------
-           Comp1 |      5.34175      3.50733             0.4109       0.4109
-           Comp2 |      1.83443      .691209             0.1411       0.5520
-           Comp3 |      1.14322      .138073             0.0879       0.6400
-           Comp4 |      1.00515      .183071             0.0773       0.7173
-           Comp5 |      .822075      .189419             0.0632       0.7805
-           Comp6 |      .632656      .133903             0.0487       0.8292
-           Comp7 |      .498754     .0310887             0.0384       0.8675
-           Comp8 |      .467665     .0299233             0.0360       0.9035
-           Comp9 |      .437742      .106978             0.0337       0.9372
-          Comp10 |      .330763      .097715             0.0254       0.9626
-          Comp11 |      .233048     .0649066             0.0179       0.9806
-          Comp12 |      .168142     .0835369             0.0129       0.9935
-          Comp13 |     .0846048            .             0.0065       1.0000
-    --------------------------------------------------------------------------
-
-
-	*/
-
 
 *Varimax Rotation
 rotate, varimax components(4) blank(.3)
