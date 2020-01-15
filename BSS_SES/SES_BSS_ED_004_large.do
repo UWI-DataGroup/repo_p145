@@ -11,7 +11,7 @@ cls
 **	Sub-Project:	SES Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	28/10/2019
-**	Date Modified: 	10/01/2019
+**	Date Modified: 	15/01/2019
 **  Algorithm Task: Correlations, PCA Analysis and LASSO regression (Large Variable Model)
 
 
@@ -32,13 +32,19 @@ local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_
 *local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 ** Logfiles to unencrypted location
-*local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 **Aggregated output path
 *WINDOWS
 local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 *MAC
 *local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+*Open log file to store results
+log using "`logpath'/version01/3-output/BSS_SES/PCA Results/VSM_large.log", name(VSM_large) replace
+
+*-------------------------------------------------------------------------------
+
 
 /*
 Note check correlations between variables. Correlations giving r=0.99 should not be 
@@ -60,6 +66,9 @@ Retention of Components using the following criteria
 ** ------------------------------------------
 
 use "`datapath'/version01/2-working/BSS_SES/BSS_SES_002", clear
+
+*Replace missing code 999999 with .
+replace t_income_median = . if t_income_median>559999
 
 /*
 
@@ -517,8 +526,6 @@ estat kmo
 
 *-----------------------------LASSO---------------------------------------------
 preserve
-*Replace missing code 999999 with .
-replace t_income_median = . if t_income_median>559999
 
 gen t_cat = .
 replace t_cat = 0 if t_income_median==.
@@ -1491,5 +1498,6 @@ save "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_large", replace
 *Save data in Excel format for GIS import
 export excel "`datapath'/version01/2-working/BSS_SES/SES_data_vsm_large.xlsx", firstrow(variables) replace
 
+log close VSM_large
 
 *-------------------------End---------------------------------------------------
