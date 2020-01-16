@@ -96,22 +96,22 @@ Household lighting: Electricity
 */
 
 **Initalize macros
-global large_list	per_f_non_black per_m_non_black	per_t_non_black			///
-					f_age_median m_age_median t_age_median								///
-					per_f_young_age_depend per_m_young_age_depend per_t_young_age_depend			///
-					per_f_old_age_depend per_m_old_age_depend per_t_old_age_depend				///
+global large_list	per_f_non_black per_m_non_black			///
+					f_age_median m_age_median 							///
+					per_f_young_age_depend per_m_young_age_depend 			///
+					per_f_old_age_depend per_m_old_age_depend 				///
 					hsize_mean per_htenure_owned per_renting per_smother_total ///
-					per_f_education_less_secondary per_m_education_less_secondary per_t_education_less_secondary  ///
-					per_f_education_tertiary per_m_education_tertiary per_t_education_tertiary		///
-					per_f_income_0_49 per_m_income_0_49	per_t_income_0_49					///
-					per_f_high_income per_m_high_income per_t_high_income						///
-					f_income_median m_income_median t_income_median						///
-					per_f_unemployment per_m_unemployment per_t_unemployment					///			
+					per_f_education_less_secondary per_m_education_less_secondary   ///
+					per_f_education_tertiary per_m_education_tertiary 		///
+					per_f_income_0_49 per_m_income_0_49						///
+					per_f_high_income per_m_high_income 						///
+					f_income_median m_income_median 					///
+					per_f_unemployment per_m_unemployment 					///			
 					per_live_5_more per_crime_victim ///
-					per_f_manage_occupation per_m_manage_occupation	per_t_manage_occupation		///
-					per_f_prof_occupation per_m_prof_occupation	per_t_prof_occupation			///
-					per_f_prof_techoccupation per_m_prof_techoccupation per_t_prof_techoccupation ///			
-					per_f_prof_n_techoccupation per_m_prof_n_techoccupation per_t_prof_n_techoccupation ///
+					per_f_manage_occupation per_m_manage_occupation			///
+					per_f_prof_occupation per_m_prof_occupation				///
+					per_f_prof_techoccupation per_m_prof_techoccupation  ///			
+					per_f_prof_n_techoccupation per_m_prof_n_techoccupation  ///
 					per_rooms_less_3 per_bedrooms_less_2 per_bathroom_0		///
 					per_toilet_presence										///
 					per_vehicle_presence per_vehicles_0 per_amentities_stove	///
@@ -478,7 +478,7 @@ estimates store cv 		// Storing estimates of linear model
 
 *LASSO BIC model
 lassoknots, display(nonzero osr2 bic)
-lassoselect id = 31		// Selecting model 31- Model with the lowest BIC
+lassoselect id = 24		// Selecting model 31- Model with the lowest BIC
 cvplot					// Cross-validation plot with bic and linear model
 estimates store minBIC	// Storing estimates minimum BIC model
 

@@ -466,7 +466,7 @@ estimates store cv 		// Storing estimates of linear model
 
 *LASSO BIC model
 lassoknots, display(nonzero osr2 bic)
-lassoselect id = 31		// Selecting model 31- Model with the lowest BIC
+lassoselect id = 30		// Selecting model 30- Model with the lowest BIC
 cvplot					// Cross-validation plot with bic and linear model
 estimates store minBIC	// Storing estimates minimum BIC model
 
@@ -488,7 +488,7 @@ tabstat _est_cv _est_minBIC _est_adaptive, by(parish) stat(mean)
 restore 
 
 
---------------------------------------------------------------------------------
+*-------------------------------------------------------------------------------
 
 
 *PCA Model with LASSO variable selection
