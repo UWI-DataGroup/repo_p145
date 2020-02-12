@@ -1,12 +1,15 @@
+
 clear
+capture log close
 cls
 
-**  GENERAL DO-FILE COMMENTS
-**  program:		MAPS_analysis_005.do
-**  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
+**  DO-FILE META DATA INFORMATION
+**  Program:		MAPS_analysis_004.do
+**  Project:      	Streetscapres- PhD & Walkability
+**	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
-**  task:          	Distribution and Inferential Statistics of subscale scores of MAPS
-**	Date Modified:	01/08/2019
+**	Date Created:	30/07/2019
+**	Date Modified: 	01/08/2019
 
 
 ** DO-FILE SET UP COMMANDS
@@ -15,6 +18,23 @@ clear all
 macro drop _all
 set more 1
 set linesize 200
+
+
+*Setting working directory
+** Dataset to encrypted location
+
+*WINDOWS OS
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+** Logfiles to unencrypted location
+local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+
+
 
 /*	IMPORTANT: 
 	The following STATA do file should be excuted prior the excuting this 
@@ -26,7 +46,10 @@ set linesize 200
 
 
 *Reading in dataset
-use "MAPS Overall", clear
+use "`datapath'/version01/2-working/MAPS/MAPS_Overall", clear
+
+*--------------------------------BEGIN------------------------------------------
+
 
 *Recoding mixed to commercial
 recode type (3=2)
@@ -128,4 +151,5 @@ foreach x of varlist Overall_Positive Overall_Negative 		///
 ranksum `x', by(type) 
 }
 
- 
+ *----------------------------------END------------------------------------------
+

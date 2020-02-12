@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
 **	Date Created:	01/08/2019
-**	Date Modified: 	12/06/2019
+**	Date Modified: 	12/02/2020
 **  Algorithm Task: Prevalence Estimates of key attributes from Route section of MAPS
 
 
@@ -92,7 +92,7 @@ tab destinations, gen(dest)
 
 ** des1 = 0-2 Destinations
 ** des2 = 3-4 Destinations
-** des1 = >5 Destinations
+** des3 = >5 Destinations
 
 *-------------------------------------------------------------------------------
 *Overall
@@ -163,7 +163,7 @@ putexcel B11=(r(mean)) C11=(r(lb)) D11=(r(ub)) using "`datapath'/version01/3-out
 *Residential
 ci dest3 if type==1 , binomial
 putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F11=(r(mean)) G11=(r(lb)) H10=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F11=(r(mean)) G11=(r(lb)) H11=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci dest3 if type==2 , binomial
@@ -300,91 +300,91 @@ tab resE, gen(resE)
 *-------------------------------------------------------------------------------
 *Overall
 ci resE1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A19=("Restaurants & Entertainment")
 putexcel A20=("0")
-putexcel B20=(r(mean)) C20=(r(lb)) D20=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B20=(r(mean)) C20=(r(lb)) D20=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci resE1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F20=(r(mean)) G20=(r(lb)) H20=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F20=(r(mean)) G20=(r(lb)) H20=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci resE1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J20=(r(mean)) K20=(r(lb)) L20=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J20=(r(mean)) K20=(r(lb)) L20=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion resE1, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M20=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M20=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci resE2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A21=("1-2")
-putexcel B21=(r(mean)) C21=(r(lb)) D21=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B21=(r(mean)) C21=(r(lb)) D21=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci resE2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F21=(r(mean)) G21=(r(lb)) H21=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F21=(r(mean)) G21=(r(lb)) H21=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci resE2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J21=(r(mean)) K21=(r(lb)) L21=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J21=(r(mean)) K21=(r(lb)) L21=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion resE2, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M21=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M21=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci resE3 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A22=("3-4")
-putexcel B22=(r(mean)) C22=(r(lb)) D22=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B22=(r(mean)) C22=(r(lb)) D22=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci resE3 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F22=(r(mean)) G22=(r(lb)) H22=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F22=(r(mean)) G22=(r(lb)) H22=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci resE3 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J22=(r(mean)) K22=(r(lb)) L22=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J22=(r(mean)) K22=(r(lb)) L22=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion resE3, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M22=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M22=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci resE4 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A23=(">5")
-putexcel B23=(r(mean)) C23=(r(lb)) D23=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B23=(r(mean)) C23=(r(lb)) D23=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci resE4 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F23=(r(mean)) G23=(r(lb)) H23=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F23=(r(mean)) G23=(r(lb)) H23=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci resE4 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J23=(r(mean)) K23=(r(lb)) L23=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J23=(r(mean)) K23=(r(lb)) L23=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion resE4, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M23=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M23=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -404,91 +404,91 @@ tab ins_ser, gen(ins_ser)
 *-------------------------------------------------------------------------------
 *Overall
 ci ins_ser1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A25=("Institution/Services")
 putexcel A26=("0")
-putexcel B26=(r(mean)) C26=(r(lb)) D26=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B26=(r(mean)) C26=(r(lb)) D26=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci ins_ser1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F26=(r(mean)) G26=(r(lb)) H26=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F26=(r(mean)) G26=(r(lb)) H26=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci ins_ser1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J26=(r(mean)) K26=(r(lb)) L26=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J26=(r(mean)) K26=(r(lb)) L26=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion ins_ser1, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M26=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M26=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci ins_ser2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A27=("1-2")
-putexcel B27=(r(mean)) C27=(r(lb)) D27=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B27=(r(mean)) C27=(r(lb)) D27=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci ins_ser2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F27=(r(mean)) G27=(r(lb)) H27=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F27=(r(mean)) G27=(r(lb)) H27=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci ins_ser2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J27=(r(mean)) K27=(r(lb)) L27=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J27=(r(mean)) K27=(r(lb)) L27=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion ins_ser2, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M27=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M27=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci ins_ser3 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A28=("3-4")
-putexcel B28=(r(mean)) C28=(r(lb)) D28=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B28=(r(mean)) C28=(r(lb)) D28=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci ins_ser3 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F28=(r(mean)) G28=(r(lb)) H28=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F28=(r(mean)) G28=(r(lb)) H28=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci ins_ser3 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J28=(r(mean)) K28=(r(lb)) L28=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J28=(r(mean)) K28=(r(lb)) L28=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion ins_ser3, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M28=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M28=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci ins_ser4 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A29=(">5")
-putexcel B29=(r(mean)) C29=(r(lb)) D29=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B29=(r(mean)) C29=(r(lb)) D29=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci ins_ser4 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F29=(r(mean)) G29=(r(lb)) H29=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F29=(r(mean)) G29=(r(lb)) H29=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci ins_ser4 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J29=(r(mean)) K29=(r(lb)) L29=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J29=(r(mean)) K29=(r(lb)) L29=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion ins_ser4, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M29=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M29=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -505,69 +505,69 @@ tab pub_rec, gen(pub_rec)
 *-------------------------------------------------------------------------------
 *Overall
 ci pub_rec1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A31=("Public Recreation")
 putexcel A32=("0")
-putexcel B32=(r(mean)) C32=(r(lb)) D32=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B32=(r(mean)) C32=(r(lb)) D32=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci pub_rec1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F32=(r(mean)) G32=(r(lb)) H32=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F32=(r(mean)) G32=(r(lb)) H32=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci pub_rec1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J32=(r(mean)) K32=(r(lb)) L32=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J32=(r(mean)) K32=(r(lb)) L32=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion pub_rec1, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M32=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M32=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci pub_rec2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A33=("1-2")
-putexcel B33=(r(mean)) C33=(r(lb)) D33=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B33=(r(mean)) C33=(r(lb)) D33=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci pub_rec2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F33=(r(mean)) G33=(r(lb)) H33=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F33=(r(mean)) G33=(r(lb)) H33=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci pub_rec2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J33=(r(mean)) K33=(r(lb)) L33=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J33=(r(mean)) K33=(r(lb)) L33=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion pub_rec2, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M33=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M33=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci pub_rec3 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A34=(">3")
-putexcel B34=(r(mean)) C34=(r(lb)) D34=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B34=(r(mean)) C34=(r(lb)) D34=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci pub_rec3 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F34=(r(mean)) G34=(r(lb)) H34=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F34=(r(mean)) G34=(r(lb)) H34=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci ins_ser3 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J34=(r(mean)) K34=(r(lb)) L34=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J34=(r(mean)) K34=(r(lb)) L34=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion pub_rec3, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M34=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M34=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -583,47 +583,47 @@ tab priv_rec, gen(priv_rec)
 *-------------------------------------------------------------------------------
 *Overall
 ci priv_rec1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A36=("Private Recreation")
 putexcel A37=("0")
-putexcel B37=(r(mean)) C37=(r(lb)) D37=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B37=(r(mean)) C37=(r(lb)) D37=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci priv_rec1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F37=(r(mean)) G37=(r(lb)) H37=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F37=(r(mean)) G37=(r(lb)) H37=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci priv_rec1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J37=(r(mean)) K37=(r(lb)) L37=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J37=(r(mean)) K37=(r(lb)) L37=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion priv_rec1, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M37=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M37=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *-------------------------------------------------------------------------------
 *Overall
 ci priv_rec2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A38=(">1")
-putexcel B38=(r(mean)) C38=(r(lb)) D38=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B38=(r(mean)) C38=(r(lb)) D38=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci priv_rec2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F38=(r(mean)) G38=(r(lb)) H38=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F38=(r(mean)) G38=(r(lb)) H38=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci priv_rec2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J38=(r(mean)) K38=(r(lb)) L38=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J38=(r(mean)) K38=(r(lb)) L38=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion priv_rec2, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M38=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M38=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -640,25 +640,25 @@ recode SS1a (1/max=1)
 
 *Overall
 ci SS1a , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 putexcel A40=("Streetscape")
 putexcel A41=("Presence of at least 1 bus stop")
-putexcel B41=(r(mean)) C41=(r(lb)) D41=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel B41=(r(mean)) C41=(r(lb)) D41=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci SS1a if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F41=(r(mean)) G41=(r(lb)) H41=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F41=(r(mean)) G41=(r(lb)) H41=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci SS1a if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J41=(r(mean)) K41=(r(lb)) L41=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J41=(r(mean)) K41=(r(lb)) L41=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion SS1a, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M41=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M41=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 restore
 ////////////////////////////////////////////////////////////////////////////////
@@ -675,47 +675,47 @@ tab SS4a, gen(SS4a)
 
 *Overall
 ci SS4a1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A42=("Traffic calming feature")
-putexcel A43=("No traffic calming feature")
-putexcel B43=(r(mean)) C43=(r(lb)) D43=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A43=("Traffic calming feature")
+putexcel A44=("No traffic calming feature")
+putexcel B44=(r(mean)) C44=(r(lb)) D44=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci SS4a1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F43=(r(mean)) G43=(r(lb)) H43=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F44=(r(mean)) G44=(r(lb)) H44=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci SS4a1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J43=(r(mean)) K43=(r(lb)) L43=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J44=(r(mean)) K44=(r(lb)) L44=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion SS4a1, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M43=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M44=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 
 *Overall
 ci SS4a2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A44=("Presence of traffic calming feature")
-putexcel B44=(r(mean)) C44=(r(lb)) D44=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A45=("Presence of traffic calming feature")
+putexcel B45=(r(mean)) C45=(r(lb)) D45=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci SS4a2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F44=(r(mean)) G44=(r(lb)) H44=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F45=(r(mean)) G45=(r(lb)) H45=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci SS4a2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J44=(r(mean)) K44=(r(lb)) L44=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J45=(r(mean)) K45=(r(lb)) L45=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion SS4a2, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M44=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M45=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 restore
 ////////////////////////////////////////////////////////////////////////////////
@@ -731,47 +731,47 @@ tab SS8, gen(SS8a)
 
 *Overall
 ci SS8a1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A46=("Pedestrian Crossing")
-putexcel A47=("No pedestrian crossing")
-putexcel B47=(r(mean)) C47=(r(lb)) D47=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A47=("Pedestrian Crossing")
+putexcel A48=("No pedestrian crossing")
+putexcel B48=(r(mean)) C48=(r(lb)) D48=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci SS8a1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F47=(r(mean)) G47=(r(lb)) H47=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F48=(r(mean)) G48=(r(lb)) H48=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci SS8a1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J47=(r(mean)) K47=(r(lb)) L47=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J48=(r(mean)) K48=(r(lb)) L48=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion SS8a1, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M47=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M48=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 
 *Overall
 ci SS8a2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A48=("Presence of pedestrian crossing")
-putexcel B48=(r(mean)) C48=(r(lb)) D48=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A49=("Presence of pedestrian crossing")
+putexcel B49=(r(mean)) C49=(r(lb)) D49=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci SS8a2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F48=(r(mean)) G48=(r(lb)) H48=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F49=(r(mean)) G49=(r(lb)) H49=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci SS8a2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J48=(r(mean)) K48=(r(lb)) L48=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J49=(r(mean)) K49=(r(lb)) L49=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion SS8a2, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M48=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M49=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 restore
 ////////////////////////////////////////////////////////////////////////////////
@@ -783,25 +783,25 @@ restore
 
 *Overall
 ci A1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A50=("Aesethics")
-putexcel A51=("Presence of Hardscape Features")
-putexcel B51=(r(mean)) C51=(r(lb)) D51=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A51=("Aesethics")
+putexcel A52=("Presence of Hardscape Features")
+putexcel B52=(r(mean)) C52=(r(lb)) D52=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci A1 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F51=(r(mean)) G51=(r(lb)) H51=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F52=(r(mean)) G52=(r(lb)) H52=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci A1 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J51=(r(mean)) K51=(r(lb)) L51=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J52=(r(mean)) K52=(r(lb)) L52=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion A1, over(type)
 test [Yes] :Residential = [Yes] :Commercial
-putexcel M51=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M52=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -809,24 +809,24 @@ putexcel M51=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.x
 
 *Overall
 ci A2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A52=("Presence of Softscape Features")
-putexcel B52=(r(mean)) C52=(r(lb)) D52=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A53=("Presence of Softscape Features")
+putexcel B53=(r(mean)) C53=(r(lb)) D53=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci A2 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F52=(r(mean)) G52=(r(lb)) H52=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F53=(r(mean)) G53=(r(lb)) H53=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci A2 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J52=(r(mean)) K52=(r(lb)) L52=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J53=(r(mean)) K53=(r(lb)) L53=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion A2, over(type)
 test [Yes] :Residential = [Yes] :Commercial
-putexcel M52=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M53=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -837,25 +837,25 @@ recode A4 (1=0) (2=1)
 
 *Overall
 ci A4 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A53=("Maintaince (50-99%)")
-putexcel A54=("Building Maintaince")
-putexcel B54=(r(mean)) C54=(r(lb)) D54=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A55=("Maintaince (50-99%)")
+putexcel A56=("Building Maintaince")
+putexcel B56=(r(mean)) C56=(r(lb)) D56=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci A4 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F54=(r(mean)) G54=(r(lb)) H54=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F56=(r(mean)) G56=(r(lb)) H56=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci A4 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J54=(r(mean)) K54=(r(lb)) L54=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J56=(r(mean)) K56=(r(lb)) L56=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion A4, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M54=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M56=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 restore
 
@@ -868,24 +868,24 @@ recode A5 (1=0) (2=1)
 
 *Overall
 ci A5 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A55=("Outdoor Maintaince")
-putexcel B55=(r(mean)) C55=(r(lb)) D55=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A57=("Outdoor Maintaince")
+putexcel B57=(r(mean)) C57=(r(lb)) D57=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci A5 if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F55=(r(mean)) G55=(r(lb)) H55=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F57=(r(mean)) G57=(r(lb)) H57=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci A5 if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J55=(r(mean)) K55=(r(lb)) L55=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J57=(r(mean)) K57=(r(lb)) L57=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion A5, over(type)
 test [_prop_2] :Residential = [_prop_2] :Commercial
-putexcel M55=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M57=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 restore
 
@@ -895,24 +895,24 @@ restore
 
 *Overall
 ci A6a , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel A56=("Presence of Graffti")
-putexcel B56=(r(mean)) C56=(r(lb)) D56=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel A58=("Presence of Graffti")
+putexcel B58=(r(mean)) C58=(r(lb)) D58=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Residential
 ci A6a if type==1 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel F56=(r(mean)) G56=(r(lb)) H56=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel F58=(r(mean)) G58=(r(lb)) H58=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Commerical
 ci A6a if type==2 , binomial
-putexcel set "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
-putexcel J56=(r(mean)) K56=(r(lb)) L56=(r(ub)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel set "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel J58=(r(mean)) K58=(r(lb)) L58=(r(ub)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 *Wald test for differences in proportions between residential and commercial
 proportion A6a, over(type)
 test [Yes] :Residential = [Yes] :Commercial
-putexcel M56=(r(p)) using "`datapath'/version01/2-working/Prevalence estimates.xlsx", sheet("Route") modify
+putexcel M58=(r(p)) using "`datapath'/version01/3-output/MAPS/Prevalence estimates.xlsx", sheet("Route") modify
 
 
 

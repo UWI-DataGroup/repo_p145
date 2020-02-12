@@ -1,16 +1,16 @@
 
-
-cls
+clear
 capture log close
-cd "/Users/kernrocke/Documents/Statistical Data Anlaysis/2019/Walkability/MAPS/Data"
-log using "Log files/Data Preparation/MAPS_analysis_001", replace
+cls
 
-**  GENERAL DO-FILE COMMENTS
-**  program:		MAPS_analysis_004.do
-**  project:      	Microscale Auidt of Pedestrian Streetscapes of UNESCO Hertiage Site Barbados
+**  DO-FILE META DATA INFORMATION
+**  Program:		MAPS_analysis_004.do
+**  Project:      	Streetscapres- PhD & Walkability
+**	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
-**  task:          	Descriptives of subscale scores of MAPS
-**	Date Modified:	30/07/2019
+**	Date Created:	30/07/2019
+**	Date Modified: 	12/02/2020
+
 
 
 ** DO-FILE SET UP COMMANDS
@@ -18,18 +18,43 @@ version 13
 clear all
 macro drop _all
 set more 1
-set linesize 200
+set linesize 150
+
+*Setting working directory
+** Dataset to encrypted location
+
+*WINDOWS OS
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*cd "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+** Logfiles to unencrypted location
+local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/repo_p145
+
+
 
 /*	IMPORTANT: 
+
 	The following STATA do files should be excuted prior the excuting this 
 	do file
 	1) MAPS_prep_001.do
 	2) MAPS_prep_002.do
 	3) MAPS_prep_003.do
+	
+	Install the command asdoc
+	ssc install asdoc
 */
 
 
-use "MAPS Overall", clear
+use "`datapath'/version01/2-working/MAPS/MAPS_Overall", clear
+
+*--------------------------------BEGIN------------------------------------------
+
+*Change Directory path to store word results
+cd "X:/The University of the West Indies/DataGroup - repo_data/data_p145/version01/3-output/MAPS"
 
 *Route Subscale Scores
 
@@ -122,4 +147,5 @@ recode type (3=2)
 			 by(type) stat(mean semean) long col(stat) label append save(Subscales.doc)
 
 
+*----------------------------------END------------------------------------------
 
