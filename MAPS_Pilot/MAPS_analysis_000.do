@@ -45,6 +45,7 @@ local logpath X:/OneDrive - The University of the West Indies/repo_datagroup/rep
 
 */
 
+
 *Load in dataset from encrypted location
 use "`datapath'/version01/2-working/MAPS/MAPS_Recoding_Scoring.dta", clear
 
@@ -87,5 +88,11 @@ restore
 *Internal Consistency - Cronh Alpha
 use "`datapath'/version01/2-working/MAPS/MAPS_Overall", clear
 alpha Res_Density_Mix_recode - C1_7c
+
+*Recoding mixed to commercial
+recode type (3=2)
+
+*Examine difference in route length by route type_crossing
+tabstat road_length, by(type) stat(sum) col(stat) long
 
 *---------------------END-------------------------------------------------------

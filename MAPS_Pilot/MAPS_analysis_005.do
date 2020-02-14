@@ -4,12 +4,12 @@ capture log close
 cls
 
 **  DO-FILE META DATA INFORMATION
-**  Program:		MAPS_analysis_004.do
+**  Program:		MAPS_analysis_005.do
 **  Project:      	Streetscapres- PhD & Walkability
 **	Sub-Project:	Pilot MAPS UNESCO Heritiage Site Barbados
 **  Analyst:		Kern Rocke
 **	Date Created:	30/07/2019
-**	Date Modified: 	01/08/2019
+**	Date Modified: 	14/02/2020
 
 
 ** DO-FILE SET UP COMMANDS

@@ -123,7 +123,7 @@ drop type_segment1 - Overall_Segment6
 sort record_id
 
 ** Save the file reading for further data management
-save "Segment Subscale Scores", replace
+save "`datapath'/version01/1-input/MAPS/Segment Subscale Scores", replace
 
 restore
 
@@ -189,7 +189,7 @@ drop CrosswalkAmenities_C11 - OverallCrossScore_C17
 sort record_id
 
 ** Save the file reading for further data management
-save "Crossing Subscale Scores", replace
+save "`datapath'/version01/1-input/MAPS/Crossing Subscale Scores", replace
 
 restore
 
@@ -217,7 +217,7 @@ egen S1_26_27_points = rowmean(S1_26_27_points1 S1_26_27_points2 ///
 								S1_26_27_points5 S1_26_27_points6)
 label var S1_26_27_points "Smallest and largest setback scores combined"
 drop S1_26_27_points1 - S1_26_27_points6
-save "Small_large_setback_combined_wide", replace
+save "`datapath'/version01/1-input/MAPS/Small_large_setback_combined_wide", replace
 restore
 ********************************************************************************
 
@@ -255,7 +255,7 @@ label var C1_7c "Crossing Aids Present (Mean)"
 
 
 drop C1_3b1-C1_5b_positive7
-save "Crossing_pedestrian_design_wide", replace
+save "`datapath'/version01/1-input/MAPS/Crossing_pedestrian_design_wide", replace
 restore
 ********************************************************************************
 
@@ -263,7 +263,7 @@ restore
 preserve 
 keep if instrument_type==1
 keep record_id LU7c SS7b SS7c
-save "Route_pedestrian_design", replace
+save "`datapath'/version01/1-input/MAPS/Route_pedestrian_design", replace
 restore
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -277,16 +277,16 @@ restore
 preserve
 keep if instrument_type==1
 keep record_id type time_start - Route_Overall
-save "MAPS Routes", replace
-merge 1:1 record_id using "Segment Subscale Scores"
+save "`datapath'/version01/1-input/MAPS/MAPS Routes", replace
+merge 1:1 record_id using "`datapath'/version01/1-input/MAPS/Segment Subscale Scores"
 drop _merge
-merge 1:1 record_id using "Crossing Subscale Scores"
+merge 1:1 record_id using "`datapath'/version01/1-input/MAPS/Crossing Subscale Scores"
 drop _merge
-merge 1:1 record_id using "Route_pedestrian_design"
+merge 1:1 record_id using "`datapath'/version01/1-input/MAPS/Route_pedestrian_design"
 drop _merge
-merge 1:1 record_id using "Small_large_setback_combined_wide"
+merge 1:1 record_id using "`datapath'/version01/1-input/MAPS/Small_large_setback_combined_wide"
 drop _merge
-merge 1:1 record_id using "Crossing_pedestrian_design_wide" 
+merge 1:1 record_id using "`datapath'/version01/1-input/MAPS/Crossing_pedestrian_design_wide" 
  
 ********************************************************************************
 
@@ -323,7 +323,42 @@ hawkers and shops
 gen pedestrian_design = LU7c + SS7b + SS7c + S1_26_27_points + C1_3b + C1_3c + C1_3d + C1_5a_positive + C1_5b_positive + C1_7c
 label var pedestrian_design "Pedestrian Design"
 
+*-------------------------------------------------------------------------------
 
+*Save data to encrypted location
+save "`datapath'/version01/2-working/MAPS/MAPS_Overall", replace
+
+*-------------------------------------------------------------------------------
+
+*Import attribute table from ArcGIS
+import excel "`datapath'/version01/1-input/MAPS/route_audit_v1.xls", sheet("route_audit_v1") firstrow clear
+
+*Destring road length variable
+destring PopupInfo, replace
+
+*Renaming variables
+rename RID record_id
+rename PopupInfo road_length
+
+*Keep variables of interest
+keep record_id road_length
+
+*Relabel road length variable
+label var road_length "Route Length (m)"
+
+*Save dataset to encrypted location
+save "`datapath'/version01/1-input/MAPS/route_audit_v1", replace
+
+*Open MAPS_Overall data
+use "`datapath'/version01/2-working/MAPS/MAPS_Overall.dta", clear
+
+*Merge attribute data from ArcGIS
+drop _merge
+merge 1:1 record_id using "`datapath'/version01/1-input/MAPS/route_audit_v1" 
+drop _merge
+order road_length, before(type)
+
+*Save data to encrypted location
 save "`datapath'/version01/2-working/MAPS/MAPS_Overall", replace
 
 restore
