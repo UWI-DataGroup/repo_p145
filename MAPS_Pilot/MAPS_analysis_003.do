@@ -11,7 +11,7 @@ cls
 **  Analyst:		Kern Rocke
 **	Date Created:	30/07/2019
 **	Date Modified: 	12/02/2020
-**  Algorithm Task: Prevalence Estimates of key attributes from Segment section of MAPS
+**  Algorithm Task: Prevalence Estimates of key attributes from Crossings section of MAPS
 
 
 ** DO-FILE SET UP COMMANDS
