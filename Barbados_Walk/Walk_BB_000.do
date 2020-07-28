@@ -49,7 +49,7 @@ Activity and Environment Network (IPEN) Project
 Reference:
 Frank LD, Sallis JF, Saelens BE, Leary L, Cain K, Conway TL, et al. 
 The development of a walkability index: application to the Neighborhood Quality 
-of Life Study. Br J Sports Med. 2010 Oct;44(13):924Ð33. 
+of Life Study. Br J Sports Med. 2010 Oct;44(13):924ï¿½33. 
 
 The walkability index includes the following components
 	1) Residential Density: (Number of households within each ED/Area of ED)
@@ -70,7 +70,7 @@ Area was calculated as square kilometers
 
 DO FILES
 
-1) Walk_BB_001 - Creationn of Walkability Indices
+1) Walk_BB_001 - Land use mix - Entropy Index Calculation
 
 2) Walk_BB_002 - Creation of Walkability Index
 
