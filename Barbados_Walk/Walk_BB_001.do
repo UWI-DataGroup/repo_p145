@@ -66,6 +66,84 @@ import excel "`datapath'/version01/1-input/Walkability/ED_landuse_Data.xlsx", sh
 *Install user command
 ssc install unique, replace
 
+*List number of land uses within each ED
+unique LANDUSE, by(ENUM_NO1) gen(number_landuse)
+drop number_landuse
+
+*Sort dataset by ED and Land use type
+sort  ENUM_NO1 LANDUSE
+
+*-------------------------------------------------------------------------------
+
+*Data Cleaning of Land use to match IPEN Land use categories
+
+drop if LANDUSE == "VACANT"
+drop if LANDUSE == "TRANSPORTATION"
+drop if LANDUSE == "RESOURCE EXTRACTION"
+drop if LANDUSE == "NATURAL FEATURES"
+drop if LANDUSE == "MARINA & JETTIES"
+drop if LANDUSE == "LIGHT INDUSTRY"
+drop if LANDUSE == "LAND FILL"
+drop if LANDUSE == "HEAVY INDUSTRY"
+drop if LANDUSE == "AGRICULTURE"
+
+gen land_use = .
+replace land_use = 1 if LANDUSE == "RESIDENTIAL-HIGH DEN" // Residential
+replace land_use = 1 if LANDUSE == "RESIDENTIAL-LOW DENS" // Residential
+replace land_use = 2 if LANDUSE == "COMMERCIAL" // Commercial
+replace land_use = 2 if LANDUSE == "MAJOR RETAIL" // Commercial
+replace land_use = 3 if LANDUSE == "PRIVATE GOLF COURSE" // Entertainment
+replace land_use = 3 if LANDUSE == "TOURISM" // Entertainment
+replace land_use = 3 if LANDUSE == "BEACH" // Entertainment
+replace land_use = 4 if LANDUSE == "OFFICE" // Office
+replace land_use = 5 if LANDUSE == "PUBLIC INSTITUTION" // Instutional
+
+label var land_use "IPEN Land Use Categories"
+label define land_use 1"Residential" ///
+					  2"Commercial" ///
+					  3"Entertainment" ///
+					  4"Office" ///
+					  5"Institutional"				 
+label value land_use land_use					  
+
+*-------------------------------------------------------------------------------
+
+*Create variable for number of land uses within each ED
+by ENUM_NO1 LANDUSE, sort: gen nvals = _n == 1
+by ENUM_NO1: replace nvals = sum(nvals)
+by ENUM_NO1: replace nvals = nvals[_N]
+
+drop Proportion
+
+/*
+drop if LANDUSE == "VACANT"
+drop if LANDUSE == "RESOURCE EXTRACTION"
+drop if LANDUSE == "NATURAL FEATURES"
+drop if LANDUSE == "MARINA & JETTIES"
+drop if LANDUSE == "LANDFILL"
+drop if LANDUSE == "HEAVY INDUSTRY"
+drop if LANDUSE == "AGRICULTURE"
+*/
+
+*Create new proporiton variable
+gen Proportion = Area_land / Area_1
+
+
+gen p = Proportion
+by ENUM_NO1: replace p = sum(p)
+by ENUM_NO1: replace p = p[_N]
+
+gen percentage = Proportion / p
+
+gen t_old = (Proportion * ln(Proportion) )/ ln(nvals)
+gen t = (percentage * ln(percentage) )/ ln(nvals)
+
+collapse (sum) t t_old, by(ENUM_NO1)
+replace t = -1*t
+replace t_old = -1*t_old
+sort ENUM_NO1
+
+browse ENUM_NO1 t t_old 
 
 *Close log file
 log close
