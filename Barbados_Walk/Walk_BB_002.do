@@ -5,7 +5,7 @@ cls
 
 
 **  GENERAL DO-FILE COMMENTS
-**  Program:		Walk_BB_001.do
+**  Program:		Walk_BB_002.do
 **  Project:      	Macroscale Walkability- PhD
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
@@ -202,6 +202,8 @@ replace ENT = 0 if ENT == .
 
 *Descriptives of ENT
 tabstat ENT, stat(mean median min max)
+
+tabstat ENT, by(ENUM_NO1) stat(mean)
 
 *Close log file
 log close

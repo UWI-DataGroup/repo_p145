@@ -70,9 +70,9 @@ Area was calculated as square kilometers
 
 DO FILES
 
-1) Walk_BB_001 - Land use mix - Entropy Index Calculation
+1) Walk_BB_001 - Joining ED and land use layer within GIS
 
-2) Walk_BB_002 - Creation of Walkability Index
+2) Walk_BB_002 - Land use mix - Entropy Index Calculation
 
-3) Walk_BB_003 - Senstivity Analysis of Walkability Index
+
 
