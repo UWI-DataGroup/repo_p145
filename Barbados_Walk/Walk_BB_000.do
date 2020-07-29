@@ -74,5 +74,7 @@ DO FILES
 
 2) Walk_BB_002 - Land use mix - Entropy Index Calculation
 
+3) Walk_BB_003 - Creation of Bus Stop Density Layer
+
 
 

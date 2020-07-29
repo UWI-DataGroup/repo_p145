@@ -61,7 +61,7 @@ log using "`logpath'/version01/3-output/Walkability/walk_BB_001.log",  replace
 *-------------------------------------------------------------------------------
 
 *Import Data Table from encrypted location
-import excel "`datapath'/version01/1-input/Walkability/ED_landuse_Data.xlsx", sheet("ED_landuse_TableToExcel_1") firstrow clear
+import excel "`datapath'/version01/1-input/Walkability/ED_landuse_Data.xlsx", sheet("Land_Use_Detail_bb_Project_S_Ta") firstrow clear
 
 *Install user command
 ssc install unique, replace
@@ -69,7 +69,6 @@ ssc install unique, replace
 *List number of land uses within each ED
 unique LANDUSE, by(ENUM_NO1) gen(number_landuse)
 drop number_landuse
-drop Proportion
 
 *Sort dataset by ED and Land use type
 sort  ENUM_NO1 LANDUSE
@@ -116,7 +115,7 @@ by ENUM_NO1: replace nvals = sum(nvals)
 by ENUM_NO1: replace nvals = nvals[_N]
 
 *Create total area of all land use types variable
-gen Area_land_total = Area_land
+gen Area_land_total = Landuse_area
 by ENUM_NO1: replace Area_land_total = sum(Area_land_total)
 by ENUM_NO1: replace Area_land_total = Area_land_total[_N]
 
@@ -124,19 +123,19 @@ by ENUM_NO1: replace Area_land_total = Area_land_total[_N]
 *Land area by land use type 
 
 gen Area_res = .
-replace Area_res = Area_land if land_use == 1 // residential
+replace Area_res = Landuse_area if land_use == 1 // residential
 
 gen Area_com = .
-replace Area_com = Area_land if land_use == 2 // Commercial
+replace Area_com = Landuse_area if land_use == 2 // Commercial
 
 gen Area_enter = .
-replace Area_enter = Area_land if land_use == 3 // Entertainment
+replace Area_enter = Landuse_area if land_use == 3 // Entertainment
 
 gen Area_office = .
-replace Area_office = Area_land if land_use == 4 // Office
+replace Area_office = Landuse_area if land_use == 4 // Office
 
 gen Area_ins = .
-replace Area_ins = Area_land if land_use == 5 // Institutional
+replace Area_ins = Landuse_area if land_use == 5 // Institutional
 
 *-------------------------------------------------------------------------------
 
@@ -207,3 +206,9 @@ tabstat ENT, by(ENUM_NO1) stat(mean)
 
 *Close log file
 log close
+
+*Keep only EDs and Entropy Index
+keep ENUM_NO1 ENT
+
+*Export Excel data to encrypted location for joining within GIS
+export delimited using "`datapath'/version01/1-input/Walkability/ED_Entropy_Index.csv", replace
