@@ -11,4 +11,5 @@ See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/Barbados-Walkability-
 ### Walk_BB_002:        Land use mix - Entropy Index Calculation (STATA)
 ### Walk_BB_003:        Creating Bus Stop Density Layer (Python)
 ### Walk_BB_004:        Creating Street Intersection Density Layer (Python)
+### Walk_BB_005:        Creating Housing/Residential Density Layer (Python)
 
