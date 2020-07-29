@@ -9,3 +9,6 @@ See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/Barbados-Walkability-
 ### Walk_BB_000:        Algorithm and Statical Analysis Descriptions (STATA)
 ### Walk_BB_001:        Joining ED and land use layer within GIS (Python)
 ### Walk_BB_002:        Land use mix - Entropy Index Calculation (STATA)
+### Walk_BB_003:        Creating Bus Stop Density Layer (Python)
+### Walk_BB_004:        Creating Street Intersection Density Layer (Python)
+

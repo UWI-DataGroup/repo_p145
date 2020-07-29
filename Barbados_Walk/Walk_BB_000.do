@@ -76,5 +76,7 @@ DO FILES
 
 3) Walk_BB_003 - Creation of Bus Stop Density Layer
 
+4) Walk_BB_004 - Creation of Street Intersection Density Layer
+
 
 
