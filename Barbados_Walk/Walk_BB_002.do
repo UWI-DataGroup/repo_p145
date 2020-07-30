@@ -55,7 +55,7 @@ local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/da
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/Walkability/walk_BB_001.log",  replace
+log using "`logpath'/version01/3-output/Walkability/walk_BB_002.log",  replace
 
 *-------------------------------------------------------------------------------
 *-------------------------------------------------------------------------------
