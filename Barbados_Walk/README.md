@@ -18,3 +18,4 @@ See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/Barbados-Walkability-
 ### Walk_BB_009:        Creating Walkability Index Layer (Python)
 ### Walk_BB_010:        Creating Walkability and Socioeconomic Status Layerr (Python)
 ### Walk_BB_011:        Walkability Hotspot Analysis (Python)
+### Walk_BB_012:        Creating Walkability and SES categories (STATA)

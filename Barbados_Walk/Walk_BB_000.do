@@ -92,4 +92,6 @@ DO & py FILES
 
 11) Walk_BB_011 - Walkability Hotspot Analysis (Python)
 
+12) Walk_BB_012 - Creating Walkability and SES categories (STATA)
+
 
