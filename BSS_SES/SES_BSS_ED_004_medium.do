@@ -41,7 +41,7 @@ local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 *local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/BSS_SES/PCA_Results/VSM_medium.log", name(VSM_medium) replace
+log using "`logpath'/version01/3-output/BSS_SES/PCA_Results/VSM_medium.log",  replace
 
 *-------------------------------------------------------------------------------
 

@@ -1,11 +1,11 @@
 
 ##  GENERAL DO-FILE COMMENTS
-##  Program:		Walk_BB_001.do
+##  Program:		Walk_BB_001.py
 ##  Project:      	Macroscale Walkability- PhD
 ##	Sub-Project:	Walkability Index Computation
 ##  Analyst:		Kern Rocke
 ##	Date Created:	28/07/2020
-##	Date Modified: 	28/07/2020
+##	Date Modified: 	30/07/2020
 ##  Algorithm Task: Joining ED and land use layer within GIS
 
 

@@ -5,7 +5,7 @@ cls
 
 
 **  GENERAL DO-FILE COMMENTS
-**  Program:		Walk_BB_007.do
+**  Program:		Walk_BB_008.do
 **  Project:      	Macroscale Walkability- PhD
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke

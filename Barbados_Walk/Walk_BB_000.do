@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	26/07/2020
-**	Date Modified: 	27/07/2020
+**	Date Modified: 	30/07/2020
 **  Algorithm Task: Walkability Descriptions
 
 
@@ -68,17 +68,28 @@ Area was calculated as square kilometers
 
 *-------------------------------------------------------------------------------
 
-DO FILES
+DO & py FILES
 
-1) Walk_BB_001 - Joining ED and land use layer within GIS
+1) Walk_BB_001 - Joining ED and land use layer within GIS (Python)
 
-2) Walk_BB_002 - Land use mix - Entropy Index Calculation
+2) Walk_BB_002 - Land use mix - Entropy Index Calculation (STATA)
 
-3) Walk_BB_003 - Creation of Bus Stop Density Layer
+3) Walk_BB_003 - Creation of Land Use Mix Layer (Python)
 
-4) Walk_BB_004 - Creation of Street Intersection Density Layer
+4) Walk_BB_004 - Creation of Bus Stop Density Layer (Python)
 
-5) Walk_BB_005 - Creating Housing/Residential Density Layer
+5) Walk_BB_005 - Creation of Street Intersection Density Layer (Python)
 
+6) Walk_BB_006 - Creating Housing/Residential Density Layer (Python)
+
+7) Walk_BB_007 - Creating Walkability Attributes Layer (Python)
+
+8) Walk_BB_008 - Walkability Index Calculation (STATA)
+
+9) Walk_BB_009 - Creating Walkability Index Layer (Python)
+
+10) Walk_BB_010 - Creating Walkability and Socioeconomic Status Layer (Python)
+
+11) Walk_BB_011 - Walkability Hotspot Analysis (Python)
 
 
