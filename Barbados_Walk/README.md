@@ -19,3 +19,4 @@ See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/Barbados-Walkability-
 ### Walk_BB_010:        Creating Walkability and Socioeconomic Status Layerr (Python)
 ### Walk_BB_011:        Walkability Hotspot Analysis (Python)
 ### Walk_BB_012:        Creating Walkability and SES categories (STATA)
+### Walk_BB_013:        IPEN Walkability Country/Site Comparison (STATA)
