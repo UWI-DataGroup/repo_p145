@@ -2,7 +2,7 @@
 
 This repository contains the alogrithm code for the computation of a walkability index for country of Barbados
 
-See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/Barbados-Walkability-Index-Computation) for details of all `.py` files.
+See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki/Barbados-Walkability-Index-Computation) for details of all `.py` & `.do` files.
 
 # Algorithm files 
 
