@@ -82,6 +82,7 @@ sum Intersection
 return list
 gen z_InD = 2*((Intersection-r(mean))/r(sd))
 label var z_InD "Intersection Density z-score"
+replace Intersection = 0 if Intersection == .
 
 *Create Land Use mix z-score
 sum LUM
@@ -99,11 +100,11 @@ label var z_Res "Res Density z-score"
 sum z_InD z_LUM z_Res
 
 *Create walkability index using Frank (2010) formulae
-egen walkabilty = rowtotal(z_InD z_Res z_LUM)
-label var walkabilty "Walkability Index"
+egen walkability = rowtotal(z_InD z_Res z_LUM)
+label var walkability "Walkability Index"
 
 *Descriptives for Walkability Index by ED
-tabstat walkabilty , by(Parish) stat(mean)
+tabstat walkability , by(Parish) stat(mean)
 
 
 *Close log file
@@ -111,5 +112,8 @@ log close
 
 *Export Excel data to encrypted location for joining within GIS
 export delimited using "`datapath'/version01/1-input/Walkability/Walk_index.csv", replace
+
+*Save dataset
+save "`datapath'/version01/2-working/Walkability/Walk_index.dta", replace
 
 

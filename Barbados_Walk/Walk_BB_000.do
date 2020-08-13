@@ -9,8 +9,8 @@ cls
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	26/07/2020
-**	Date Modified: 	30/07/2020
-**  Algorithm Task: Walkability Descriptions
+**	Date Modified: 	12/08/2020
+**  Algorithm Task: Walkability Analysis Descriptions
 
 
 ** DO-FILE SET UP COMMANDS
@@ -95,4 +95,16 @@ DO & py FILES
 12) Walk_BB_012 - Creating Walkability and SES categories (STATA)
 
 13) Walk_BB_013 - IPEN Walkability Country/Site Comparison (STATA)
+
+14) Walk_BB_014 - Area Level walkability and active transport analysis (STATA)
+
+15) Walk_BB_015 - Analysis of Walkscore by ED (STATA)
+
+16) Walk_BB_016 - Creating Destination Density Attributes (Python)
+
+17) Walk_BB_017 - Creating Moveability Index (STATA)
+
+18) Walk_BB_018 - Limits of Agreement for Walkability Measures (STATA)
+
+19) Walk_BB_019 - Data Driven Walkbility Index & Limits of Agreement (STATA)
 
