@@ -243,13 +243,16 @@ graph combine
     ;
 #delimit cr
 
-graph export "`outputpath'/version01/3-output/Walkability/Limits_Agree_Walkability_trend.png", replace as(png)	
+graph export "`outputpath'/version01/3-output/Walkability/Limits_Agree_Walkability_Factor.png", replace as(png)	
 
 *-------------------------------------------------------------------------------
 
 *Summary Stats and correlations
 tabstat walkability walkscore moveability walk_10 walk_factor, stat(mean sd median iqr min max) col(stat)
 pwcorr walkability walkscore moveability walk_10 walk_factor
+
+*Save dataset
+save "`datapath'/version01/2-working/Walkability/Walk_factor.dta", replace
 
 *Close log file
 log close	

@@ -6,7 +6,7 @@ cls
 *DO FILE META DATA
     //  algorithm name          BE_scoping_review_001
     //  project:                PhD Streetscapes
-    //  analysts:               JKern ROCKE
+    //  analysts:               Kern ROCKE
     //  date first created      04-MAR-2020
     // 	date last modified      04-MAR-2020
     //  algorithm task          Determination of total title/abstract screen by on time period

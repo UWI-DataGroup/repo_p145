@@ -23,6 +23,46 @@ set more 1
 set linesize 150
 
 
+*Setting working directory
+
+*-------------------------------------------------------------------------------
+** Dataset to encrypted location
+
+*WINDOWS OS
+*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+*-------------------------------------------------------------------------------
+
+** Logfiles to unencrypted location
+
+*WINDOWS
+*local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*MAC OS
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+*-------------------------------------------------------------------------------
+
+**Aggregated output path
+
+*WINDOWS
+*local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
+
+*MAC OS
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+
+*-------------------------------------------------------------------------------
+
+*Open log file to store results
+log using "`logpath'/version01/3-output/Walkability/walk_BB_019.log",  replace
+
+*-------------------------------------------------------------------------------
+*-------------------------------------------------------------------------------
+
+
 
 import excel "/Users/kernrocke/Downloads/Barbados_ECHORN_ED.xlsx", sheet("Sheet1") firstrow clear
 sort ED
