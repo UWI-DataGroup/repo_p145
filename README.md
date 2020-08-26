@@ -10,3 +10,4 @@ See [wiki](https://github.com/UWI-DataGroup/repo_p145/wiki) for details of all `
 ### Grenada_Walk:          Walkability Index Computation for Grenada
 ### Scoping Reveiw:        Built Environment and Physical Activity Scoping Review in SIDS and Latin American countries
 ### Babrados Walkability:  Walkability Index Computation for Barbados
+### Trinidad Walkability:  Walkability Index Computation for Trinidad
