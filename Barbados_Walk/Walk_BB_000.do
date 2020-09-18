@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	26/07/2020
-**	Date Modified: 	12/08/2020
+**	Date Modified: 	11/09/2020
 **  Algorithm Task: Walkability Analysis Descriptions
 
 
@@ -107,4 +107,11 @@ DO & py FILES
 18) Walk_BB_018 - Limits of Agreement for Walkability Measures (STATA)
 
 19) Walk_BB_019 - Data Driven Walkbility Index & Limits of Agreement (STATA)
+
+20) Walk_BB_020 - Multi-level analysis of Area Level walkability and SES (STATA)
+
+21) Walk_BB_021 - Walk score computation by parcel level for Barbados (STATA)
+	Walk_BB_021_1 - Geocoded centroid of parcels for Barbados (STATA)
+
+22) Walk_BB_022 - Creating Walkability Index based on road and footpath connectivity (STATA)
 
