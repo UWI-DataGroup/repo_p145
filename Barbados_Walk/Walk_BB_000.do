@@ -115,3 +115,14 @@ DO & py FILES
 
 22) Walk_BB_022 - Creating Walkability Index based on road and footpath connectivity (STATA)
 
+23) Walk_BB_023 - Walkscore Computation by Building footprint Level (STATA)
+	Walk_BB_023)1 - Geocoded centroid of building footprints for Barbados (STATA)
+
+24) Walk_BB_024 - Road and Footpath Walkability Computation (STATA)
+
+25) Walk_BB_025 - Walkscore Computation by ECHORN Participant address (STATA)
+	Walk_BB_025_1 - Geocoded centroid of ECHORN Participants for Barbados (STATA)
+
+26) Walk_BB_026 - Creating new walkability index using Walkability Framework (STATA)
+
+
