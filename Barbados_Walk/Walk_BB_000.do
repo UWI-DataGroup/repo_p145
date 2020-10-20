@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	26/07/2020
-**	Date Modified: 	11/09/2020
+**	Date Modified: 	19/10/2020
 **  Algorithm Task: Walkability Analysis Descriptions
 
 
@@ -124,5 +124,7 @@ DO & py FILES
 	Walk_BB_025_1 - Geocoded centroid of ECHORN Participants for Barbados (STATA)
 
 26) Walk_BB_026 - Creating new walkability index using Walkability Framework (STATA)
+
+27) Walk_BB_027 - Creating Walkability and SES Categories for Mapping (STATA)
 
 

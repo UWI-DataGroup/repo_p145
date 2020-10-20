@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	01/10/2020
-**	Date Modified: 	04/10/2020
+**	Date Modified: 	10/10/2020
 **  Algorithm Task: Creating new walkability index using Walkability Framework
 
 
@@ -28,6 +28,9 @@ set linesize 150
 *WINDOWS OS
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS Alternative
+*local datapath "X:/The UWI - Cave Hill Campus//DataGroup - repo_data/data_p145
+
 *MAC OS
 local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
@@ -38,6 +41,9 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data
 *WINDOWS
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS Alternative
+*local logpath "X:/The UWI - Cave Hill Campus//DataGroup - repo_data/data_p145
+
 *MAC OS
 local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
@@ -47,6 +53,9 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_
 
 *WINDOWS
 *local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
+
+*WINDOWS OS Alternative
+*local outputpath "X:/The UWI - Cave Hill Campus//DataGroup - repo_data/data_p145
 
 *MAC OS
 local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
