@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Barbados Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	23/09/2020
-**	Date Modified: 	23/09/2020
+**	Date Modified: 	06/11/2020
 **  Algorithm Task: Walkscore Computation by Building footprint Level
 
 
@@ -27,18 +27,30 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS - Ian & Christina (Data Group)
-local dopath "X:/OneDrive - The University of the West Indies/Github Repositories/repo_p145"
+*local dopath "X:/OneDrive - The University of the West Indies/Github Repositories/repo_p145"
 
 *WINDOWS OS - Kern & Stephanie
 *local dopath "X:/OneDrive - The UWI - Cave Hill Campus/Github Repositories/repo_p145"
 
 
 *MAC OS - Kern
-*local dopath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies/Github Repositories/repo_p145"
+local dopath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The University of the West Indies/Github Repositories/repo_p145"
+
+*-------------------------------------------------------------------------------
+** Dataset to encrypted location
+
+*WINDOWS OS
+*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*WINDOWS OS (Alternative)
+*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+
+*MAC OS
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
-*Set Overall data size to number of parcels (121696)
+*Set Overall data size to number of building footprints (130248)
 set obs 1
 
 *Create inital variable for walkscore java script output
@@ -71,6 +83,4 @@ rename id OBJECTID
 *label variable
 label var walkscore "Walkscore"
 
-browse
-
-save "`dopath'/Barbados_Walk/Barbados_building_walkscore", replace
+save "`datapath'/version01/2-working/Walkability/Barbados/Barbados_building_walkscore", replace

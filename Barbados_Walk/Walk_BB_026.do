@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	01/10/2020
-**	Date Modified: 	10/10/2020
+**	Date Modified: 	05/11/2020
 **  Algorithm Task: Creating new walkability index using Walkability Framework
 
 
@@ -121,6 +121,9 @@ rename numpoints light_poles
 label var light_poles "Number of light poles"
 keep ED light_poles
 
+*Save light poles dataset
+save "`datapath'/version01/2-working/Walkability/Light_poles_Barbados.dta", replace
+
 *Merge data from encrypted location
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Destination_Density.dta", nogenerate
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Slope_Barbados.dta", nogenerate
@@ -167,6 +170,9 @@ graph hbox z_factor z_factor1 z_walkability_road_foot z_walkscore z_moveability 
 graph hbox z_factor z_walkability_road_foot z_walkscore z_moveability z_walk_10 z_walk_factor, nooutsides
 
 keep ED factor traffic_calm
+
+*Save dataset
+save "`datapath'/version01/2-working/Walkability/PCA_Data_Walk_Barbados.dta", replace
 
 *Export data to encrypted location for joining within GIS
 export delimited using "`datapath'/version01/2-working/Walkability/Barbados/PCA_Walkability.csv", replace
