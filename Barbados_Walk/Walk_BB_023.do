@@ -58,6 +58,7 @@ do "`dopath'/Barbados_Walk/Walk_BB_023_1"
 
 *Remove unneccessary string prior to walk score estimate
 gen last = substr(s, strpos(s, "This location has a Walk Score of") + 33, .)
+gen last9 = upper(substr(trim(last), 1, 2)) + substr(trim(last), 40000000, length(trim(last)) - 3)
 
 *Split remaining string into seperate variables to obtain walk score into one variable
 split last

@@ -27,52 +27,52 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS
-*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 ** Logfiles to unencrypted location
 
 *WINDOWS OS
-*local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
 *local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 **Aggregated output path
 
 *WINDOWS OS
-*local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
 *local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 **ECHORN data path
 
 *WINDOWS OS
-*local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
+local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
 
 *WINDOWS OS (Alternative)
 *local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
 
 *MAC OS
-local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
+*local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
 
 *-------------------------------------------------------------------------------
 
@@ -270,11 +270,15 @@ rename _eigen_var SES
                     *histogram MRMET, by(siteid)
                     table siteid, c(median MRMET) 
 
-                  
+cls                  
 *Regression Models for Active transport and walkability measures										
 foreach x in walkability walkscore  moveability walk_10 factor{
 
+regress TMET `x', vce(robust)
+regress TMET `x' gender partage, vce(robust)
 regress TMET `x' SES, vce(robust)
-
+regress TMET `x' SES partage, vce(robust)
+regress TMET `x' SES gender, vce(robust)
+regress TMET `x' SES gender partage, vce(robust)
 }
 
