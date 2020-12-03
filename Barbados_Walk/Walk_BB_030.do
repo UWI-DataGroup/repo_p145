@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	06/11/2020
-**	Date Modified: 	09/11/2020
+**	Date Modified: 	03/12/2020
 **  Algorithm Task: Walkability and SES Analysis (Area-levl Analysis)
 
 
@@ -103,6 +103,23 @@ Crime - crime_density
 
 gen crime_density = crime_victim/area
 
+*Addition of ICE variable (Economic Residential Segregation)
+egen total_income = rowtotal(t_income_0_49 t_income_50_99 t_income_100_149 t_income_150_199 t_income_200_over)
+
+gen ICE = ((t_income_200_over+t_income_150_199) - t_income_0_49)/ total_income
+
+*gen ICE = ((t_income_200_over+t_income_150_199+ t_income_100_149+ t_income_50_99) - t_income_0_49)/ total_income
+label var ICE "Index of Concentration of the Extremes"
+
+gen ERS_cat = .
+replace ERS_cat = 1 if ICE<=-0.8
+replace ERS_cat = 2 if ICE>-0.8 & ICE<=-0.6
+replace ERS_cat = 3 if ICE>-0.6 & ICE<=-0.4
+replace ERS_cat = 4 if ICE>-0.4 & ICE<=-0.2
+replace ERS_cat = 5 if ICE>-0.2 & ICE<=-0.0
+replace ERS_cat = 6 if ICE>0.0 
+tab ERS_cat 
+
 *Create SES deciles
 xtile SES_10 = SES , nq(10)
 label var SES_10 "SES Index in Deciles"
@@ -111,6 +128,7 @@ label var SES_10 "SES Index in Deciles"
 foreach x in walkability walkscore  moveability walk_10 factor{
 
 mixed `x' SES || parish:, vce(robust)
-mixed `x' SES t_age_depend per_t_high_income per_t_income_0_49 per_vehicles_0 || parish:, vce(robust)
+mixed `x' SES ICE || parish:, vce(robust)
+mixed `x' SES ICE t_age_depend per_t_high_income per_t_income_0_49 per_vehicles_0 || parish:, vce(robust)
 
 }
