@@ -88,10 +88,10 @@ tabstat TMET totMETmin inactive, by(walk_ses) stat(mean sd) col(stat)
 
 
 *Sample size estimation (no graph)
-power onemean 5238.193, diff(0.65(0.1)1.15) power(0.70(0.05)0.99) fpc(1008)
+power onemean 58.857143, diff(0.65(0.1)1.05) power(0.80(0.05)0.99) fpc(1008)
 
 *Sample size estimation graph (1008)
-power onemean 5238.193, diff(0.65(0.1)1.15) power(0.70(0.05)0.99) fpc(1008)  ///
+power onemean 58.857143, diff(0.65(0.1)1.05) power(0.80(0.05)0.99) fpc(1008)  ///
 		graph( xline(0.8) ///
 		title("Sample size Calculation", c(black)) ///
 		subtitle("Community and Individual Level Data Collection") ///
