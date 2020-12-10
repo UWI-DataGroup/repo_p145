@@ -118,6 +118,11 @@ merge m:1 ED using "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/
 drop if key == ""
 
 *-------------------------------------------------------------------------------
+*Creating Leisure time Physical Activity variables
+egen leisure_d_PA = rowtotal(mpdVR mpdMR) // daily PA
+egen leisure_w_PA = rowtotal(mpwVR mpwMR) // weekly PA
+
+*-------------------------------------------------------------------------------
 
 *Vehicle ownership
 gen vehicle = .
@@ -191,6 +196,12 @@ mixed mpdT i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, 
 
 *Multi-Level mixed effects linear regression model (Active commuting per week and walk score categories)
 mixed mpwT i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+
+*Multi-Level mixed effects linear regression model (Leisure-time PA per day and walk score categories)
+mixed leisure_d_PA i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+
+*Multi-Level mixed effects linear regression model (Leisure-time PA per week and walk score categories)
+mixed leisure_w_PA i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
 
 *Multi-Level mixed effects linear regression model (Total Physical Activity per week and walk score categories)
 mixed totMETmin i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
