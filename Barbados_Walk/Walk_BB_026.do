@@ -76,9 +76,12 @@ include the following constructs
 2) Land Use - Land Use mix estimated using entropy index
 3) Density - Residential (household/dwelling) density; Population density
 4) Surveillance - Lighting Pole density
-5) Greenspace - Park density; Open green space density
+5) Greenspace - Park density; Open green space density; slope
 6) Traffic Safety - Pedestrian crossing density; Roundabout density
 7) Community - Sporting Facility density; Playground density
+8) Parking - Parking density
+9) Experience - Slope
+
 
 Note: Attributes for Parking and Experience constructs were not measured at the 
 macroscale level.
@@ -129,7 +132,7 @@ merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Destination_Densi
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Slope_Barbados.dta", nogenerate
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Traffic_Calming_Barbados.dta", nogenerate
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/walkability_indices_road_foot.dta", nogenerate
-
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/parking.dta", nogenerate
 
 *Create light pole density by ED
 gen light_density = light_poles/Area
@@ -139,11 +142,15 @@ label var light_density "Light Pole Density"
 gen traffic_calm = Cross_round/Area
 label var traffic_calm "Traffic Calming Features Density"
 
+gen parking_density = parking/Area
+label var parking_density "Parking Density"
+
 *-------------------------------------------------------------------------------
 
 *Principle Component Analysis Model for new walkability index
 pca Sport_Density Playground_Density Greenspace_Density Road_Foot_I_Density ///
-	LUM Residential pop_density light_density slope traffic_calm, components(3)
+	LUM Residential pop_density light_density slope traffic_calm ///
+	parking_density, components(3)
 	
 screeplot, yline(1)
 estat kmo
@@ -155,10 +162,12 @@ egen factor = rowtotal(com1 com2 com3)
 zscore light_density
 zscore slope
 zscore traffic_calm
+zscore parking_density
 
 pca z_Road_Foot_I_Density z_Sport_Density z_Playground_Density ///
 	z_Greenspace_Density z_LUM z_Residential z_Bus_Stop_Density ///
-	z_pop_density z_light_density z_slope z_traffic_calm, components(3)
+	z_pop_density z_light_density z_slope z_traffic_calm ///
+	z_parking_density, components(3)
 	
 rotate, varimax components(3) blank(0.3)
 predict z1 z2 z3

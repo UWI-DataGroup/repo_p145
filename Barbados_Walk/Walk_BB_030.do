@@ -30,10 +30,10 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -43,20 +43,20 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-*local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 **Aggregated output path
 
 *WINDOWS OS
-local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+*local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-*local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
+local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
 
 *MAC OS
 *local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
@@ -66,10 +66,10 @@ local outputpath "X:/The University of the West Indies/DataGroup - repo_data/dat
 **ECHORN data path
 
 *WINDOWS OS
-local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
+*local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
 
 *WINDOWS OS (Alternative)
-*local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
+local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
 
 *MAC OS
 *local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
@@ -77,7 +77,7 @@ local echornpath "X:/The University of the West Indies/DataGroup - repo_data/dat
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/Walkability/walk_BB_030.log",  replace
+*log using "`logpath'/version01/3-output/Walkability/walk_BB_030.log",  replace
 
 *-------------------------------------------------------------------------------
 
@@ -113,10 +113,10 @@ label var ERS "Economic Residential Segregation"
 
 gen ERS_cat = .
 replace ERS_cat = 1 if ERS<=-0.8
-replace ERS_cat = 2 if ERS>-0.8 & ICE<=-0.6
-replace ERS_cat = 3 if ERS>-0.6 & ICE<=-0.4
-replace ERS_cat = 4 if ERS>-0.4 & ICE<=-0.2
-replace ERS_cat = 5 if ERS>-0.2 & ICE<=-0.0
+replace ERS_cat = 2 if ERS>-0.8 & ERS<=-0.6
+replace ERS_cat = 3 if ERS>-0.6 & ERS<=-0.4
+replace ERS_cat = 4 if ERS>-0.4 & ERS<=-0.2
+replace ERS_cat = 5 if ERS>-0.2 & ERS<=-0.0
 replace ERS_cat = 6 if ERS>0.0 
 tab ERS_cat 
 
@@ -145,7 +145,8 @@ Christ Churc |       171
 	
 */
 
-encode parish, gen(parish_cat)
+*encode parish, gen(parish_cat)
+gen parish_cat = parish
 
 gen high_income_parish = .
 replace high_income_parish = (income_high/171) if parish_cat == 1 // Christ Church
@@ -210,6 +211,19 @@ foreach x in walkability walkscore  moveability walk_10 factor{
 mixed `x' SES || parish:, vce(robust)
 mixed `x' SES ERS || parish:, vce(robust)
 mixed `x' SES IED || parish:, vce(robust)
-mixed `x' SES ICE ERS t_age_depend per_t_high_income per_t_income_0_49 per_vehicles_0 || parish:, vce(robust)
+mixed `x' SES IED ERS t_age_median per_vehicles_0 crime_density || parish:, vce(robust)
 
+}
+cls
+
+gen educ = ((t_education_secondary + t_education_post_secondary + t_education_tertiary)/total_pop) *100
+
+label var educ "Percentage total population with secondary or more education"
+
+foreach x in walkability walkscore  moveability walk_10 factor {
+	foreach y in SES ERS i.ERS_cat IED{
+
+regress `x' `y'  educ t_age_median per_t_unemployment crime_density, vce(robust)
+
+	}
 }
