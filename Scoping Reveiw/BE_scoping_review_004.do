@@ -29,30 +29,30 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS
-local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 ** Logfiles to unencrypted location
 
 *WINDOWS
-local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+*local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 **Aggregated output path
 
 *WINDOWS
-local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+*local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
