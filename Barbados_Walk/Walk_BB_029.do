@@ -27,26 +27,26 @@ set linesize 150
 ** Dataset to encrypted location
 
 *WINDOWS OS
-local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 ** Logfiles to unencrypted location
 
 *WINDOWS OS
-local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+*local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
 *local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -66,18 +66,18 @@ local outputpath "X:/The University of the West Indies/DataGroup - repo_data/dat
 **ECHORN data path
 
 *WINDOWS OS
-local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
+*local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
 
 *WINDOWS OS (Alternative)
 *local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
 
 *MAC OS
-*local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
+local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
 
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/Walkability/walk_BB_029.log",  replace
+*log using "`logpath'/version01/3-output/Walkability/walk_BB_029.log",  replace
 
 *-------------------------------------------------------------------------------
 
@@ -86,7 +86,7 @@ log using "`logpath'/version01/3-output/Walkability/walk_BB_029.log",  replace
 import excel "`echornpath'/version03/addresses_CDRC.xlsx", sheet("addresses_CDRC") firstrow clear
 
 *Minor cleaning
-drop cont_partadd1 cont_partadd2
+*drop cont_partadd1 cont_partadd2
 
 *Save data
 save "`datapath'/version01/2-working/Walkability/Barbados/walkability_ECHORN_participants.dta", replace
