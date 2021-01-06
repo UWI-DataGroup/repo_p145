@@ -11,7 +11,7 @@ cls
 **	Sub-Project:	Barbados ECS Inidividual Walkability
 **  Analyst:		Kern Rocke
 **	Date Created:	09/12/2020
-**	Date Modified: 	09/12/2020
+**	Date Modified: 	14/12/2020
 **  Algorithm Task: Multi-Level Models with Walk Score estimates
 
 
@@ -188,28 +188,54 @@ label value dia dia
 *Summary estimates for Diabetes
 proportion dia, over(sex)
 
+*Transport-related PA
+gen active = .
+replace active = 1 if mpwT>=150 & mpwT!=. & mpwT!=.z
+replace active = 0 if mpwT<150
+label var active "Transport-related PA, % accumulating?³?150?min/week"
+
+*Summary estimates for Transport related PA
+proportion active, over(sex)
+
+*Leisure-time PA
+egen lei = rowtotal(mpwVR mpwMR)
+replace lei = . if mpwVR == .z & mpwMR == .z
+replace lei = . if mpwVR == . & mpwMR == .z
+replace lei = . if mpwVR == .z & mpwMR == .
+replace lei = . if mpwVR == . & mpwMR == .
+gen rec = .
+replace rec = 0 if lei<150
+replace rec = 1 if lei>=150 & lei!=. 
+label var rec "Leisure-time PA, % accumulating?³?150?min/week"
+
+*Summary estimates for Leisure-time PA
+proportion rec, over(sex)
+
 *-------------------------------------------------------------------------------
 *-------------------------------------------------------------------------------
 
 *Multi-Level mixed effects linear regression model (Active commuting per day and walk score categories)
-mixed mpdT i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+mixed mpdT i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) cformat(%9.2f)
 
 *Multi-Level mixed effects linear regression model (Active commuting per week and walk score categories)
-mixed mpwT i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+mixed mpwT i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) cformat(%9.2f)
 
 *Multi-Level mixed effects linear regression model (Leisure-time PA per day and walk score categories)
-mixed leisure_d_PA i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+mixed leisure_d_PA i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) cformat(%9.2f)
 
 *Multi-Level mixed effects linear regression model (Leisure-time PA per week and walk score categories)
-mixed leisure_w_PA i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+mixed leisure_w_PA i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) cformat(%9.2f)
 
 *Multi-Level mixed effects linear regression model (Total Physical Activity per week and walk score categories)
-mixed totMETmin i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust)
+mixed totMETmin i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) cformat(%9.2f)
 
-*Multi-Level mixed effects logistic regression model (Pysical inactivity and walk score categories)
-melogit inactive i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) or
+*Multi-Level mixed effects logistic regression model (Physical inactivity and walk score categories)
+melogit inactive i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) or cformat(%9.2f)
 
+**Multi-Level mixed effects logistic regression model (Transport PA and walk score categories)
+melogit active i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) or cformat(%9.2f)
+
+**Multi-Level mixed effects logistic regression model (Leisure-time PA and walk score categories)
+melogit rec i.tertile sex partage vehicle over dia htn i.educ || Parish: || ED:, vce(robust) or cformat(%9.2f)
 *-------------------------------------------------------------------------------
-
-
 
