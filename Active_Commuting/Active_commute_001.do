@@ -528,10 +528,10 @@ rename inactive2 f_inactive
 rename inactive3 t_inactive
 
 gen country1 = .
-replace country1= 2 if country == 3 //Barbados
-replace country1= 9 if country == 1 //USVI
-replace country1= 7 if country == 2 //Puerto Rico
-replace country1= 8 if country == 4 //Trinidad
+replace country1= 7 if country == 3 //Barbados
+replace country1= 10 if country == 1 //USVI
+replace country1= 8 if country == 2 //Puerto Rico
+replace country1= 9 if country == 4 //Trinidad
 
 drop country
 rename country1 country
@@ -553,6 +553,17 @@ gen country = 1
 
 *Save dataset
 save "`datapath'/version01/2-working/WHO STEPS/Bahamas_2011.dta", replace
+
+*-------------------------------------------------------
+
+*BARBADOS
+use "`datapath'/version01/1-input/WHO STEPS/brb2007.dta", clear
+
+*Create country variable
+gen country = 2
+
+*Save dataset
+save "`datapath'/version01/2-working/WHO STEPS/Barbados_2007.dta", replace
 
 *-------------------------------------------------------
 
@@ -604,6 +615,7 @@ clear
 
 *Comine datasets
 use "`datapath'/version01/2-working/WHO STEPS/Bahamas_2011.dta", clear
+append using "`datapath'/version01/2-working/WHO STEPS/Barbados_2007.dta", force
 append using "`datapath'/version01/2-working/WHO STEPS/BVI_2009.dta", force
 append using "`datapath'/version01/2-working/WHO STEPS/Cayman_2012.dta", force
 append using "`datapath'/version01/2-working/WHO STEPS/Grenada_2010.dta", force
@@ -806,6 +818,13 @@ rename inactive3 t_inactive
 *Add in ECHORN data
 append using "`datapath'/version01/2-working/WHO STEPS/ECHORN_activity_reshape.dta"
 
+
+*Relabel countries
+label define country 1"Bahamas" 2"Barbados (WHO)" 3"BVI" 4"Cayman Islands" ///
+					 5"Grenada" 6"Guyana" 7"Barbados (ECS)" 8"Puerto Rico" ///
+					 9"Trinidad" 10"USVI", modify
+label value country country
+
 *-------------------------------------------------------------------------------
 
 *Equiplot
@@ -828,8 +847,8 @@ append using "`datapath'/version01/2-working/WHO STEPS/ECHORN_activity_reshape.d
 			xtitle("Prevalence of Inactivity (%)", size(4) margin(l=2 r=2 t=5 b=2))
 			xmtick(10(5)60, tl(1.5))
 			
-			ylab(1"Bahamas" 2"Barbados" 3"BVI" 4"Cayman Islands" 5"Grenada" 6"Guyana"
-				 7"Puerto Rico" 8"Trinidad" 9"USVI"
+			ylab(1"Bahamas" 2"Barbados (WHO)" 3"BVI" 4"Cayman Islands" 5"Grenada" 6"Guyana"
+				 7"Barbados (ECS)" 8"Puerto Rico" 9"Trinidad" 10"USVI"
 			,
 			angle(0) nogrid glc(gs16))
 			ytitle("", size(2.5) margin(l=2 r=5 t=2 b=2)) 
@@ -854,14 +873,15 @@ append using "`datapath'/version01/2-working/WHO STEPS/ECHORN_activity_reshape.d
 		, 
 		stack 
 		over(country, relabel(1"Bahamas"
-							  2"Barbados"
+							  2"Barbados (WHO)"
 							  3"BVI"
 							  4"Cayman Islands"
 							  5"Grenada"
 							  6"Guyana"
-							  7"Puerto Rico" 
-							  8"Trinidad" 
-							  9"USVI"))
+							  7"Barbados (ECS)"
+							  8"Puerto Rico" 
+							  9"Trinidad" 
+							  10"USVI"))
 							  
 		plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
         graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
