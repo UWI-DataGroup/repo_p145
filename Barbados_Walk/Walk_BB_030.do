@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	06/11/2020
-**	Date Modified: 	03/12/2020
+**	Date Modified: 	05/01/2020
 **  Algorithm Task: Walkability and SES Analysis (Area-levl Analysis)
 
 
@@ -30,10 +30,10 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -43,10 +43,10 @@ local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+*local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -56,10 +56,10 @@ local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
+*local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
 
 *MAC OS
-*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -69,10 +69,10 @@ local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
 *local echornpath "X:/The University of the West Indies/DataGroup - repo_data/data_p120"
 
 *WINDOWS OS (Alternative)
-local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
+*local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
 
 *MAC OS
-*local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
+local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p120"
 
 *-------------------------------------------------------------------------------
 
@@ -82,7 +82,10 @@ local echornpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p120"
 *-------------------------------------------------------------------------------
 
 *Merge in walkability and SES measures for Barbados
-use "`datapath'/version01/2-working/Walkability/Barbados/walk_measure.dta", clear
+import delimited "`datapath'/version01/2-working/Walkability/Barbados/walk_measure.csv", clear
+
+rename ed ED
+
 merge m:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_medium.dta", nogenerate
 
 *Minor data cleaning
@@ -227,3 +230,48 @@ regress `x' `y'  educ t_age_median per_t_unemployment crime_density, vce(robust)
 
 	}
 }
+
+
+*Regression results plots
+preserve
+label var SES "SES"
+label var ERS "ERS"
+label var IED "IED"
+
+regress walkability SES  educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+estimates store regress
+mixed walkability SES  educ t_age_median per_t_unemployment crime_density|| parish:, vce(robust)
+estimates store mixed
+regress walkability SES , vce(robust)
+estimates store unadjust_regress
+mixed walkability SES || parish:, vce(robust)
+estimates store unadjust_mixed
+
+coefplot unadjust_regress regress unadjust_mixed mixed, keep (SES) name(SES) xline(0) legend(off)
+
+drop _est_unadjust_regress _est_regress _est_unadjust_mixed _est_mixed
+regress walkability ERS  educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+estimates store regress
+mixed walkability ERS  educ t_age_median per_t_unemployment crime_density|| parish:, vce(robust)
+estimates store mixed
+regress walkability ERS , vce(robust)
+estimates store unadjust_regress
+mixed walkability ERS || parish:, vce(robust)
+estimates store unadjust_mixed
+
+coefplot unadjust_regress regress unadjust_mixed mixed, keep (ERS) name(ERS) xline(0) legend(off)
+
+drop _est_unadjust_regress _est_regress _est_unadjust_mixed _est_mixed
+regress walkability IED  educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+estimates store regress
+mixed walkability IED  educ t_age_median per_t_unemployment crime_density|| parish:, vce(robust)
+estimates store mixed
+regress walkability IED , vce(robust)
+estimates store unadjust_regress
+mixed walkability IED || parish:, vce(robust)
+estimates store unadjust_mixed
+
+coefplot unadjust_regress regress unadjust_mixed mixed, keep (IED) name(IED) xline(0) legend(off)
+
+graph combine SES ERS IED, name(combine) col(3)
+restore
