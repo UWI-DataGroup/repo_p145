@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	06/11/2020
-**	Date Modified: 	05/01/2020
+**	Date Modified: 	08/01/2020
 **  Algorithm Task: Walkability and SES Analysis (Area-levl Analysis)
 
 
@@ -81,16 +81,67 @@ local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/da
 
 *-------------------------------------------------------------------------------
 
-*Merge in walkability and SES measures for Barbados
-import delimited "`datapath'/version01/2-working/Walkability/Barbados/walk_measure.csv", clear
+*Updated walkscore from building data
+import delimited "`datapath'/version01/2-working/Walkability/Barbados/building_walkscore.csv", clear
+rename id BID
+save "`datapath'/version01/2-working/Walkability/Barbados/Barbados_building_walkscore.dta", replace
+import delimited "`datapath'/version01/2-working/Walkability/Barbados/ED_building_Barbados.csv", clear
+rename enum_no1 ED
+rename objectid_2 BID
+merge 1:1 BID using "`datapath'/version01/2-working/Walkability/Barbados/Barbados_building_walkscore.dta", nogenerate
+collapse (mean) walkscore, by(ED)
+drop if ED== .
+label var walkscore "Walk Score"
+gen walkscore_cat = .
+replace walkscore_cat = 1 if walkscore <= 24
+replace walkscore_cat = 2 if walkscore >=25 & walkscore<=49 & walkscore !=.
+replace walkscore_cat = 2 if walkscore >=50 & walkscore<=69 & walkscore !=.
+replace walkscore_cat = 3 if walkscore >=50 & walkscore<=69 & walkscore !=.
+replace walkscore_cat = 4 if walkscore >=70 & walkscore !=.
+tab walkscore_cat
+label var walkscore_cat "Walk Score Categories"
+save "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WS.dta", replace
 
-rename ed ED
+*Import road and foot walkability index data
+use "`datapath'/version01/2-working/Walkability/Barbados/walkability_indices_road_foot.dta", clear
+keep ED walkability_road_foot
+rename walkability_road_foot walkability
+save "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WI.dta", replace
 
+*Import Moveability index and walkability index (decile method) data
+use "`datapath'/version01/2-working/Walkability/moveability_walk_10_Barbados.dta", clear
+keep ED moveability walk_10
+label var walk_10 "Walkability index (Decile method)"
+save "`datapath'/version01/2-working/Walkability/Barbados/Barbados_MI_W10.dta", replace
+
+*Import Data driven walkability index
+use "`datapath'/version01/2-working/Walkability/PCA_Data_Walk_Barbados.dta", clear
+rename factor walkability_factor
+label var walkability_factor "Data-Driven Walkability Index"
+keep ED walkability_factor
+save "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WF.dta", replace
+
+clear
+*Load in WI data
+use "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WI.dta", clear
+
+*Merge in WS data
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WS.dta", nogenerate
+
+*Merge in MI & W10 data
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/Barbados_MI_W10.dta", nogenerate
+
+*Merge in WF data
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WF.dta", nogenerate
+
+label var ED "Enumeration Districts"
+
+*Merge in SES data
 merge m:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_medium.dta", nogenerate
 
 *Minor data cleaning
 rename _eigen_var SES
-
+*-------------------------------------------------------------------------------
 cls
 
 /*
@@ -209,7 +260,7 @@ xtile SES_10 = SES , nq(10)
 label var SES_10 "SES Index in Deciles"
 
 *Regression Models for Active transport and walkability measures										
-foreach x in walkability walkscore  moveability walk_10 factor{
+foreach x in walkability walkscore  moveability walk_10 walkability_factor{
 
 mixed `x' SES || parish:, vce(robust)
 mixed `x' SES ERS || parish:, vce(robust)
@@ -223,7 +274,7 @@ gen educ = ((t_education_secondary + t_education_post_secondary + t_education_te
 
 label var educ "Percentage total population with secondary or more education"
 
-foreach x in walkability walkscore  moveability walk_10 factor {
+foreach x in walkability walkscore  moveability walk_10 walkability_factor {
 	foreach y in SES ERS i.ERS_cat IED{
 
 regress `x' `y'  educ t_age_median per_t_unemployment crime_density, vce(robust)
@@ -247,7 +298,8 @@ estimates store unadjust_regress
 mixed walkability SES || parish:, vce(robust)
 estimates store unadjust_mixed
 
-coefplot unadjust_regress regress unadjust_mixed mixed, keep (SES) name(SES) xline(0) legend(off)
+coefplot unadjust_regress regress unadjust_mixed mixed, keep (SES) name(SES)  ///
+							xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)
 
 drop _est_unadjust_regress _est_regress _est_unadjust_mixed _est_mixed
 regress walkability ERS  educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
@@ -259,7 +311,8 @@ estimates store unadjust_regress
 mixed walkability ERS || parish:, vce(robust)
 estimates store unadjust_mixed
 
-coefplot unadjust_regress regress unadjust_mixed mixed, keep (ERS) name(ERS) xline(0) legend(off)
+coefplot unadjust_regress regress unadjust_mixed mixed, keep (ERS) name(ERS) ///
+							xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)
 
 drop _est_unadjust_regress _est_regress _est_unadjust_mixed _est_mixed
 regress walkability IED  educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
@@ -271,7 +324,261 @@ estimates store unadjust_regress
 mixed walkability IED || parish:, vce(robust)
 estimates store unadjust_mixed
 
-coefplot unadjust_regress regress unadjust_mixed mixed, keep (IED) name(IED) xline(0) legend(off)
+coefplot unadjust_regress regress unadjust_mixed mixed, keep (IED) name(IED) ///
+							xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)
 
-graph combine SES ERS IED, name(combine) col(3)
+graph combine SES ERS IED, name(combine_method) col(3)
+
+graph drop SES ERS IED 
+drop _est_unadjust_regress _est_regress _est_unadjust_mixed _est_mixed
+
+/*Comparison of walkbility index; walkscore and moveability
+
+A multivariable model will be used for comparisons. 
+
+Based on results obtained above we will use a linear regression model for simplicity
+
+For comparisons convert measures to z-scores
+
+*/
+
+*-------------------------------------------------------------------------------
+
+*Estimates for SES across walkability measures
+
+foreach x in walkability walkscore moveability{
+zscore `x'
+regress z_`x' SES educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+estimates store `x'
+}
+
+*Regression Plots for SES
+#delimit;
+coefplot (walkability, mlabels(SES= -.0379427 "IPEN Walkability")) 
+		 (walkscore, mlabels(SES= -.0160782 "Walk Score")) 
+		 (moveability, mlabels(SES= -.0335497 "Moveability"))
+		 , keep(SES) name(SES) 
+			xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)	
+			xscale(range(-0.08 0.02)) ciopts(recast(rcap))
+;
+#delimit cr
+
+*Remove estimates
+drop _est_walkability _est_walkscore _est_moveability			
+*-------------------------------------------------------------------------------			
+
+*Estimates for ERS across walkability measures
+			
+foreach x in walkability walkscore moveability{
+regress z_`x' ERS educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+estimates store `x'
+}			
+			
+*Regression Plots for ERS
+#delimit;
+coefplot (walkability, mlabels(ERS= -1.327857 "IPEN Walkability")) 
+		 (walkscore, mlabels(ERS= -1.673832 "Walk Score")) 
+		 (moveability, mlabels(ERS= -1.347434 "Moveability"))
+		 , keep(ERS) name(ERS) 
+			xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)	
+			xscale(range(-2.5 1.0)) ciopts(recast(rcap))
+;
+#delimit cr
+
+*Remove estimates
+drop _est_walkability _est_walkscore _est_moveability				
+*-------------------------------------------------------------------------------
+
+*Estimates for IED across walkability measures
+			
+foreach x in walkability walkscore moveability{
+regress z_`x' IED educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+estimates store `x'
+}	
+
+*Regression Plots for IED		
+#delimit; 			
+coefplot (walkability, mlabels(IED= -.0297685 "IPEN Walkability")) 
+		 (walkscore, mlabels(IED= -.0444287 "Walk Score")) 
+		 (moveability, mlabels(IED= -.0146038 "Moveability"))
+		 , keep(IED) name(IED) 
+			xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)	
+			xscale(range(-0.08 0.02)) ciopts(recast(rcap))
+;
+#delimit cr
+
+*Remove estimates
+drop _est_walkability _est_walkscore _est_moveability	
+*-------------------------------------------------------------------------------
+
+*Create combined graph
+#delimit;			
+graph combine SES ERS IED, 
+		name(combine_walk) 
+		col(3) 
+		note("Adjusted for Median Age, %Secondary or more education, %Unemployment, Crime Density & Parish",
+		size(small) color(black) position(7) span margin(small))
+		
+;
+#delimit cr
+
+*Remove older graphs
+graph drop SES ERS IED 
+
+
+
+*-------------------------------------------------------------------------------
+
+*Create decile variables for SES, ERS, IED
+
+*SES Deciles
+xtile SES_dec = SES, nq(10)
+*Recode into three groups (Low, Medium/Middle, High)
+recode SES_dec (2=1) (3=1) (4=1) (5=2) (6=2) (7=3) (8=3) (9=3) (10=3)
+label var SES_dec "SES Categories"
+label define SES_dec 1"Low SES" 2"Middle SES" 3"High SES"
+label value SES_dec SES_dec
+
+*ERS Deciles
+xtile ERS_dec = ERS, nq(10)
+*Recode into three groups (Low, Medium/Middle, High)
+recode ERS_dec (2=1) (3=1) (4=1) (5=2) (6=2) (7=3) (8=3) (9=3) (10=3)
+label var ERS_dec "ERS Categories"
+label define ERS_dec 1"Low ERS" 2"Middle ERS" 3"High ERS"
+label value ERS_dec ERS_dec
+
+*IED Deciles
+xtile IED_dec = IED, nq(10)
+*Recode into three groups (Low, Medium/Middle, High)
+recode IED_dec (2=1) (3=1) (4=1) (5=2) (6=2) (7=3) (8=3) (9=3) (10=3)
+label var IED_dec "IED Categories"
+label define IED_dec 1"Low IED" 2"Middle IED" 3"High IED"
+label value IED_dec IED_dec
+
+*-------------------------------------------------------------------------------
+
+*Create Low and High Walkability 
+
+*IPEN Walkability Index
+xtile WI_cat = walkability, nq(10)
+*Recode into three groups (Low, Medium/Middle, High)
+recode WI_cat (2=1) (3=1) (4=1) (5=2) (6=2) (7=3) (8=3) (9=3) (10=3)
+label var WI_cat "Walkability Index Categories"
+label define WI_cat 1"Low Walkability" 2"Medium Walkability" 3"High Walkability"
+label value WI_cat WI_cat
+
+*Walk Score
+xtile WS_cat = walkscore, nq(10)
+*Recode into three groups (Low, Medium/Middle, High)
+recode WS_cat (2=1) (3=1) (4=1) (5=2) (6=2) (7=3) (8=3) (9=3) (10=3)
+label var WS_cat "Walkability Index Categories"
+label define WS_cat 1"Low Walkability" 2"Medium Walkability" 3"High Walkability"
+label value WS_cat WS_cat
+
+*Moveability Index
+xtile MI_cat = moveability, nq(10)
+*Recode into three groups (Low, Medium/Middle, High)
+recode MI_cat (2=1) (3=1) (4=1) (5=2) (6=2) (7=3) (8=3) (9=3) (10=3)
+label var MI_cat "Moveability Index Categories"
+label define MI_cat 1"Low Moveability" 2"Medium Moveability" 3"High Moveability"
+label value MI_cat MI_cat
+
+*-------------------------------------------------------------------------------
+
+*Estimates for SES across walkability measures
+
+foreach x in walkability walkscore moveability {
+	regress z_`x' ib3.SES_dec educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+	estimates store `x'
+}	
+
+#delimit;
+
+coefplot (walkability, mlabels(1.SES_dec= .2720146  "IPEN Walkability" 2.SES_dec = .0927828 "IPEN walkability")) 
+		 (walkscore, mlabels(1.SES_dec= .2168649  "Walk Score" 2.SES_dec = .0372374 "Walk Score")) 
+		 (moveability, mlabels(1.SES_dec= .3342229  "Moveability" 2.SES_dec = .090051 "Moveability")) 
+				, baselevel keep(1.SES_dec 2.SES_dec) 
+					xline(0, lcolor(black) lwidth(thin) lpattern(dash)) 
+					ciopts(recast(rcap)) legend(off)
+					note("Reference: High Socioeconomic-Status",
+						 size(small) color(black) position(7) span margin(small))
+					name(SES)
+
+;
+
+#delimit cr
+
+*Remove estimates
+drop _est_walkability _est_walkscore _est_moveability
+*-------------------------------------------------------------------------------
+*Estimates for ERS across walkability measures
+
+foreach x in walkability walkscore moveability {
+	regress z_`x' ib3.ERS_dec educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+	estimates store `x'
+}	
+
+#delimit;
+
+coefplot (walkability, mlabels(1.ERS_dec= .4166131  "IPEN Walkability" 2.ERS_dec = .0482702 "IPEN walkability")) 
+		 (walkscore, mlabels(1.ERS_dec= .5045217  "Walk Score" 2.ERS_dec = .1793562 "Walk Score")) 
+		 (moveability, mlabels(1.ERS_dec= .4498494  "Moveability" 2.ERS_dec = .1145965 "Moveability")) 
+				, baselevel keep(1.ERS_dec 2.ERS_dec) 
+					xline(0, lcolor(black) lwidth(thin) lpattern(dash)) 
+					ciopts(recast(rcap)) legend(off)
+					note("Reference: High Economic Residential Segregation",
+						 size(small) color(black) position(6) span margin(small))
+					name(ERS)
+
+;
+
+#delimit cr
+
+*Remove estimates
+drop _est_walkability _est_walkscore _est_moveability
+
+*-------------------------------------------------------------------------------
+
+*Estimates for IED across walkability measures
+
+foreach x in walkability walkscore moveability {
+	regress z_`x' ib3.IED_dec educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
+	estimates store `x'
+}	
+
+#delimit;
+
+coefplot (walkability, mlabels(1.IED_dec= .1455587  "IPEN Walkability" 2.IED_dec = .0558819 "IPEN walkability")) 
+		 (walkscore, mlabels(1.IED_dec= .209227  "Walk Score" 2.IED_dec = .175044 "Walk Score")) 
+		 (moveability, mlabels(1.IED_dec= .0378012  "Moveability" 2.IED_dec = .0717168 "Moveability")) 
+				, baselevel keep(1.IED_dec 2.IED_dec) 
+					xline(0, lcolor(black) lwidth(thin) lpattern(dash)) 
+					ciopts(recast(rcap)) legend(off)
+					note("Reference: High Economic Dissimilarity",
+						 size(small) color(black) position(7) span margin(small))
+					name(IED)
+
+;
+
+#delimit cr
+
+*Remove estimates
+drop _est_walkability _est_walkscore _est_moveability
+*-------------------------------------------------------------------------------
+
+*Create combined graph
+#delimit;			
+graph combine SES ERS IED, 
+		name(combine_cat) 
+		col(3) 
+		note("Adjusted for Median Age, %Secondary or more education, %Unemployment, Crime Density & Parish",
+		size(small) color(black) position(7) span margin(small))
+;
+#delimit cr
+
+*Remove older graphs
+graph drop SES ERS IED 
+
+*-------------------------------------------------------------------------------
+
 restore
