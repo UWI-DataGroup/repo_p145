@@ -346,7 +346,7 @@ For comparisons convert measures to z-scores
 
 *Estimates for SES across walkability measures
 
-foreach x in walkability walkscore moveability{
+foreach x in walkability walkscore moveability walkability_factor{
 zscore `x'
 regress z_`x' SES educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
 estimates store `x'
@@ -357,6 +357,7 @@ estimates store `x'
 coefplot (walkability, mlabels(SES= -.0379427 "IPEN Walkability")) 
 		 (walkscore, mlabels(SES= -.0160782 "Walk Score")) 
 		 (moveability, mlabels(SES= -.0335497 "Moveability"))
+		 (walkability_factor, mlabels(SES= -.0277193 "Data-Driven Walkability"))
 		 , keep(SES) name(SES) 
 			xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)	
 			xscale(range(-0.08 0.02)) ciopts(recast(rcap))
@@ -364,12 +365,12 @@ coefplot (walkability, mlabels(SES= -.0379427 "IPEN Walkability"))
 #delimit cr
 
 *Remove estimates
-drop _est_walkability _est_walkscore _est_moveability			
+drop _est_walkability _est_walkscore _est_moveability _est_walkability_factor			
 *-------------------------------------------------------------------------------			
 
 *Estimates for ERS across walkability measures
 			
-foreach x in walkability walkscore moveability{
+foreach x in walkability walkscore moveability walkability_factor{
 regress z_`x' ERS educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
 estimates store `x'
 }			
@@ -379,6 +380,7 @@ estimates store `x'
 coefplot (walkability, mlabels(ERS= -1.327857 "IPEN Walkability")) 
 		 (walkscore, mlabels(ERS= -1.673832 "Walk Score")) 
 		 (moveability, mlabels(ERS= -1.347434 "Moveability"))
+		 (walkability_factor, mlabels(ERS= -1.178293 "Data-Driven Walkability"))
 		 , keep(ERS) name(ERS) 
 			xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)	
 			xscale(range(-2.5 1.0)) ciopts(recast(rcap))
@@ -386,12 +388,12 @@ coefplot (walkability, mlabels(ERS= -1.327857 "IPEN Walkability"))
 #delimit cr
 
 *Remove estimates
-drop _est_walkability _est_walkscore _est_moveability				
+drop _est_walkability _est_walkscore _est_moveability _est_walkability_factor			
 *-------------------------------------------------------------------------------
 
 *Estimates for IED across walkability measures
 			
-foreach x in walkability walkscore moveability{
+foreach x in walkability walkscore moveability walkability_factor{
 regress z_`x' IED educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
 estimates store `x'
 }	
@@ -401,6 +403,7 @@ estimates store `x'
 coefplot (walkability, mlabels(IED= -.0297685 "IPEN Walkability")) 
 		 (walkscore, mlabels(IED= -.0444287 "Walk Score")) 
 		 (moveability, mlabels(IED= -.0146038 "Moveability"))
+		 (walkability_factor, mlabels(IED=  -.0096852 "Data-Driven Walkability"))
 		 , keep(IED) name(IED) 
 			xline(0, lcolor(black) lwidth(thin) lpattern(dash)) legend(off)	
 			xscale(range(-0.08 0.02)) ciopts(recast(rcap))
@@ -408,7 +411,7 @@ coefplot (walkability, mlabels(IED= -.0297685 "IPEN Walkability"))
 #delimit cr
 
 *Remove estimates
-drop _est_walkability _est_walkscore _est_moveability	
+drop _est_walkability _est_walkscore _est_moveability _est_walkability_factor	
 *-------------------------------------------------------------------------------
 
 *Create combined graph
@@ -424,8 +427,6 @@ graph combine SES ERS IED,
 
 *Remove older graphs
 graph drop SES ERS IED 
-
-
 
 *-------------------------------------------------------------------------------
 
@@ -487,7 +488,7 @@ label value MI_cat MI_cat
 
 *Estimates for SES across walkability measures
 
-foreach x in walkability walkscore moveability {
+foreach x in walkability walkscore moveability walkability_factor{
 	regress z_`x' ib3.SES_dec educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
 	estimates store `x'
 }	
@@ -497,6 +498,7 @@ foreach x in walkability walkscore moveability {
 coefplot (walkability, mlabels(1.SES_dec= .2720146  "IPEN Walkability" 2.SES_dec = .0927828 "IPEN walkability")) 
 		 (walkscore, mlabels(1.SES_dec= .2168649  "Walk Score" 2.SES_dec = .0372374 "Walk Score")) 
 		 (moveability, mlabels(1.SES_dec= .3342229  "Moveability" 2.SES_dec = .090051 "Moveability")) 
+		 (walkability_factor, mlabels(1.SES_dec= .1947413 "Data-Driven Walkability" 2.SES_dec = .0511553 "Data-Driven Walkability")) 
 				, baselevel keep(1.SES_dec 2.SES_dec) 
 					xline(0, lcolor(black) lwidth(thin) lpattern(dash)) 
 					ciopts(recast(rcap)) legend(off)
@@ -509,11 +511,11 @@ coefplot (walkability, mlabels(1.SES_dec= .2720146  "IPEN Walkability" 2.SES_dec
 #delimit cr
 
 *Remove estimates
-drop _est_walkability _est_walkscore _est_moveability
+drop _est_walkability _est_walkscore _est_moveability _est_walkability_factor
 *-------------------------------------------------------------------------------
 *Estimates for ERS across walkability measures
 
-foreach x in walkability walkscore moveability {
+foreach x in walkability walkscore moveability walkability_factor{
 	regress z_`x' ib3.ERS_dec educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
 	estimates store `x'
 }	
@@ -523,6 +525,7 @@ foreach x in walkability walkscore moveability {
 coefplot (walkability, mlabels(1.ERS_dec= .4166131  "IPEN Walkability" 2.ERS_dec = .0482702 "IPEN walkability")) 
 		 (walkscore, mlabels(1.ERS_dec= .5045217  "Walk Score" 2.ERS_dec = .1793562 "Walk Score")) 
 		 (moveability, mlabels(1.ERS_dec= .4498494  "Moveability" 2.ERS_dec = .1145965 "Moveability")) 
+		 (walkability_factor, mlabels(1.ERS_dec= .3928293 "Data-Driven Walkability" 2.ERS_dec = .1344261 "Data-Driven Walkability")) 
 				, baselevel keep(1.ERS_dec 2.ERS_dec) 
 					xline(0, lcolor(black) lwidth(thin) lpattern(dash)) 
 					ciopts(recast(rcap)) legend(off)
@@ -535,13 +538,13 @@ coefplot (walkability, mlabels(1.ERS_dec= .4166131  "IPEN Walkability" 2.ERS_dec
 #delimit cr
 
 *Remove estimates
-drop _est_walkability _est_walkscore _est_moveability
+drop _est_walkability _est_walkscore _est_moveability _est_walkability_factor
 
 *-------------------------------------------------------------------------------
 
 *Estimates for IED across walkability measures
 
-foreach x in walkability walkscore moveability {
+foreach x in walkability walkscore moveability walkability_factor{
 	regress z_`x' ib3.IED_dec educ t_age_median per_t_unemployment crime_density ib8.parish, vce(robust)
 	estimates store `x'
 }	
@@ -551,6 +554,7 @@ foreach x in walkability walkscore moveability {
 coefplot (walkability, mlabels(1.IED_dec= .1455587  "IPEN Walkability" 2.IED_dec = .0558819 "IPEN walkability")) 
 		 (walkscore, mlabels(1.IED_dec= .209227  "Walk Score" 2.IED_dec = .175044 "Walk Score")) 
 		 (moveability, mlabels(1.IED_dec= .0378012  "Moveability" 2.IED_dec = .0717168 "Moveability")) 
+		 (walkability_factor, mlabels(1.IED_dec= .0326398 "Data-Driven Walkability" 2.IED_dec = .0322711 "Data-Driven Walkability")) 
 				, baselevel keep(1.IED_dec 2.IED_dec) 
 					xline(0, lcolor(black) lwidth(thin) lpattern(dash)) 
 					ciopts(recast(rcap)) legend(off)
@@ -563,7 +567,7 @@ coefplot (walkability, mlabels(1.IED_dec= .1455587  "IPEN Walkability" 2.IED_dec
 #delimit cr
 
 *Remove estimates
-drop _est_walkability _est_walkscore _est_moveability
+drop _est_walkability _est_walkscore _est_moveability _est_walkability_factor
 *-------------------------------------------------------------------------------
 
 *Create combined graph
