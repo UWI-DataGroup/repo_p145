@@ -87,7 +87,8 @@ xtile Int_10 = Road_Foot_I_Density , nq(10)
 *Walkability using deciles
 egen walk_10 = rowtotal(Res_10 LUM_10 Int_10)
 
-
+*Save dataset
+save "`datapath'/version01/2-working/Walkability/moveability_walk_10_Barbados.dta"
 
 *Merge data
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/PCA_Data_Walk_Barbados.dta", nogenerate
