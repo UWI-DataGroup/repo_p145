@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	ECS Microscale Walkability
 **  Analyst:		Kern Rocke
 **	Date Created:	04/11/2020
-**	Date Modified: 	04/11/2020
+**	Date Modified: 	18/01/2021
 **  Algorithm Task: Sample size calculation
 
 
@@ -107,3 +107,7 @@ power onemean 58.857143, diff(0.65(0.1)1.05) power(0.80(0.05)0.99) fpc(1008)  //
 
 
 *totMETmin
+
+
+*New Sample Size calculation using MAPS pilot aduit and Phillips et al estimates. 
+power onemean 20.2 22.47202, power(0.8(0.05)0.95) sd(10(1)12) knownsd graph
