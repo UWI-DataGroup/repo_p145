@@ -57,7 +57,7 @@ local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/da
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/Scoping Review/SR_PA_003.log",  replace
+log using "`logpath'/version01/3-output/Scoping Review/SR_PA_004.log",  replace
 
 *-------------------------------------------------------------------------------
 *-------------------------------------------------------------------------------
