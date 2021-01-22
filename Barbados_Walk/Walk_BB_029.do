@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	06/11/2020
-**	Date Modified: 	09/11/2020
+**	Date Modified: 	16/01/2021
 **  Algorithm Task: Examining Marcoscale Walkability measures with ECHORN wave 1 PA data
 
 
@@ -93,8 +93,7 @@ save "`datapath'/version01/2-working/Walkability/Barbados/walkability_ECHORN_par
 
 
 *Merge in wave 1 ECHORN data
-merge 1:1 key using "`echornpath'/version03/02-working/survey_wave1_weighted.dta", nogenerate
-merge 1:1 key using "`echornpath'/version03/02-working/risk_comparison.dta", nogenerate
+merge 1:1 key using "`datapath'/version01/1-input/WHO STEPS/survey_wave1_weighted1.dta", nogenerate
 
 *Keep Barbados data
 keep if siteid == 3
@@ -103,8 +102,7 @@ keep if siteid == 3
 destring ED, replace
 
 *Merge in walkability and SES measures for Barbados
-merge m:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/walk_measure.dta", nogenerate
-merge m:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_medium.dta", nogenerate
+merge m:1 ED using "`datapath'/version01/2-working/Walkability/walkability_SES.dta", nogenerate
 
 *Minor data cleaning
 rename _eigen_var SES
