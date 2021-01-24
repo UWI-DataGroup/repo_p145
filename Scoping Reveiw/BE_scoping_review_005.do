@@ -7,10 +7,10 @@ cls
 **  GENERAL DO-FILE COMMENTS
 **  Program:		BE_scoping_review_005.do
 **  Project:      	PhD Streetscapes
-**	Sub-Project:	CBuilt Environment Scoping Review
+**	Sub-Project:	Built Environment Scoping Review
 **  Analyst:		Kern Rocke
 **	Date Created:	20/01/2021
-**	Date Modified: 	20/01/2021
+**	Date Modified: 	23/01/2021
 **  Algorithm Task: Creating Funnel and Forest Plots
 
 
@@ -106,7 +106,7 @@ replace author = "Christiansen 2016" in 15/22
 replace author = "Dias 2019" in 23/30
 replace author = "Faerstein 2018" in 31/35
 replace author = "Giehl 2016" in 36/42
-replace author = "Gomez (1) 2010" in 43/53
+replace author = "Gomez 2010a" in 43/53
 replace author = "Gomez 2010" in 54/57
 replace author = "Hino 2011" in 58/60
 replace author = "Hino 2013" in 61/70
@@ -127,24 +127,49 @@ replace BE = "{bf:Land Use}" if BE == "Land Use"
 replace BE = "{bf:Greenness}" if BE == "Greenness"
 replace BE = "{bf:Connectivity}" if BE == "Connectivity"
 replace BE = "{bf:Proximity to Denstinations}" if BE == "Proximity to Denstinations"
+*-------------------------------------------------------------------------------		
 
 *Forest Plot
 **Active Transport
-admetan lnor lnlci lnuci if activity==1, eform(Studies) effect(OR) ///
-		forestplot( title("Active Transport and Built Environment", ///
+admetan lnor lnlci lnuci if activity==1 & population == "Adult", eform(Studies) effect(OR) ///
+		forestplot( title("Active Transport and Built Environment" "Adults", ///
 		color(black) size(medsmall)) caption("Outcome: walking/cycling for transport >10 minutes/week", span size(vsmall)) ///
-		dp(2) name(forest_AT, replace) xlabel(0.25(1)4 0.1 1)  ///
+		dp(2) name(forest_AT_adult, replace) xlabel(0.50(1)4 0.4 1)  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author_year) by(BE) nooverall nosubgroup  
-**Leisure-time Physical Activity		
-admetan lnor lnlci lnuci if activity==2, eform(Studies) effect(OR) ///
-		forestplot( title("Leisture Time Physical Activity and Built Environment", ///
-		color(black) size(medsmall)) caption("Outcome: rrecreational activity/walking >10 minutes/week", span size(vsmall)) ///
-		dp(2) name(forest_LtPA, replace) xlabel(0.25(1)4 0.1 1)  ///
+		
+		
+admetan lnor lnlci lnuci if activity==1 & population == "Children" | population == "Both", eform(Studies) effect(OR) ///
+		forestplot( title("Active Transport and Built Environment" "Children & Both (Adults & Chilren)", ///
+		color(black) size(medsmall)) caption("Outcome: walking/cycling for transport >10 minutes/week", span size(vsmall)) ///
+		dp(2) name(forest_AT_child, replace) xlabel(0.50(1)4 0.4 1)  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author_year) by(BE) nooverall nosubgroup   
+		study(Author_year) by(BE) nooverall nosubgroup  		
+		
+*-------------------------------------------------------------------------------		
+		
+**Leisure-time Physical Activity
+
+admetan lnor lnlci lnuci if activity==2 & population == "Adult", eform(Studies) effect(OR) ///
+		forestplot( title("Leisture Time Physical Activity and Built Environment" "Adults", ///
+		color(black) size(medsmall)) caption("Outcome: rrecreational activity/walking >10 minutes/week", span size(vsmall)) ///
+		dp(2) name(forest_LtPA_adult, replace) xlabel(0.50(1)4 0.4 1)  ///
+		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
+		study(Author_year) by(BE) nooverall nosubgroup 
+		
+admetan lnor lnlci lnuci if activity==2 & population == "Children" | population == "Both", eform(Studies) effect(OR) ///
+		forestplot( title("Leisture Time Physical Activity and Built Environment" "Children & Both (Adults & Chilren)", ///
+		color(black) size(medsmall)) caption("Outcome: recreational activity/walking >10 minutes/week", span size(vsmall)) ///
+		dp(2) name(forest_LtPA_child, replace) xlabel(0.50(1)4 0.4 1)  ///
+		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
+		study(Author_year) by(BE) nooverall nosubgroup  
+		
+*-------------------------------------------------------------------------------		
+		
 *Contour Funnel Plot
 #delimit;
 confunnel lnor or_se, contours(0.1 1 5 10) name(funnel, replace) 
