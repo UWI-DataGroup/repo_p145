@@ -87,11 +87,11 @@ replace studies = 0 if studies == .
 *Two way line graph showing trend of studies published
 #delimit;
 twoway connected studies publicationyear 
-			if publicationyear!=2021 & publicationyear!=2020, 
-				sort yline(50) xline(2010) ylab(0(20)200, 
-				angle(horizontal) nogrid) xlab(1989(1)2019 2019, labsize(small)
+			if publicationyear!=2021, 
+				sort xline(2010) xline(2019) ylab(0(20)200, 
+				angle(horizontal) nogrid) xlab(1989(2)2020 2010 2019 2020, labsize(msmall)
 				angle(45)) ytitle("Number of studies") mcolor(orange) 
-				msize(medium) msymbol(circle) mlabel(studies) mlabposition(11) 
+				msize(medium) msymbol(circle) mlabel(studies) mlabsize(small) mlabposition(11) 
 				lcolor(blue) lwidth(medthick) connect(direct)
 				plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 				graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)
@@ -100,5 +100,25 @@ twoway connected studies publicationyear
 				;
 #delimit cr
 
+*Edits to graph
+
+gr_edit .plotregion1.AddLine added_lines editor 2011.033316807968 50.13863592117382 2018.078113063756 50.13863592117382
+gr_edit .plotregion1.added_lines_new = 1
+gr_edit .plotregion1.added_lines_rec = 1
+gr_edit .plotregion1.added_lines[1].style.editstyle  linestyle( width(thick) color(black) pattern(solid)) headstyle( symbol(circle) linestyle( width(thin) color(black) pattern(solid)) fillcolor(black) size(large) angle(stdarrow) backsymbol(none) backline( width(thin) color(black) pattern(solid)) backcolor(black) backsize(zero) backangle(stdarrow)) headpos(head) editcopy
+// edits
+
+gr_edit .plotregion1.AddTextBox added_text editor 41.26800400270991 2010.523316807968
+gr_edit .plotregion1.added_text_new = 1
+gr_edit .plotregion1.added_text_rec = 1
+gr_edit .plotregion1.added_text[1].style.editstyle  angle(default) size(small) color(black) horizontal(left) vertical(middle) margin(zero) linegap(zero) drawbox(no) boxmargin(zero) fillcolor(bluishgray) linestyle( width(thin) color(black) pattern(solid)) box_alignment(east) editcopy
+gr_edit .plotregion1.added_text[1].text = {}
+gr_edit .plotregion1.added_text[1].text.Arrpush Scoping Review (2010-19)
+// editor text[1] edits
+
+gr_edit .plotregion1.added_text[1].text = {}
+gr_edit .plotregion1.added_text[1].text.Arrpush Scoping Review (2010-19)
+// editor text[1] edits
+
 *Export graph to encrypted location
-graph export "`datapath'/version01/3-output/Scoping Review/studies_trend_pubmed.png", as(png)
+graph export "`datapath'/version01/3-output/Scoping Review/studies_trend_pubmed.png", as(png) replace
