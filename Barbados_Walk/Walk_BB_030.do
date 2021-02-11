@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	06/11/2020
-**	Date Modified: 	19/01/2020
+**	Date Modified: 	10/02/2020
 **  Algorithm Task: Walkability and SES Analysis (Area-levl Analysis)
 
 
@@ -133,6 +133,14 @@ rename enum_no1 ED
 rename numpoints parking
 save "`datapath'/version01/2-working/Walkability/parking.dta", replace
 
+*Building Height data - Average building height per ED
+import delimited "`datapath'/version01/2-working/Walkability/Barbados/BD_height.csv", clear
+rename enum_no1 ED
+collapse (mean) avg_height, by(ED)
+rename avg_height BD_ht
+label var BD_ht "Building Height (Avg)"
+save "`datapath'/version01/2-working/Walkability/Barbados/BD_height.dta", replace
+
 clear
 *Load in WI data
 use "`datapath'/version01/2-working/Walkability/Barbados/Barbados_WI.dta", clear
@@ -157,6 +165,8 @@ merge 1:1 ED using "`datapath'/version01/2-working/Walkability/building_count.dt
 *Merge in Parking Data
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/parking.dta", nogenerate
 
+*Merge in Building Height Data
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/BD_height.dta", nogenerate
 
 *Minor data cleaning
 rename _eigen_var SES
