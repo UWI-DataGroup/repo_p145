@@ -98,7 +98,7 @@ power onemean 58.857143, diff(0.65(0.1)1.05) power(0.80(0.05)0.99) fpc(1008)  //
 		plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		legend(on cols(6) title(Effect Size (d), c(black))) ///
-		name(MAP_1008) ///
+		name(MAP_1008, replace) ///
 		note("") ///
 		ytitle("Sample size (n) per neighbourhood", margin(small)) ///
 		xlab(, labs(3.5) nogrid glc(gs16)) ///
@@ -108,6 +108,29 @@ power onemean 58.857143, diff(0.65(0.1)1.05) power(0.80(0.05)0.99) fpc(1008)  //
 
 *totMETmin
 
+*-------------------------------------------------------------------------------
 
-*New Sample Size calculation using MAPS pilot aduit and Phillips et al estimates. 
-power onemean 20.2 22.47202, power(0.8(0.05)0.95) sd(10(1)12) knownsd graph
+*New Sample Size calculation using MAPS pilot aduit and Phillips et al and Queralt estimates. 
+power onemean 20.22 22.47202, power(0.8(0.05)0.95) sd(9.08) knownsd 
+power onemean 19.3 22.47202, power(0.8(0.05)0.95) sd(15.4) knownsd 
+power onemean 19.3 22.47202, power(0.8(0.05)0.95) sd(1) knownsd 
+
+power onemean (20.22 20.22 20.22 20.22 19.3 19.3 19.3 19.3) 22.47, ///
+				power(0.8 0.85 0.9 0.95 0.8 0.85 0.9 0.95) ///
+				sd(9.8 9.8 9.8 9.8 15.42 15.42 15.42 15.42) ///
+				knownsd parallel table ///
+					graph(schemegrid xlabel(0.8 "80" 0.85 "85" 0.9 "90" 0.95 "95") ///
+					xtitle("Power (%)", color(black)) ylabel(125(25)325,nogrid) ///
+					ytitle("Sample Size (n)", color(black)) ///
+					note("") legend(on col(2) title("Null MAPS Score", c(black)) order(1 2) ///
+					lab(2 "MAPS Abbreviated = 20.22") lab (1 "MAPS Gloabl = 19.28")) ///
+					graphregion(fcolor(white) lcolor(white) ifcolor(white) ilcolor(white)) ///
+					title("Sample Size Calculation", c(black)) ///
+					subtitle("Community and Individual Level Data Collection") ///
+					name(MAPS_sample_size, replace) ///
+					plot1opts(lcolor(red) mcolor(blue) msymbol(T)) ///
+					plot2opts(lcolor(dkorange) mcolor(green) msymbol(0)))
+					
+*-------------------------------------------------------------------------------
+
+power onemean .5383361 .3888335, power(0.8(0.05)0.95) sd(.4987316 .4877286 ) knownsd graph
