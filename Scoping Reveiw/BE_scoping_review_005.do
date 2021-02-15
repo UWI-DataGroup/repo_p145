@@ -266,7 +266,7 @@ admetan lnor lnlci lnuci if activity==1 , eform(Studies) effect(OR) ///
 		study(Author) by(BE) nooverall nosubgroup 
 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_cycle.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_cycle.png", as(png)
 		
 *Active Transport Walking (No Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | Subcat == "Low SES" , eform(Studies) effect(OR) ///
@@ -278,7 +278,7 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | 
 		study(Author) by(BE) nooverall nosubgroup 
 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_walk.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk.png", as(png)
 		
 *Active Transport Walking (500m Buffer)		
 admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effect(OR) ///
@@ -290,7 +290,7 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effe
 		study(Author) by(BE) nooverall nosubgroup 
 
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_walk_500.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_500.png", as(png)
 
 *Active Transport Walking (1000m Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) effect(OR) ///
@@ -301,7 +301,7 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) eff
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png)		
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png)		
 *-------------------------------------------------------------------------------		
 		
 **Leisure-time Physical Activity
@@ -315,7 +315,7 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Land Use}" | BE == "{bf:Pr
 		study(Author) by(BE) nooverall nosubgroup 
 				
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_leisure_1.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_1.png", as(png)
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == "{bf:Route Characteristics}") , eform(Studies) effect(OR) ///
 		forestplot( title("Leisture Time Physical Activity and Built Environment Measures", ///
@@ -326,7 +326,7 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == 
 		study(Author) by(BE) nooverall nosubgroup
 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_leisure_2.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_2.png", as(png)
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Population Density}" | BE == "{bf:Residential Density}" | BE == "{bf:Street Connectivity}" | BE == "{bf:Transit}" ) , eform(Studies) effect(OR) ///
 		forestplot( title("Leisture Time Physical Activity and Built Environment Measures", ///
@@ -337,7 +337,7 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Population Density}" | BE 
 		study(Author) by(BE) nooverall nosubgroup
 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_leisure_3.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_3.png", as(png)
 		
 *-------------------------------------------------------------------------------	
 
@@ -354,7 +354,7 @@ admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estim
 		study(Author) by(BE) nooverall nosubgroup 
 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_mvpa_1.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_1.png", as(png)
 
 admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estimatetype == "Prevalence Ratio") ///
 		& (BE== "{bf:Retail Floor}" | BE== "{bf:Route Characteristics}" | BE== "{bf:Street Connectivity}" | ///
@@ -367,7 +367,7 @@ admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estim
 		study(Author) by(BE) nooverall nosubgroup 
 		
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/active_forest_mvpa_2.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_2.png", as(png)
 
 *-------------------------------------------------------------------------------	
 
@@ -424,7 +424,7 @@ gr_edit .legend.plotregion1.label[6].text.Arrpush p > 0.10
 gr_edit .style.editstyle boxstyle(shadestyle(color(white))) editcopy
 
 *Export graph
-graph export "`datapath'/version01/3-output/Scoping Review/Contour_Funnel.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/Contour_Funnel.png", as(png)
 
 *Testing for publication bias (Egger Test)
 **Active Transport
