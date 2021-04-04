@@ -178,7 +178,7 @@ zscore walkability_road_foot
 graph hbox z_factor z_factor1 z_walkability_road_foot z_walkscore z_moveability z_walk_10 z_walk_factor
 graph hbox z_factor z_walkability_road_foot z_walkscore z_moveability z_walk_10 z_walk_factor, nooutsides
 
-keep ED factor traffic_calm Area
+*keep ED factor traffic_calm Area
 
 *Save dataset
 save "`datapath'/version01/2-working/Walkability/PCA_Data_Walk_Barbados.dta", replace
