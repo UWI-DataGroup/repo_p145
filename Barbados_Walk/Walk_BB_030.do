@@ -131,7 +131,7 @@ save "`datapath'/version01/2-working/Walkability/building_count.dta", replace
 import delimited "`datapath'/version01/2-working/Walkability/Barbados/parking.csv", clear
 rename enum_no1 ED
 rename numpoints parking
-save "`datapath'/version01/2-working/Walkability/parking.dta", replace
+save "`datapath'/version01/2-working/Walkability/Barbados/parking.dta", replace
 
 *Building Height data - Average building height per ED
 import delimited "`datapath'/version01/2-working/Walkability/Barbados/BD_height.csv", clear
@@ -163,7 +163,7 @@ merge m:1 ED using "`datapath'/version01/2-working/BSS_SES/BSS_SES_003_vsm_mediu
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/building_count.dta", nogenerate
 
 *Merge in Parking Data
-merge 1:1 ED using "`datapath'/version01/2-working/Walkability/parking.dta", nogenerate
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/parking.dta", nogenerate
 
 *Merge in Building Height Data
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/Barbados/BD_height.dta", nogenerate
