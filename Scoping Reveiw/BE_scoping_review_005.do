@@ -29,8 +29,12 @@ set linesize 150
 *WINDOWS OS
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS (Alternative)
+local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+
+
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -39,8 +43,12 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data
 *WINDOWS
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS (Alternative)
+local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+
+
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -48,6 +56,9 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_
 
 *WINDOWS
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+
+*WINDOWS OS (Alternative)
+local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 *MAC OS
 local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
@@ -81,15 +92,16 @@ reporting continous estimates.
 
 
 *Load in data from encrypted location
-import excel "/Users/kernrocke/Downloads/Scoping_Review_Association.xlsx", sheet("Sheet6") firstrow clear
+*import excel "/Users/kernrocke/Downloads/Scoping_Review_Association.xlsx", sheet("Sheet6") firstrow clear
 
 import excel "`datapath'/version01/1-input/Scoping Review/Relationships_Scoping_Review.xlsx", sheet("Sheet1") firstrow clear
 
-/*Install user-driven commands for forest and funnel plots
+*Install user-driven commands for forest and funnel plots
 ssc install admetan, replace
+ssc install metan, replace
 ssc install metafunnel, replace
 ssc install metabias, replace
-*/
+
 
 *Minor Cleaning
 replace Author = "Christiansen 2016" if Author == "christiansen 2016"

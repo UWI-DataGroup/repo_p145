@@ -31,8 +31,11 @@ set linesize 150
 *WINDOWS OS
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS (Alternative)
+local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -41,8 +44,11 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data
 *WINDOWS
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS (Alternative)
+local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -51,16 +57,21 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_
 *WINDOWS
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
+*WINDOWS OS (Alternative)
+local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
 
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/Scoping Review/SR_PA_004.log",  replace
+*log using "`logpath'/version01/3-output/Scoping Review/SR_PA_004.log",  replace
 
 *-------------------------------------------------------------------------------
 *-------------------------------------------------------------------------------
+*Install user command
+ssc install mrtab, replace
 
 *Load in data from encrypted location
 use "`datapath'/version01/2-working/Scoping Review/Full_text_BE_PA.dta", clear
