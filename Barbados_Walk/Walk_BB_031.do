@@ -86,6 +86,9 @@ use "`datapath'/version01/2-working/Walkability/walkability_SES.dta", clear
 
 *-------------------------------------------------------------------------------
 
+*Install user command
+ssc install coefplot, replace
+
 preserve 
 foreach x in walkability walkscore moveability walkability_factor{
 	zscore `x'
