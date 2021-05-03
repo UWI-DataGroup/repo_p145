@@ -30,11 +30,18 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
+<<<<<<< HEAD
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 
 *MAC OS
 local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+=======
+local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+>>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *-------------------------------------------------------------------------------
 
@@ -44,11 +51,18 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
+<<<<<<< HEAD
 *local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 
 *MAC OS
 local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+=======
+local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+>>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *-------------------------------------------------------------------------------
 
@@ -58,10 +72,17 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West 
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
+<<<<<<< HEAD
 *local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 *MAC OS
 local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+=======
+local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+
+*MAC OS
+*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+>>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *-------------------------------------------------------------------------------
 
@@ -102,7 +123,10 @@ ssc install admetan, replace
 ssc install metan, replace
 ssc install metafunnel, replace
 ssc install metabias, replace
+<<<<<<< HEAD
 
+=======
+>>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *Minor Cleaning
 replace Author = "Christiansen 2016" if Author == "christiansen 2016"
@@ -270,6 +294,9 @@ admetan lnor lnlci lnuci if activity==1 , eform(Studies) effect(OR) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 
 		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_cycle.png", as(png)
+		
 *Active Transport Walking (No Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | Subcat == "Low SES" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures", ///
@@ -278,6 +305,9 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | 
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 
+		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk.png", as(png)
 		
 *Active Transport Walking (500m Buffer)		
 admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effect(OR) ///
@@ -288,6 +318,9 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effe
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 
 
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_500.png", as(png)
+
 *Active Transport Walking (1000m Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures" "1000m Buffer", ///
@@ -296,7 +329,8 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) eff
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 		
-		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png)		
 *-------------------------------------------------------------------------------		
 		
 **Leisure-time Physical Activity
@@ -308,6 +342,9 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Land Use}" | BE == "{bf:Pr
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 
+				
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_1.png", as(png)
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == "{bf:Route Characteristics}") , eform(Studies) effect(OR) ///
 		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
@@ -316,6 +353,9 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == 
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup
+		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_2.png", as(png)
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Population Density}" | BE == "{bf:Residential Density}" | BE == "{bf:Street Connectivity}" | BE == "{bf:Transit}" ) , eform(Studies) effect(OR) ///
 		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
@@ -325,7 +365,12 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Population Density}" | BE 
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup
 		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_3.png", as(png)
+		
 *-------------------------------------------------------------------------------	
+
+** Moderate to Vigorous Physical Activity (MVPA)
 
 admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estimatetype == "Prevalence Ratio") ///
 		& (BE== "{bf:Land Use}" | BE== "{bf:Open Greenspace}" | BE== "{bf:Proximity to Destinations}" | ///
@@ -336,6 +381,9 @@ admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estim
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 
+		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_1.png", as(png)
 
 admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estimatetype == "Prevalence Ratio") ///
 		& (BE== "{bf:Retail Floor}" | BE== "{bf:Route Characteristics}" | BE== "{bf:Street Connectivity}" | ///
@@ -346,6 +394,9 @@ admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estim
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
 		study(Author) by(BE) nooverall nosubgroup 
+		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_2.png", as(png)
 
 *-------------------------------------------------------------------------------	
 
@@ -400,6 +451,9 @@ gr_edit .legend.plotregion1.label[6].text.Arrpush p > 0.10
 // label[6] edits
 
 gr_edit .style.editstyle boxstyle(shadestyle(color(white))) editcopy
+
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/Contour_Funnel.png", as(png)
 
 *Testing for publication bias (Egger Test)
 **Active Transport
