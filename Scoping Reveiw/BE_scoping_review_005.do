@@ -30,11 +30,11 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -44,11 +44,11 @@ local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+*local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 
 *MAC OS
-*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -58,15 +58,16 @@ local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+*local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
 log using "`logpath'/version01/3-output/Scoping Review/SR_PA_005.log",  replace
+
 
 *-------------------------------------------------------------------------------
 *-------------------------------------------------------------------------------
@@ -301,7 +302,7 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) eff
 **Leisure-time Physical Activity
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Land Use}" | BE == "{bf:Proximity to Destinations}" | BE == "{bf:Walkability Index}") , eform(Studies) effect(OR) ///
-		forestplot( title("Leisture Time Physical Activity and Built Environment Measures", ///
+		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
 		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(vsmall)) ///
 		dp(2) name(forest_LtPA_LUM_Prox, replace) xlabel(0.50(1)4 0.4 1)  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
@@ -309,7 +310,7 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Land Use}" | BE == "{bf:Pr
 		study(Author) by(BE) nooverall nosubgroup 
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == "{bf:Route Characteristics}") , eform(Studies) effect(OR) ///
-		forestplot( title("Leisture Time Physical Activity and Built Environment Measures", ///
+		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
 		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(vsmall)) ///
 		dp(2) name(forest_LtPA_Green_Route, replace) xlabel(0.50(1)4 0.4 1)  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
@@ -317,7 +318,7 @@ admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == 
 		study(Author) by(BE) nooverall nosubgroup
 
 admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Population Density}" | BE == "{bf:Residential Density}" | BE == "{bf:Street Connectivity}" | BE == "{bf:Transit}" ) , eform(Studies) effect(OR) ///
-		forestplot( title("Leisture Time Physical Activity and Built Environment Measures", ///
+		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
 		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(vsmall)) ///
 		dp(2) name(forest_LtPA_Pop_Res, replace) xlabel(0.50(1)4 0.4 1)  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
