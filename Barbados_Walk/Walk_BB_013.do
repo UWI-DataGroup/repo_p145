@@ -5,7 +5,7 @@
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	31/07/2020
-**	Date Modified: 	01/08/2020
+**	Date Modified: 	02/10/2021
 **  Algorithm Task: IPEN Walkability Country/Site Comparison (boxplot)
 
 
@@ -25,7 +25,7 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ local dopath "/Users/kernrocke/OneDrive - The University of the West Indies/Gith
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -55,7 +55,7 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_
 *local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/da
 log using "`logpath'/version01/3-output/Walkability/walk_BB_013.log",  replace
 
 *Import data from encrypted location
-import excel "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145/version01/1-input/Walkability/IPEN_BIM.xlsx", sheet("Sheet1") firstrow clear
+import excel "`datapath'/version01/1-input/Walkability/IPEN_BIM.xlsx", sheet("Sheet1") firstrow clear
 
 
 replace Mean = -4.21730977184e-10 in 17
@@ -156,16 +156,19 @@ twoway
 										 16 "Seattle, USA" 
 										 17 "Barbados, BRB"
 										 
-										 , angle(0) labsize(small)) 
+										 , angle(0) labsize(small) nogrid) 
 										 
 								xtitle(Walkability Index) 
 								graphregion(fcolor(gs15)) 
 								xline(0, lpattern(dash) lcolor(black))  
 								ytitle("City, Country") 
-								title("IPEN Walkability Comparisons", 
+								title("IPEN Walkability Index Comparisons", 
 								color(black)) caption("X = Mean, | = Median", 
 								position(5) size(vsmall))
+								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin))
 
     ;
 #delimit cr
 
+log close
