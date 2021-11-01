@@ -118,9 +118,9 @@ power onemean 19.3 22.47202, power(0.8(0.05)0.95) sd(1) knownsd
 power onemean (20.22 20.22 20.22 20.22 19.3 19.3 19.3 19.3) 22.47, ///
 				power(0.8 0.85 0.9 0.95 0.8 0.85 0.9 0.95) ///
 				sd(9.8 9.8 9.8 9.8 15.42 15.42 15.42 15.42) ///
-				knownsd parallel table ///
+				alpha(0.01) knownsd parallel table ///
 					graph(schemegrid xlabel(0.8 "80" 0.85 "85" 0.9 "90" 0.95 "95") ///
-					xtitle("Power (%)", color(black)) ylabel(125(25)325,nogrid) ///
+					xtitle("Power (%)", color(black)) ylabel(200(25)450,nogrid) ///
 					ytitle("Sample Size (n)", color(black)) ///
 					note("") legend(on col(2) title("Null MAPS Score", c(black)) order(1 2) ///
 					lab(2 "MAPS Abbreviated = 20.22") lab (1 "MAPS Gloabl = 19.28")) ///
