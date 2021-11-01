@@ -30,18 +30,10 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-<<<<<<< HEAD
-*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
-
-
-*MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
-=======
 local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
 *local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
->>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *-------------------------------------------------------------------------------
 
@@ -51,18 +43,10 @@ local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-<<<<<<< HEAD
-*local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
-
-
-*MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
-=======
 local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
 *local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
->>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *-------------------------------------------------------------------------------
 
@@ -72,17 +56,10 @@ local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-<<<<<<< HEAD
-*local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
-
-*MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
-=======
 local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
 *local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
->>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *-------------------------------------------------------------------------------
 
@@ -123,10 +100,6 @@ ssc install admetan, replace
 ssc install metan, replace
 ssc install metafunnel, replace
 ssc install metabias, replace
-<<<<<<< HEAD
-
-=======
->>>>>>> d3d6ce7fd6ccb1805961add7e273f7f79a87bf16
 
 *Minor Cleaning
 replace Author = "Christiansen 2016" if Author == "christiansen 2016"
