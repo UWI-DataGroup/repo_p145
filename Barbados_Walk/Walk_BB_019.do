@@ -32,7 +32,7 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_
 *local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -71,6 +71,9 @@ Create walkability variable with the following:
 5) Destination Density
 6) Land Use Mix
 */
+
+*Install user-driven command
+ssc install batplot, replace
 
 *Load in data from encrypted location
 use "`datapath'/version01/2-working/Walkability/Walk_agree.dta", clear
@@ -107,9 +110,9 @@ zscore walk_factor
 #delimit ;
 batplot z_walkability z_walk_factor, 
 								name(IPEN_walkfactor) notrend 
-								ytitle("WI-WF") xtitle("Mean of WI & WF")
+								ytitle("WIx-WF") xtitle("Mean of WIx & WF")
 								ylab(, nogrid)
-								moptions(mlabp(5)) sc(jitter(6))
+								moptions(mlabp(5) mfc(yellow)) sc(jitter(6))
 								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								saving("`outputpath'/version01/3-output/Walkability/IPEN_walkfactor_BA", replace)
@@ -123,7 +126,7 @@ batplot z_walkscore z_walk_factor,
 									name(Walkscore_walkfactor)  notrend
 									ytitle("WS-WF") xtitle("Mean of WS & WF")
 									ylab(, nogrid)
-									moptions(mlabp(5)) sc(jitter(6))
+									moptions(mlabp(5) mfc(yellow)) sc(jitter(6))
 									plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 									graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 									saving("`outputpath'/version01/3-output/Walkability/Walkscore_walkfactor_BA", replace)
@@ -134,9 +137,9 @@ batplot z_walkscore z_walk_factor,
 #delimit ;
 batplot z_moveability z_walk_factor, 
 								name(Movability_walkfactor)  notrend
-								ytitle("MI-WF") xtitle("Mean of MI & WF")
+								ytitle("MIx-WF") xtitle("Mean of MIx & WF")
 								ylab(, nogrid)
-								moptions(mlabp(5)) sc(jitter(6))
+								moptions(mlabp(5) mfc(yellow)) sc(jitter(6))
 								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								saving("`outputpath'/version01/3-output/Walkability/Moveability_walkfactor_BA", replace)
@@ -149,7 +152,7 @@ batplot z_walk_10 z_walk_factor,
 								name(walk10_walkfactor)  notrend
 								ytitle("W10-WF") xtitle("Mean of W10 & WF")
 								ylab(, nogrid)
-								moptions(mlabp(5)) sc(jitter(6))
+								moptions(mlabp(5) mfc(yellow)) sc(jitter(6))
 								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								saving("`outputpath'/version01/3-output/Walkability/walk10_walkfactor_BA", replace)
@@ -164,9 +167,9 @@ batplot z_walk_10 z_walk_factor,
 #delimit ;
 batplot z_walkability z_walk_factor, 
 								name(IPEN_walkfactor_trend)  
-								ytitle("WI-WF") xtitle("Mean of WI & WF")
+								ytitle("WIx-WF") xtitle("Mean of WIx & WF")
 								ylab(, nogrid)
-								moptions(mlabp(5)) sc(jitter(6))
+								moptions(mlabp(5) mfc(blue)) sc(jitter(6))
 								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								saving("`outputpath'/version01/3-output/Walkability/IPEN_walkfactor_BA_trend", replace)
@@ -180,7 +183,7 @@ batplot z_walkscore z_walk_factor,
 									name(Walkscore_walkfactor_trend)  
 									ytitle("WS-WF") xtitle("Mean of WS & WF")
 									ylab(, nogrid)
-									moptions(mlabp(5)) sc(jitter(6))
+									moptions(mlabp(5) mfc(blue)) sc(jitter(6))
 									plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 									graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 									saving("`outputpath'/version01/3-output/Walkability/Walkscore_walkfactor_BA_trend", replace)
@@ -191,9 +194,9 @@ batplot z_walkscore z_walk_factor,
 #delimit ;
 batplot z_moveability z_walk_factor, 
 								name(Movability_walkfactor_trend)  
-								ytitle("MI-WF") xtitle("Mean of MI & WF")
+								ytitle("MIx-WF") xtitle("Mean of MIx & WF")
 								ylab(, nogrid)
-								moptions(mlabp(5)) sc(jitter(6))
+								moptions(mlabp(5) mfc(blue)) sc(jitter(6))
 								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								saving("`outputpath'/version01/3-output/Walkability/Moveability_walkfactor_BA_trend", replace)
@@ -206,7 +209,7 @@ batplot z_walk_10 z_walk_factor,
 								name(walk10_walkfactor_trend)  
 								ytitle("W10-WF") xtitle("Mean of W10 & WF")
 								ylab(, nogrid)
-								moptions(mlabp(5)) sc(jitter(6))
+								moptions(mlabp(5) mfc(blue)) sc(jitter(6))
 								plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
 								saving("`outputpath'/version01/3-output/Walkability/walk10_walkfactor_BA_trend", replace)
@@ -233,7 +236,7 @@ graph combine
 				title(Limits of Agreement for Theory driven Walkability vs Data driven Walkability,
 				color(black) size(medium)
 				)
-				caption("Note: WI- IPEN Walkability Index; WS- Walk Score; MI- Movability Index; W10- Stockton Walkability; WF- Factor Analysis Walkability" 
+				caption("Note: WIx- IPEN Walkability Index; WS- Walk Score; MIx- Movability Index; W10- Stockton Walkability; WF- Factor Analysis Walkability" 
 				"All indices are presented as z-scores" "First row = No trend; Second row = Trend", position(5) 
 				size(vsmall) color(black) ring(3.5) span)
 				plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
