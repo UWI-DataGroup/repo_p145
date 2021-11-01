@@ -145,7 +145,7 @@ egen walk = rowtotal(WALKadj ewalk_mins pwalk_mins)
 replace walk = . if WALKadj == . & ewalk_mins == . & pwalk_mins == .
 
 egen walk_transport = rowtotal(CYCLEadj WALKadj)
-replace walk_transport = . if WALKadj == . & CYCLEadj
+replace walk_transport = . if WALKadj == . & CYCLEadj == .
 
 gen zero_commute =.
 replace zero_commute = 0 if walk_transport == 0
