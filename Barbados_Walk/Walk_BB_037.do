@@ -98,7 +98,7 @@ mi estimate: regress ascvd10 walkability walk i.sex_1 age i.education_1 bmi car 
 			
 mi estimate: svy linearized : regress ascvd10 walkability walk i.sex_1 age i.education_1 bmi car SES_census, cformat(%9.2f)	
 
-mi estimate: svy linearized : regress ascvd10 walkability walk i.sex_1 age i.education_1 bmi car SES_census	if age>=40, cformat(%9.2f)	
+mi estimate: svy linearized : regress ascvd10 walkability walk i.sex_1 age i.education_1 bmi car SES_census	if age>=40 & age<80, cformat(%9.2f)	
 how_many_imputations
 
  mi impute  chained (regress) bmi  ///
