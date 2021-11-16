@@ -755,6 +755,7 @@ https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3428227/
 */
 
 *CVD Risk
+keep if age>=40 & age<80
 
 *Overall
 regress ascvd10 walkability walk i.sex_1 age i.education_1 bmi car SES_census, vce(cluster ED) cformat(%9.2f)
