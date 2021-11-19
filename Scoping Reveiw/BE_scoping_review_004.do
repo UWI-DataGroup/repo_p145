@@ -11,8 +11,8 @@ cls
     //  project:                PhD Streetscapes
 	//	sub-project:			Built environment scoping review
     //  analysts:               Kern ROCKE
-    //  date first created      25-AUG-2020
-    // 	date last modified      25-AUG-2020
+    //  date first created      25/08/2020
+    // 	date last modified      01/11/2021
     //  algorithm task          Creating graphics of basic descriptives of included studies (Counts)
     //  status                  Ongoing
 
@@ -32,10 +32,11 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -45,7 +46,7 @@ local datapath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+*local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 *MAC OS
 *local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
@@ -58,7 +59,7 @@ local logpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
+*local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - data_p145"
 
 *MAC OS
 *local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
