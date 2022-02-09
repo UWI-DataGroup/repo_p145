@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	Built Environment Scoping Review
 **  Analyst:		Kern Rocke
 **	Date Created:	20/01/2021
-**	Date Modified: 	01/02/2021
+**	Date Modified: 	09/02/2022
 **  Algorithm Task: Creating Funnel and Forest Plots
 
 
@@ -30,10 +30,10 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+*local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -43,10 +43,10 @@ local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+*local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -56,10 +56,10 @@ local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 *local outputpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
-local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
+*local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-*local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -95,11 +95,13 @@ reporting continous estimates.
 
 import excel "`datapath'/version01/1-input/Scoping Review/Relationships_Scoping_Review.xlsx", sheet("Sheet1") firstrow clear
 
+/*
 *Install user-driven commands for forest and funnel plots
 ssc install admetan, replace
 ssc install metan, replace
 ssc install metafunnel, replace
 ssc install metabias, replace
+*/
 
 *Minor Cleaning
 replace Author = "Christiansen 2016" if Author == "christiansen 2016"
@@ -180,10 +182,116 @@ replace lnuci = ln(Upper) if estimate_type != 1 & estimate_type != 6
 gen or_se = .
 replace or_se = (lnuci - lnlci) / (2*invnormal(0.975)) if estimate_type != 1 & estimate_type != 6
 
+
+*Surveillance
+gen surveillance = ""
+replace surveillance = "Surveillance" if BEMeasure == "Street lighting"
+
+*Experience
+gen experience = ""
+replace experience = "Experience" if BEMeasure == "High slope"
+replace experience = "Experience" if BEMeasure == "High Slope"
+replace experience = "Experience" if BEMeasure == "Sidewalks/Trees for shading"
+
+*Traffic Safety
+gen traffic = ""
+replace traffic = "Traffic Safety" if BEMeasure == "Transit Station"
+replace traffic = "Traffic Safety" if BEMeasure == "Public transport density"
+replace traffic = "Traffic Safety" if BEMeasure == "Public Transportation"
+replace traffic = "Traffic Safety" if BEMeasure == "Sidewalks"
+replace traffic = "Traffic Safety" if BEMeasure == "walking paths"
+replace traffic = "Traffic Safety" if BEMeasure == "Bus Stop"
+replace traffic = "Traffic Safety" if BEMeasure == "Bus stops"
+
+*Greenspace
+gen greenspace = ""
+replace greenspace = "Greenspace" if BEMeasure == "Presence of parks and squares"
+replace greenspace = "Greenspace" if BEMeasure == "Presence of parks, spaces and facilities for physical activity"
+replace greenspace = "Greenspace" if BEMeasure == "Parks"
+replace greenspace = "Greenspace" if BEMeasure == "Presence of trees and gardens"
+replace greenspace = "Greenspace" if BEMeasure == "High park density"
+
+*Community 
+gen community = ""
+replace community = "Community" if BEMeasure == "Public space (low activity)"
+replace community = "Community" if BEMeasure == "Public space"
+replace community = "Community" if BEMeasure == "Public space (High activity)"
+replace community = "Community" if BEMeasure == "Presence of parks and squares"
+replace community = "Community" if BEMeasure == "Number of public spaces"
+replace community = "Community" if BEMeasure == "Presence of parks and squares"
+replace community = "Community" if BEMeasure == "Presence of parks, spaces and facilities for physical activity"
+replace community = "Community" if BEMeasure == "Proximity to squares"
+
+*Land Use
+gen land_use = ""
+replace land_use = "Land Use" if BEMeasure == "Supermarkets"
+replace land_use = "Land Use" if BEMeasure == "Recreational facilities"
+replace land_use = "Land Use" if BEMeasure == "Presence of public gyms"
+replace land_use = "Land Use" if BEMeasure == "Land use mix"
+replace land_use = "Land Use" if BEMeasure == "Land Use mix"
+replace land_use = "Land Use" if BEMeasure == "Gym facilities"
+replace land_use = "Land Use" if BEMeasure == "High Land use mix"
+replace land_use = "Land Use" if BEMeasure == "Density of private places for PA"
+replace land_use = "Land Use" if BEMeasure == "Food stores"
+replace land_use = "Land Use" if BEMeasure == "High land use mix"
+replace land_use = "Land Use" if BEMeasure == "Walkscore"
+replace land_use = "Land Use" if BEMeasure == "Near gym "
+replace land_use = "Land Use" if BEMeasure == "Near leisure and sport center"
+replace land_use = "Land Use" if BEMeasure == "Proximity to gym"
+replace land_use = "Land Use" if BEMeasure == "Proximity to seafront"
+replace land_use = "Land Use" if BEMeasure == "Near to outdoor gym equipment"
+replace land_use = "Land Use" if BEMeasure == "Near to waterfront"
+replace land_use = "Land Use" if BEMeasure == "Retail Floor"
+replace land_use = "Land Use" if BEMeasure == "Walkability Index"
+
+*Density
+gen density = ""
+replace density = "Density" if BEMeasure == "Residential density"
+replace density = "Density" if BEMeasure == "High population density"
+replace density = "Density" if BEMeasure == "High residential area proportion"
+replace density = "Density" if BEMeasure == "High Population Density"
+replace density = "Density" if BEMeasure == "Population density" 
+replace density = "Density" if BEMeasure == "Walkability Index"
+
+*Connectivity
+gen connectivity = ""
+replace connectivity = "Connectivity" if BEMeasure == "Bike path density"
+replace connectivity = "Connectivity" if BEMeasure == "High Street Connectivity"
+replace connectivity = "Connectivity" if BEMeasure == "High Walkability Index"
+replace connectivity = "Connectivity" if BEMeasure == "High street density"
+replace connectivity = "Connectivity" if BEMeasure == "Intersection density"
+replace connectivity = "Connectivity" if BEMeasure == "Presence of bike path"
+replace connectivity = "Connectivity" if BEMeasure == "Street connectivity"
+replace connectivity = "Connectivity" if BEMeasure == "Street density"
+replace connectivity = "Connectivity" if BEMeasure == "Walkability Index"
+
+*Creating and Bolding Walkability for Health Dimensions String
+gen walkhealth = ""
+replace walkhealth = "{bf:1.Surveillance}" if surveillance == "Surveillance"
+replace walkhealth = "{bf:2.Experience}" if experience == "Experience"
+replace walkhealth = "{bf:3.Traffic Safety}" if traffic == "Traffic Safety"
+replace walkhealth = "{bf:4.Community}" if community == "Community"
+replace walkhealth = "{bf:5.Greenspace}" if greenspace == "Greenspace"
+replace walkhealth = "{bf:6.Density}" if density == "Density"
+replace walkhealth = "{bf:7.Connectivity}" if connectivity == "Connectivity"
+replace walkhealth = "{bf:8.Land Use}" if land_use == "Land Use"
+
+tab walkhealth
+
+gen PA = ""
+replace PA = "1.Leisure-time PA" if PhysicalActivityType == "Leisure-time Physical Activity"
+replace PA = "2.MVPA" if PhysicalActivityType == "Moderate to Vigorous Physical Activity"
+replace PA = "2.MVPA" if PhysicalActivityType == "Total physical activity "
+replace PA = "3.Active Transport" if PhysicalActivityType == "Active Transport (cycling)"
+replace PA = "3.Active Transport" if PhysicalActivityType == "Active Transport (walking)"
+tab PA
+
 *Bolding of variable labels
 label var BEMeasure `"`"{bf:Built Envrionment}"' `"{bf:Attributes}"'"'
+label var walkhealth `"`"{bf:Walkability for}"' `"{bf:Health Framework}"'"'
 label var Author `"`"{bf:Studies}"'"'
 label var BE `"`"{bf:Built Envrionment}"' `"{bf:Attributes}"'"'
+
 
 
 *Bolding Built Environment Attributes String
@@ -207,6 +315,9 @@ replace Author = "Florindo 2019 (Public Open Space)" if BEMeasure == "Public spa
 
 replace Author = "Hino 2013 (Bike Path Density)" if BEMeasure == "Bike path density" & Author == "Hino 2013"
 replace Author = "Hino 2013 (Street Density)" if BEMeasure == "High street density" & Author == "Hino 2013"
+replace Author = "Hino 2013 (Population Density)" if BEMeasure == "High population density" | BEMeasure == "High Population Density" | BEMeasure == "Population density" & Author == "Hino 2013"
+replace Author = "Hino 2013 (Residential Density)" if BEMeasure == "Residential density" | BEMeasure == "High residential area proportion" & Author == "Hino 2013"
+
 
 replace Author = "Da Silva 2017 (Low SES: Presence of Trees)" if BEMeasure == "Presence of trees and gardens" & Author == "Da Silva 2017" & Subcat == "Low SES"
 replace Author = "Da Silva 2017 (High SES: Presence of Trees)" if BEMeasure == "Presence of trees and gardens" & Author == "Da Silva 2017" & Subcat == "High SES"
@@ -261,115 +372,122 @@ gsort -lnor
 *Active Transport Cycling
 admetan lnor lnlci lnuci if activity==1 , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures", ///
-		color(black) size(medsmall)) caption("Outcome: cycling for transport (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_AT_cycling, replace) xlabel(0.50(1)4 0.4 1)  ///
+		color(black) size(large)) caption("Outcome: cycling for transport (10/150 min per week)", span size(medium)) ///
+		dp(2) name(forest_AT_cycling, replace) xlabel(0.50(1)4 0.30 1 4, labsize(medium))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins cycling commute/week # >10 mins cycling comute/week) ysize(1) xsize(4)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_cycle.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_cycle.png", as(png) replace
 		
 *Active Transport Walking (No Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | Subcat == "Low SES" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures", ///
 		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_AT_walking, replace) xlabel(0.50(1)4 0.4 1)  ///
+		dp(2) name(forest_AT_walking, replace) xlabel(0.50(1)4 0.30 1 6.5,labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk.png", as(png) replace
 		
 *Active Transport Walking (500m Buffer)		
 admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures" "500m Buffer", ///
-		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_AT_walking_500, replace) xlabel(0.50(1)4 0.4 1)  ///
+		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(medium)) ///
+		dp(2) name(forest_AT_walking_500, replace) xlabel(0.50(1)2.0 1 2.0, labsize(medsmall))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.5) xsize(4)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_500.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_500.png", as(png) replace
 
 *Active Transport Walking (1000m Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures" "1000m Buffer", ///
-		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_AT_walking_1000, replace) xlabel(0.50(1)4 0.4 1)  ///
+		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(medium)) ///
+		dp(2) name(forest_AT_walking_1000, replace) xlabel(0.50(1)2 0.5 1 2.0, labsize(medsmall))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 		
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.5) xsize(4)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png)		
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png) replace		
 *-------------------------------------------------------------------------------		
 		
 **Leisure-time Physical Activity
 
-admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Land Use}" | BE == "{bf:Proximity to Destinations}" | BE == "{bf:Walkability Index}") , eform(Studies) effect(OR) ///
+admetan lnor lnlci lnuci if activity==3 & (walkhealth == "{bf:1.Surveillance}" | walkhealth == "{bf:2.Experience}" | walkhealth == "{bf:3.Traffic Safety}") , eform(Studies) effect(OR) ///
 		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
 		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_LtPA_LUM_Prox, replace) xlabel(0.50(1)4 0.4 1)  ///
+		dp(2) name(forest_LtPA_1, replace) xlabel(0.50(1)4 0.4 1 5.0, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 				
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_1.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_1.png", as(png) replace
 
-admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Open Greenspace}" | BE == "{bf:Route Characteristics}") , eform(Studies) effect(OR) ///
+admetan lnor lnlci lnuci if activity==3 & (walkhealth == "{bf:4.Community}" | walkhealth == "{bf:5.Greenspace}" | walkhealth == "{bf:6.Density}") , eform(Studies) effect(OR) ///
 		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
-		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_LtPA_Green_Route, replace) xlabel(0.50(1)4 0.4 1)  ///
+		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(small)) ///
+		dp(2) name(forest_LtPA_2, replace) xlabel(0.50(1)4 0.10 1 5.0, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup
 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_2.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_2.png", as(png) replace
 
-admetan lnor lnlci lnuci if activity==3 & (BE == "{bf:Population Density}" | BE == "{bf:Residential Density}" | BE == "{bf:Street Connectivity}" | BE == "{bf:Transit}" ) , eform(Studies) effect(OR) ///
+admetan lnor lnlci lnuci if activity==3 & (walkhealth == "{bf:7.Connectivity}" | walkhealth == "{bf:8.Land Use}") , eform(Studies) effect(OR) ///
 		forestplot( title("Leisure Time Physical Activity and Built Environment Measures", ///
 		color(black) size(medsmall)) caption("Outcome: Leisure-time Physical Activity (10/150 min per week)", span size(vsmall)) ///
-		dp(2) name(forest_LtPA_Pop_Res, replace) xlabel(0.50(1)4 0.4 1)  ///
+		dp(2) name(forest_LtPA_3, replace) xlabel(0.50(1)4 0.35 1, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup
 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_3.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_leisure_3.png", as(png) replace
 		
 *-------------------------------------------------------------------------------	
 
 ** Moderate to Vigorous Physical Activity (MVPA)
 
 admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estimatetype == "Prevalence Ratio") ///
-		& (BE== "{bf:Land Use}" | BE== "{bf:Open Greenspace}" | BE== "{bf:Proximity to Destinations}" | ///
-		BE== "{bf:Residential Density}") , eform(Studies) effect(OR) ///
+		& (walkhealth == "{bf:1.Surveillance}" | walkhealth == "{bf:2.Experience}" | walkhealth == "{bf:3.Traffic Safety}" | walkhealth == "{bf:4.Community}" | | walkhealth == "{bf:5.Greenspace}") , eform(Studies) effect(OR) ///
 		forestplot( title("MVPA and Built Environment Measures", ///
-		color(black) size(medsmall)) caption("Outcome: Moderate to Vigorous Physical Activity per week)", span size(vsmall)) ///
-		dp(2) name(forest_AT_cycling, replace) xlabel(0.50(1)4 0.4 1)  ///
+		color(black) size(medsmall)) caption("Outcome: Moderate to Vigorous Physical Activity per week)", span size(small)) ///
+		dp(2) name(forest_MVPA_1, replace) xlabel(0.50(1)3 0.6 1 3.0, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_1.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_1.png", as(png) replace
 
 admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estimatetype == "Prevalence Ratio") ///
-		& (BE== "{bf:Retail Floor}" | BE== "{bf:Route Characteristics}" | BE== "{bf:Street Connectivity}" | ///
-		BE== "{bf:Transit}") , eform(Studies) effect(OR) ///
+		& (walkhealth == "{bf:6.Density}" | walkhealth == "{bf:7.Connectivity}" | walkhealth == "{bf:8.Land Use}") , eform(Studies) effect(OR) ///
 		forestplot( title("MVPA and Built Environment Measures", ///
-		color(black) size(medsmall)) caption("Outcome: Moderate to Vigorous Physical Activity per week)", span size(vsmall)) ///
-		dp(2) name(forest_AT_cycling, replace) xlabel(0.50(1)4 0.4 1)  ///
+		color(black) size(medsmall)) caption("Outcome: Moderate to Vigorous Physical Activity per week)", span size(small)) ///
+		dp(2) name(forest_MVPA_2, replace) xlabel(0.70(1)3.0  1 3.5, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
-		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white)) ///
-		study(Author) by(BE) nooverall nosubgroup 
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_2.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_mvpa_2.png", as(png) replace
 
 *-------------------------------------------------------------------------------	
 
@@ -384,7 +502,7 @@ label value activity_new activity_new
 *Contour Funnel Plot
 #delimit;
 confunnel lnor or_se if activity_new!=., contours(0.1 1 5 10) name(funnel, replace) 
-			xlab(-2.0 -1.2 0 1.2 2.0) xtitle("Odds Ratio (log scale)") 
+			xlab(-2.0 -1.2 0 1.2 2.0, labsize(small)) xtitle("Odds Ratio (log scale)") 
 			ylab(.8(.1)0) ytitle("Standard Error") 
 			
 			twowayopts(plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
@@ -426,7 +544,7 @@ gr_edit .legend.plotregion1.label[6].text.Arrpush p > 0.10
 gr_edit .style.editstyle boxstyle(shadestyle(color(white))) editcopy
 
 *Export graph
-graph export "`outputpath'/version01/3-output/Scoping Review/Contour_Funnel.png", as(png)
+graph export "`outputpath'/version01/3-output/Scoping Review/Contour_Funnel.png", as(png) replace
 
 *Testing for publication bias (Egger Test)
 **Active Transport
@@ -437,3 +555,104 @@ metabias lnor or_se if activity_new == 2, egger
 metabias lnor or_se if activity_new == 3, egger 
 *confunnel lnor or_se, contours(0.1 1 5 10)  twowayopts(legend (order(0 1 2 3 4 5 ) lab(1 "p<0.001") lab(2 "0.001<p<0.01") lab(3 "0.01<p<0.05") lab(4 "0.05<p<0.1") lab(5 "p>0.1")))
 
+
+
+*-------------------------------------------------------------------------------
+
+
+/*
+*Connected
+gen connected = ""
+replace connected = "Connected" if BEMeasure == "Bike path density"
+replace connected = "Connected" if BEMeasure == "High Street Connectivity"
+replace connected = "Connected" if BEMeasure == "High Walkability Index"
+replace connected = "Connected" if BEMeasure == "High street density"
+replace connected = "Connected" if BEMeasure == "Intersection density"
+replace connected = "Connected" if BEMeasure == "Street connectivity"
+replace connected = "Connected" if BEMeasure == "Street density"
+replace connected = "Connected" if BEMeasure == "Walkability Index"
+replace connected = "Connected" if BEMeasure == "Bus Stop"
+replace connected = "Connected" if BEMeasure == "Bus stops"
+replace connected = "Connected" if BEMeasure == "Transit Station"
+replace connected = "Connected" if BEMeasure == "Public transport density"
+replace connected = "Connected" if BEMeasure == "Public Transportation"
+
+*Convenient
+gen convenient = ""
+replace convenient = "Convenient" if BEMeasure == "Supermarkets"
+replace convenient = "Convenient" if BEMeasure == "Recreational facilities"
+replace convenient = "Convenient" if BEMeasure == "Presence of public gyms"
+replace convenient = "Convenient" if BEMeasure == "Land use mix"
+replace convenient = "Convenient" if BEMeasure == "Land Use mix"
+replace convenient = "Convenient" if BEMeasure == "Gym facilities"
+replace convenient = "Convenient" if BEMeasure == "High Land use mix"
+replace convenient = "Convenient" if BEMeasure == "Density of private places for PA"
+replace convenient = "Convenient" if BEMeasure == "Food stores"
+replace convenient = "Convenient" if BEMeasure == "High land use mix"
+replace convenient = "Convenient" if BEMeasure == "Walkscore"
+replace convenient = "Convenient" if BEMeasure == "Near gym "
+replace convenient = "Convenient" if BEMeasure == "Near leisure and sport center"
+replace convenient = "Convenient" if BEMeasure == "Proximity to gym"
+replace convenient = "Convenient" if BEMeasure == "Proximity to seafront"
+replace convenient = "Convenient" if BEMeasure == "Near to outdoor gym equipment"
+replace convenient = "Convenient" if BEMeasure == "Near to waterfront"
+replace convenient = "Convenient" if BEMeasure == "Retail Floor"
+replace convenient = "Convenient" if BEMeasure == "Walkability Index"
+
+*Comfortable
+gen comfortable = ""
+replace comfortable = "Comfortable" if BEMeasure == "Bike path density"
+replace comfortable = "Comfortable" if BEMeasure == "Presence of bike path"
+replace comfortable = "Comfortable" if BEMeasure == "walking paths"
+replace comfortable= "Comfortable" if BEMeasure == "Presence of trees and gardens"
+replace comfortable = "Comfortable" if BEMeasure == "Sidewalks/Trees for shading"
+
+*Convival
+gen convival = ""
+replace convival = "Convival" if BEMeasure == "Presence of parks and squares"
+replace convival = "Convival" if BEMeasure == "Presence of parks, spaces and facilities for physical activity"
+replace convival = "Convival" if BEMeasure == "Parks"
+replace convival = "Convival" if BEMeasure == "High park density"
+replace convival = "Convival" if BEMeasure == "Public space (low activity)"
+replace convival = "Convival" if BEMeasure == "Public space"
+replace convival = "Convival" if BEMeasure == "Public space (High activity)"
+replace convival = "Convival" if BEMeasure == "Presence of parks and squares"
+replace convival = "Convival" if BEMeasure == "Number of public spaces"
+replace convival = "Convival" if BEMeasure == "Presence of parks and squares"
+replace convival = "Convival" if BEMeasure == "Presence of parks, spaces and facilities for physical activity"
+replace convival = "Convival" if BEMeasure == "Proximity to squares"
+
+*Conspicuous
+gen conspicuous = ""
+replace conspicuous = "Conspicuous" if BEMeasure == "Street lighting"
+replace conspicuous = "Conspicuous" if BEMeasure == "Walkability Index"
+replace conspicuous = "Conspicuous" if BEMeasure == "High slope"
+replace conspicuous = "Conspicuous" if BEMeasure == "High Slope"
+
+*Coexistence
+gen coexistence = ""
+replace coexistence = "Coexistence" if BEMeasure == "Bus Stop"
+replace coexistence = "Coexistence" if BEMeasure == "Bus stops"
+replace coexistence = "Coexistence" if BEMeasure == "Transit Station"
+replace coexistence = "Coexistence" if BEMeasure == "Public transport density"
+replace coexistence = "Coexistence" if BEMeasure == "Public Transportation"
+replace coexistence = "Coexistence" if BEMeasure == "Walkability Index"
+
+*Commitment
+gen commitment = ""
+replace commitment = "Commitment" if BEMeasure == "Bike path density"
+replace commitment = "Commitment" if BEMeasure == "Presence of bike path"
+replace commitment= "Commitment" if BEMeasure == "walking paths"
+replace commitment = "Commitment" if BEMeasure == "Presence of trees and gardens"
+replace commitment = "Commitment" if BEMeasure == "Sidewalks/Trees for shading"
+
+gen seven_c = ""
+replace seven_c = "Connected" if connected == "Connected"
+replace seven_c = "Convenient" if convenient == "Convenient"
+replace seven_c = "Comfortable" if comfortable == "Comfortable"
+replace seven_c = "Convival" if convival == "Convival"
+replace seven_c = "Conspicuous" if conspicuous == "Conspicuous"
+replace seven_c = "Coexistence" if coexistence == "Coexistence"
+replace seven_c = "Commitment" if commitment == "Commitment"
+
+tab seven_c PA

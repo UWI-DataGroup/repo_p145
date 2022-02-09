@@ -21,7 +21,8 @@ macro drop _all
 set more 1
 set linesize 150
  
- set seed 1234
+set seed 1234
+
 
 *Setting working directory
 
@@ -35,9 +36,9 @@ set linesize 150
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
-local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p120"
-local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p124"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
+local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p120"
+local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p124"
 local dopath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The UWI - Cave Hill Campus/Github Repositories"
 
 *_______________________________________________________________________________
@@ -259,8 +260,8 @@ replace dbp_combine = dbp_hotn if study == 1
 replace dbp_combine = dbp_echorn if study == 2
 
 gen dbp_cbr = . 
-replace dbp_cbr = 0 if dbp_combine <140
-replace dbp_cbr = 1 if dbp_combine >=140 & dbp_combine!=.
+replace dbp_cbr = 0 if dbp_combine <90
+replace dbp_cbr = 1 if dbp_combine >=90 & dbp_combine!=.
 
 gen tchol_combine= .
 replace tchol_combine = tchol_hotn if study == 1
@@ -927,3 +928,17 @@ graph combine g6 g7,
 
 
 
+*Pilot microscale results
+gen maps = .
+replace maps = 25.34242 if ED ==2
+replace maps = 7.5 if ED ==12
+replace maps = 29.5 if ED ==132
+replace maps = 20.54667 if ED ==133
+replace maps = 16.4 if ED ==149
+
+gen ped = .
+replace ped = 3.439394 if ED ==2
+replace ped = 3.5 if ED ==12
+replace ped = 1.333333 if ED ==132
+replace ped = 4.54 if ED ==133
+replace ped = 3.35 if ED ==149

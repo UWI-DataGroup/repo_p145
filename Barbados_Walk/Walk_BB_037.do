@@ -116,3 +116,6 @@ mi estimate: svy linearized: mean ascvd10 walk
 
 
 *add(`r(add_M)')
+
+sem (walkability -> ascvd10, ) (walkability -> walk, ) (sex_1 -> ascvd10, ) (sex_1 -> walk, ) (age -> ascvd10, ) (age -> walk, ) (SES_census -> ascvd10, ) (SES_census -> walk, ) (bmi -> ascvd10, ) (bmi -> walk, ) (car -> ascvd10, ) (car -> walk, ) (education_1 -> ascvd10, ) (education_1 -> walk, ) if age>=40 & age<80, nocapslatent vce(cluster ED) cformat(%9.2f)
+

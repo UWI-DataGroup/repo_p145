@@ -35,9 +35,9 @@ set linesize 150
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
-local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p120"
-local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p124"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
+local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p120"
+local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p124"
 local dopath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The UWI - Cave Hill Campus/Github Repositories"
 
 *_______________________________________________________________________________
@@ -85,6 +85,9 @@ tabstat walkability ndvi, by(cluster) statistics( median p25 p75 ) columns(stati
 spshape2dta /Users/kernrocke/Downloads/ED_fix_BB/ED_analysis.shp, replace
 use "/Users/kernrocke/Downloads/ED_analysis.dta", replace
 spset
+
+*Minor cleaning
+replace PARISHNAM1 = "Christ Church" if PARISHNAM1 == "Christ Churc"
 
 *Rename variables
 rename ED_spatial ndvi
@@ -142,7 +145,7 @@ spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) errorlag(W)
 *Creating Chrolopleth map of walkability
 #delimit;
 	grmap walkability, 
-		title("Walkability Index") 
+		title("Spatial Distribution of" "Neighbourhood Walkability Index") 
 		legend(on order(2 "Very Low" 3 "Low" 
 						4 "Medium" 5 "High" 
 						6 "Very High") 
@@ -234,3 +237,66 @@ graph combine Walkability_Index Walkscore,
 			name(walk, replace)
 ;
 #delimit cr
+
+
+*-------------------------------------------------------------------------------
+
+
+
+
+#delimit;
+	grmap walkability, 
+		title("Enumeration District") 
+		legend(on order(2 "Very Low" 3 "Low" 
+						4 "Medium" 5 "High" 
+						6 "Very High") 
+						region(lcolor(black)) title(Key, size(small)) position(2))
+		fcolor(RdYlGn) clmethod(quantile) clnumber(5) 
+		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
+		name(Walkability_Index_ED, replace)
+;
+#delimit cr
+
+*-------------------------------------------------------------------------------
+collapse (mean) walkability, by(PARISHNAM1)
+rename PARISHNAM1 parish
+encode parish, gen(parish_id)
+label var parish "Parish"
+label var walkability "Walkability Index"
+save "walkability_parish", replace
+*-------------------------------------------------------------------------------
+
+use "/Users/kernrocke/Downloads/Barbados_Parish_v2.dta", clear
+spset
+rename NAME_1 parish
+rename ID_1 parish_id
+merge 1:1 parish_id using "walkability_parish"
+
+#delimit;
+	grmap walkability, 
+		title("Parish") 
+		legend(on order(2 "Very Low" 3 "Low" 
+						4 "Medium" 5 "High" 
+						6 "Very High") 
+						region(lcolor(black)) title(Key, size(small)) position(2))
+		fcolor(RdYlGn) clmethod(quantile) clnumber(5) 
+		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
+		name(Walkability_Index_parish, replace)
+;
+#delimit cr
+
+
+*Combine Graphs Walkability graphs by administrative boundary
+#delimit;
+graph combine Walkability_Index_ED Walkability_Index_parish, 
+			row(1) 
+			title("Spatial Distribution of Walkability Neighbourhood Measures", 
+			color(black)) 
+			name(walk_ED_parish, replace)
+;
+#delimit cr
+
+
+
+
+
