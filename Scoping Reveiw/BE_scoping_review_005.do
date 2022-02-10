@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	Built Environment Scoping Review
 **  Analyst:		Kern Rocke
 **	Date Created:	20/01/2021
-**	Date Modified: 	09/02/2022
+**	Date Modified: 	10/02/2022
 **  Algorithm Task: Creating Funnel and Forest Plots
 
 
@@ -315,9 +315,10 @@ replace Author = "Florindo 2019 (Public Open Space)" if BEMeasure == "Public spa
 
 replace Author = "Hino 2013 (Bike Path Density)" if BEMeasure == "Bike path density" & Author == "Hino 2013"
 replace Author = "Hino 2013 (Street Density)" if BEMeasure == "High street density" & Author == "Hino 2013"
-replace Author = "Hino 2013 (Population Density)" if BEMeasure == "High population density" | BEMeasure == "High Population Density" | BEMeasure == "Population density" & Author == "Hino 2013"
-replace Author = "Hino 2013 (Residential Density)" if BEMeasure == "Residential density" | BEMeasure == "High residential area proportion" & Author == "Hino 2013"
 
+replace Author = "Hino 2013 (Population Density)" if activity == 1 & BEMeasure=="High Population Density" & Author == "Hino 2013" 
+
+replace Author = "Hino 2013 (Residential Density)" if activity == 1 & BEMeasure=="High residential area proportion" & Author == "Hino 2013" 
 
 replace Author = "Da Silva 2017 (Low SES: Presence of Trees)" if BEMeasure == "Presence of trees and gardens" & Author == "Da Silva 2017" & Subcat == "Low SES"
 replace Author = "Da Silva 2017 (High SES: Presence of Trees)" if BEMeasure == "Presence of trees and gardens" & Author == "Da Silva 2017" & Subcat == "High SES"
@@ -362,7 +363,120 @@ replace Author = "Hino 2019 (Buffer: 1000m; Parks)" if Subcat == "1000m" & Autho
 replace Author = "Hino 2019 (Buffer: 500m; Public Spaces)" if Subcat == "500m" & Author == "Hino 2019" & BEMeasure == "Number of public spaces"
 replace Author = "Hino 2019 (Buffer: 1000m; Public Spaces)" if Subcat == "1000m" & Author == "Hino 2019" & BEMeasure == "Number of public spaces"
 
-gsort -lnor 
+replace Author = "Hino 2019 (Outcome- Walking >10 min/week; Buffer: 500m; Public Spaces)" in 137
+replace Author = "Hino 2019 (Outcome- Walking >10 min/week; Buffer: 1000m; Public Spaces)" in 138
+replace Author = "Hino 2019 (Outcome- Walking >150 min/week; Buffer: 1000m; Public Spaces)" in 139
+replace Author = "Hino 2019 (Outcome- Walking >150 min/week; Buffer: 500m; Public Spaces)" in 140
+
+replace Author = "Gomez 2010b" if Author == "Gomez 2010"
+
+replace Author = "Gomez 2010a (Outcome- Walking >150 min/week; BE- Slope)" if BEMeasure == "High slope" & Author == "Gomez 2010a" & or == 0.8
+
+replace Author = "Gomez 2010a (Outcome- Walking >60 min/week; BE- Slope)" if BEMeasure == "High slope" & Author == "Gomez 2010a" & or == 0.61
+
+
+replace Author = "Gomez 2010a (Outcome- Walking >150 min/week; BE- Transit Stops)" if BEMeasure == "Transit Station" & Author == "Gomez 2010a" & or == 0.78
+
+replace Author = "Gomez 2010a (Outcome- Walking >60 min/week; BE- Transit Stops)" if BEMeasure == "Transit Station" & Author == "Gomez 2010a" & or == 0.75
+
+replace Author = "Gomez 2010a (Outcome- Walking >150 min/week; BE- Parks)" if BEMeasure == "High park density" & Author == "Gomez 2010a" & or == 0.95
+
+replace Author = "Gomez 2010a (Outcome- Walking >60 min/week; BE- Parks)" if BEMeasure == "High park density" & Author == "Gomez 2010a" & or == 1.06
+
+replace Author = "Gomez 2010a (Outcome- Walking >150 min/week; BE- Connectivity)" if BEMeasure == "High Street Connectivity" & Author == "Gomez 2010a" & or == 0.90
+
+replace Author = "Gomez 2010a (Outcome- Walking >60 min/week; BE- Connectivity)" if BEMeasure == "High Street Connectivity" & Author == "Gomez 2010a" & or == 0.64
+
+
+replace Author = "Borchardt 2019 (Transit Stops)" if Author == "Borchardt 2019" & or == 1.02
+
+replace Author = "Borchardt 2019 (Sidewalks)" if Author == "Borchardt 2019" & or == 0.94
+replace Author = "Borchardt 2019 (Sidewalks)" if Author == "Borchardt 2019" & or == 1.03
+
+replace Author = "Borchardt 2019 (Public gym)" if Author == "Borchardt 2019" & or == 0.99 & activity==4
+replace Author = "Borchardt 2019 (Proximity to seafront)" if Author == "Borchardt 2019" & or == 1.16 & activity==4
+
+replace Author = "Borchardt 2019 (Public gyms)" if Author == "Borchardt 2019" & or == 0.95
+replace Author = "Borchardt 2019 (Proximity to seafront)" if Author == "Borchardt 2019" & or == 1.41
+
+replace Author = "Da Silva 2017 (Walking paths/trails)" if Author == "Da Silva 2017" & activity == 3 & or == 1.00
+
+replace Author = "Da Silva 2017 (Sidewalks)" if Author == "Da Silva 2017" & activity == 3 & or == 1.01
+
+replace Author = "Andrade 2019 (Presence of trees and gardens)" if BEMeasure == "Presence of trees and gardens" & Author == "Andrade 2019"
+
+replace Author = "Andrade 2019 (Parks)" if BEMeasure == "Presence of parks, spaces and facilities for physical activity" & Author == "Andrade 2019"
+
+
+replace Author = "Schipperijn 2017 (parks within 500m buffer)" if Author == "Schipperijn 2017" & or == 1.04
+
+replace Author = "Schipperijn 2017 (parks within 1 km buffer)" if Author == "Schipperijn 2017" & or == 1.027
+
+replace Author = "Hino 2011 (Land Use Mix)" if Author == "Hino 2011" & or == 1.89
+
+replace Author = "Lee 2016 (Land use)" if Author == "Lee 2016" & or == 0.89
+replace Author = "Lee 2016 (Recreational facilities)" if Author == "Lee 2016" & or == 1.04
+
+
+replace Author = "Cerin 2017 (500m buffer; BE- Transit Stop)" if Author == "Cerin 2017" & or == 1.063
+replace Author = "Cerin 2017 (1 km buffer; BE- Transit Stop)" if Author == "Cerin 2017" & or == 1.105
+
+replace Author = "Cerin 2017 (500m buffer; BE- Residential Density)" if Author == "Cerin 2017" & or == 1.005
+replace Author = "Cerin 2017 (1 km buffer; BE- Residential Density)" if Author == "Cerin 2017" & or == 1.006
+
+replace Author = "Cerin 2017 (500m buffer; BE- Intersection Density)" if Author == "Cerin 2017" & or == 1.055
+replace Author = "Cerin 2017 (1 km buffer; BE- Intersection Density)" if Author == "Cerin 2017" & or == 1.314
+
+replace Author = "Cerin 2017 (500m buffer; BE- Parks)" if Author == "Cerin 2017" & or == 1.057
+replace Author = "Cerin 2017 (1 km buffer; BE- Parks)" if Author == "Cerin 2017" & or == 1.03
+
+replace Author = "Cerin 2017 (500m buffer; BE- Land Use Mix)" if Author == "Cerin 2017" & or == 1.971
+replace Author = "Cerin 2017 (1 km buffer; BE- Land Use Mix)" if Author == "Cerin 2017" & or == 2.06
+
+replace Author = "Cerin 2017 (500m buffer; BE- Retail Floor)" if Author == "Cerin 2017" & or == 2.235
+replace Author = "Cerin 2017 (1 km buffer; BE- Retail Floor)" if Author == "Cerin 2017" & or == 1.713
+
+replace Author = "Cerin 2018 (Land Use Mix)" if Author == "Cerin 2018" & or == 0.999
+replace Author = "Cerin 2018 (Retail Floor)" if Author == "Cerin 2018" & or == 1.008
+
+replace Author = "Schipperijn 2017 (parks within 500m buffer)" if Author == "Schipperijn 2017" & or == 1.007
+replace Author = "Schipperijn 2017 (parks within 1 km buffer)" if Author == "Schipperijn 2017" & or == 1.016
+
+replace Author = "Da Silva 2017 (Middle SES: Street lighting)" if Author == "Da Silva 2017" & or == 1.22
+replace Author = "Da Silva 2017 (Middle SES: Population Density)" if Author == "Da Silva 2017" & or == 1.13
+replace Author = "Da Silva 2017 (Middle SES: Sidewalks)" if Author == "Da Silva 2017" & or == 1.01
+replace Author = "Da Silva 2017 (Middle SES: Presence of Trees)" if Author == "Da Silva 2017" & or == 1.19
+replace Author = "Da Silva 2017 (Middle SES: Street Connectivity)" if Author == "Da Silva 2017" & or == 1.14
+replace Author = "Da Silva 2017 (Middle SES: Public Space)" if Author == "Da Silva 2017" & or == 0.98
+replace Author = "Da Silva 2017 (Middle SES: Walking paths)" if Author == "Da Silva 2017" & or == 1.07
+replace Author = "Da Silva 2017 (Middle SES: Proximity to seafront)" if Author == "Da Silva 2017" & or == 0.46
+
+
+replace Author = "Florindo 2019 (Transit stops within 1 km buffer)" if Author == "Florindo 2019" & or == 1.31
+replace Author = "Florindo 2019 (Transit stops within 500m buffer)" if Author == "Florindo 2019" & or == 0.93
+replace Author = "Florindo 2019 (Parks within 1 km buffer)" if Author == "Florindo 2019 (Parks)" & or == 0.74
+replace Author = "Florindo 2019 (Parks within 500m buffer)" if Author == "Florindo 2019 (Parks)" & or == 0.82
+replace Author = "Florindo 2019 (Food stores 1 km buffer)" if Author == "Florindo 2019 (Food Stores)" & or == 1.24
+replace Author = "Florindo 2019 (Food stores within 500m buffer)" if Author == "Florindo 2019 (Food Stores)" & or == 0.95
+replace Author = "Florindo 2019 (Supermarkets within 1 km buffer)" if Author == "Florindo 2019 (Supermarkets)" & or == 1.03
+replace Author = "Florindo 2019 (Supermarkets within 500m buffer)" if Author == "Florindo 2019 (Supermarkets)" & or == 0.93
+replace Author = "Florindo 2019 (Land use mix within 1 km buffer)" if Author == "Florindo 2019" & or == 0.90
+replace Author = "Florindo 2019 (Land use mix within 500m buffer)" if Author == "Florindo 2019" & or == 1.21
+replace Author = "Florindo 2019 (Public space within 1 km buffer)" if Author == "Florindo 2019 (Public Open Space)" & or == 0.95
+replace Author = "Florindo 2019 (Public space within 500m buffer)" if Author == "Florindo 2019 (Public Open Space)" & or == 0.85
+
+
+replace Author = "Christiansen 2016 (Residential Density within 1 km buffer)" if Author == "Christiansen 2016" & or == 1.03
+replace Author = "Christiansen 2016 (Intersection Density within 1 km buffer)" if Author == "Christiansen 2016" & or == 1.35
+replace Author = "Christiansen 2016 (Land Use Mix within 1 km buffer)" if Author == "Christiansen 2016" & or == 1.29
+replace Author = "Christiansen 2016 (Parks within 1 km buffer)" if Author == "Christiansen 2016" & Lower == 0.98
+
+
+replace Author = "Christiansen 2016 (Residential Density within 500m buffer)" if Author == "Christiansen 2016" & or == 1.01
+replace Author = "Christiansen 2016 (Intersection Density within 500m buffer)" if Author == "Christiansen 2016" & or == 1.26
+replace Author = "Christiansen 2016 (Land Use Mix within 500m buffer)" if Author == "Christiansen 2016" & or == 1.32
+replace Author = "Christiansen 2016 (Parks within 500m buffer)" if Author == "Christiansen 2016" & Lower == 0.96
+*gsort -lnor 
 
 *-------------------------------------------------------------------------------		
 
@@ -381,7 +495,7 @@ admetan lnor lnlci lnuci if activity==1 , eform(Studies) effect(OR) ///
 		
 *Export graph
 graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_cycle.png", as(png) replace
-		
+*-------------------------------------------------------------------------------				
 *Active Transport Walking (No Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | Subcat == "Low SES" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures", ///
@@ -389,12 +503,53 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "" | Subcat == "High SES" | 
 		dp(2) name(forest_AT_walking, replace) xlabel(0.50(1)4 0.30 1 6.5,labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
-		favours(<10 mins walking commute/week # >10 mins walking comute/week)) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(30) xsize(50)) ///
 		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
 graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk.png", as(png) replace
+
+*-------------------------------------------------------------------------------
+*Active Transport - Surveillance; Experience; Traffic Safety; Community
+admetan lnor lnlci lnuci if activity==2 & (walkhealth == "{bf:1.Surveillance}" | walkhealth == "{bf:2.Experience}" | walkhealth == "{bf:3.Traffic Safety}" | walkhealth == "{bf:4.Community}"), eform(Studies) effect(OR) ///
+		forestplot( title("Active Transport and Built Environment Measures", ///
+		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(vsmall)) ///
+		dp(2) name(forest_AT_walking_1, replace) xlabel(0.50(1)2 0.50 1 2.0,labsize(small))  ///
+		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) xsize(11)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
+
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_v1.png", as(png) replace		
+*-------------------------------------------------------------------------------		
+*Active Transport - Greenspace; Density; Connectivity
+admetan lnor lnlci lnuci if activity==2 & (walkhealth == "{bf:5.Greenspace}" | walkhealth == "{bf:6.Density}" | walkhealth == "{bf:7.Connectivity}"), eform(Studies) effect(OR) ///
+		forestplot( title("Active Transport and Built Environment Measures", ///
+		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(vsmall)) ///
+		dp(2) name(forest_AT_walking_2, replace) xlabel(0.5(1)4  0.12 1 6.5,labsize(small))  ///
+		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) xsize(8)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
+
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_v2.png", as(png) replace
+*-------------------------------------------------------------------------------		
+*Active Transport - Land Use
+admetan lnor lnlci lnuci if activity==2 & (walkhealth == "{bf:8.Land Use}"), eform(Studies) effect(OR) ///
+		forestplot( title("Active Transport and Built Environment Measures", ///
+		color(black) size(medsmall)) caption("Outcome: walking for transport (10/150 min per week)", span size(vsmall)) ///
+		dp(2) name(forest_AT_walking_3, replace) xlabel(0.5(1)4  0.12 1 6.5,labsize(small))  ///
+		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
+		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(10) xsize(30)) ///
+		study(Author) by(walkhealth) nooverall nosubgroup 
 		
+*Export graph
+graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_v3.png", as(png) replace
+*-------------------------------------------------------------------------------
+*-------------------------------------------------------------------------------				
 *Active Transport Walking (500m Buffer)		
 admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures" "500m Buffer", ///
@@ -402,12 +557,12 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "500m" , eform(Studies) effe
 		dp(2) name(forest_AT_walking_500, replace) xlabel(0.50(1)2.0 1 2.0, labsize(medsmall))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
-		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.5) xsize(4)) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.0) xsize(3)) ///
 		study(Author) by(walkhealth) nooverall nosubgroup 
 
 *Export graph
 graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_500.png", as(png) replace
-
+*-------------------------------------------------------------------------------		
 *Active Transport Walking (1000m Buffer)
 admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) effect(OR) ///
 		forestplot( title("Active Transport and Built Environment Measures" "1000m Buffer", ///
@@ -415,10 +570,12 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) eff
 		dp(2) name(forest_AT_walking_1000, replace) xlabel(0.50(1)2 0.5 1 2.0, labsize(medsmall))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
-		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.5) xsize(4)) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.0) xsize(2)) ///
 		study(Author) by(walkhealth) nooverall nosubgroup 		
 *Export graph
 graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png) replace		
+*-------------------------------------------------------------------------------		
+*-------------------------------------------------------------------------------		
 *-------------------------------------------------------------------------------		
 		
 **Leisure-time Physical Activity
