@@ -36,9 +36,9 @@ set seed 1234
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
-local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p120"
-local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p124"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
+local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p120"
+local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p124"
 local dopath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The UWI - Cave Hill Campus/Github Repositories"
 
 *_______________________________________________________________________________
@@ -232,7 +232,7 @@ save "`datapath'/version01/2-working/Walkability/walkability_paper_001_echorn.dt
 
 *Neighbourhood Level variables
 use "`datapath'/version01/2-working/Walkability/walkability_paper_001.dta", replace
-keep ED Road_Foot_I_Density LUM Residential walkability  walkscore walkability_factor Area parish total_pop SES_census crime_density BD_ht ERS ERS_cat IED educ_census pop_density ln_pop_density building_density crime_pop t_income_median_us
+keep ED Road_Foot_I_Density LUM Residential walkability  walkscore walkability_factor Area parish total_pop SES_census crime_density BD_ht ERS ERS_cat IED educ_census pop_density ln_pop_density building_density crime_pop t_income_median_us walkability_new walkability_new_10
 
 merge m:m ED using "`datapath'/version01/2-working/Walkability/walkability_paper_001_echorn.dta", nogenerate
 merge m:m ED using "`datapath'/version01/2-working/Walkability/walkability_paper_001_hotn.dta", nogenerate
