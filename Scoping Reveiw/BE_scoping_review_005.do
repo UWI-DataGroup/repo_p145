@@ -33,7 +33,7 @@ set linesize 150
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - 
 *local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - T
 *local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - SharePoint - The University of the West Indies/DataGroup - data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -112,6 +112,15 @@ encode Estimatetype, gen(estimate_type)
 rename estimate or
 rename lowerlimit Lower
 rename upperlimit Upper
+
+
+gen ipen = .
+replace ipen = 1 if Author == "Sallis 2016"
+replace ipen = 1 if Author == "Cerin 2017"
+replace ipen = 1 if Author == "Cerin 2018"
+replace ipen = 1 if Author == "Christiansen 2016"
+replace ipen = 1 if Author == "Schipperijn 2017"
+replace ipen = 0 if ipen == .
 
 gen BE = .
 tostring BE, replace
@@ -476,7 +485,7 @@ replace Author = "Christiansen 2016 (Residential Density within 500m buffer)" if
 replace Author = "Christiansen 2016 (Intersection Density within 500m buffer)" if Author == "Christiansen 2016" & or == 1.26
 replace Author = "Christiansen 2016 (Land Use Mix within 500m buffer)" if Author == "Christiansen 2016" & or == 1.32
 replace Author = "Christiansen 2016 (Parks within 500m buffer)" if Author == "Christiansen 2016" & Lower == 0.96
-*gsort -lnor 
+gsort -lnor 
 
 *-------------------------------------------------------------------------------		
 
@@ -570,7 +579,7 @@ admetan lnor lnlci lnuci if activity==2 & Subcat == "1000m" , eform(Studies) eff
 		dp(2) name(forest_AT_walking_1000, replace) xlabel(0.50(1)2 0.5 1 2.0, labsize(medsmall))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
-		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.0) xsize(2)) ///
+		favours(<10 mins walking commute/week # >10 mins walking comute/week) ysize(1.5) xsize(5)) ///
 		study(Author) by(walkhealth) nooverall nosubgroup 		
 *Export graph
 graph export "`outputpath'/version01/3-output/Scoping Review/active_forest_walk_1000.png", as(png) replace		
@@ -627,7 +636,7 @@ admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estim
 		dp(2) name(forest_MVPA_1, replace) xlabel(0.50(1)3 0.6 1 3.0, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
-		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(25) xsize(100)) ///
 		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
@@ -640,7 +649,7 @@ admetan lnor lnlci lnuci if activity==4 & (Estimatetype == "Odds Ratio"  | Estim
 		dp(2) name(forest_MVPA_2, replace) xlabel(0.70(1)3.0  1 3.5, labsize(small))  ///
 		aspect(0) plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) ///
 		graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) bgcolor(white) ///
-		favours(<10 mins activity/week # >10 mins activity/week) ysize(2.5)) ///
+		favours(<10 mins activity/week # >10 mins activity/week) ysize(25) xsize(100)) ///
 		study(Author) by(walkhealth) nooverall nosubgroup 
 		
 *Export graph
@@ -712,6 +721,23 @@ metabias lnor or_se if activity_new == 2, egger
 metabias lnor or_se if activity_new == 3, egger 
 *confunnel lnor or_se, contours(0.1 1 5 10)  twowayopts(legend (order(0 1 2 3 4 5 ) lab(1 "p<0.001") lab(2 "0.001<p<0.01") lab(3 "0.01<p<0.05") lab(4 "0.05<p<0.1") lab(5 "p>0.1")))
 
+#delimit;
+confunnel lnor or_se if ipen!=1, contours(0.1 1 5 10) name(funnel, replace) 
+			xlab(-2.0 -1.2 0 1.2 2.0, labsize(small)) xtitle("Odds Ratio (log scale)") 
+			ylab(.8(.1)0) ytitle("Standard Error") 
+			
+			twowayopts(plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            bgcolor(white) )
+			
+			legendopts(row(2))	
+			legend(order(10 "Relationships" 1 "p < 0.001" 2 "0.001 < p < 0.01"
+						 5 "0.01 < p < 0.05" 6 "0.05 < p < 0.10" 0 "p > 0.10")
+						 row(2))
+			note(" ")
+
+			;
+#delimit cr
 
 
 *-------------------------------------------------------------------------------
