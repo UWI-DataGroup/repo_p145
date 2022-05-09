@@ -245,6 +245,7 @@ keep if q3_14!=.
 svy linearized : regress q3_14 walkability_new_10 if q3_14!=., cformat(%9.2f)
 svy linearized : regress q3_14 walkability_new_10 q1_04 i.q1_03 SES_census if q3_14!=., cformat(%9.2f)
 svy linearized : regress q3_14 walkability_new_10 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census if q3_14!=., cformat(%9.2f)
+svy linearized : regress q3_14 walkability_new_10 q1_04 i.q1_03 i.q1_06b i.q1_07b ib2.q3_03 SES_census if q3_14!=., cformat(%9.2f)
 
 restore
 *----------------------------------------------------
@@ -260,6 +261,13 @@ svy linearized : logistic walk_cat walkability_new_10 q1_04 i.q1_03 SES_census, 
 svy linearized : logistic walk_cat walkability_new_10 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
 
 *----------------------------------------------------
+*Participants who actively commuted (walked or biked) to school
+gen walk_school = .
+replace walk_school = 1 if q3_15==1 | q3_15==2
+replace walk_school = 0 if q3_15==3 | q3_15==4 | q3_15==5 | q3_15==6 | q3_15==7
+
+svy linearized: logistic walk_school walkability_new_10 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
+svy linearized: logistic walk_school i.walk_3 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
 
 /*
 svy linearized : tobit q3_14 walkability_new_10 if q1_04 <18 & q1_04>=5 & q1_04!=., ll(0) cformat(%9.2f)
