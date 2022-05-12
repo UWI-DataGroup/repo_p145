@@ -104,6 +104,8 @@ ssc install metabias, replace
 */
 
 *Minor Cleaning
+encode Estimatetype, gen(type)
+drop if type == 1 | type == 6
 replace Author = "Christiansen 2016" if Author == "christiansen 2016"
 sort Author
 encode BEMeasure, gen(built)
@@ -113,6 +115,7 @@ rename estimate or
 rename lowerlimit Lower
 rename upperlimit Upper
 
+drop if or <0
 
 gen ipen = .
 replace ipen = 1 if Author == "Sallis 2016"
@@ -741,6 +744,138 @@ confunnel lnor or_se if ipen!=1, contours(0.1 1 5 10) name(funnel, replace)
 
 
 *-------------------------------------------------------------------------------
+
+
+*Encode Walkability Categories
+encode walkhealth, gen(walkhealth_cat)
+
+*-------------------------------------------------------------------------------
+*Active Communting	
+	#delimit;
+	graph twoway
+		(sc walkhealth_cat or if or<=1 & activity==1 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) ) 
+		(sc walkhealth_cat or if or<=1 & activity==2 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) ) 
+		
+		(sc walkhealth_cat or if or>1 & activity==1 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("84 39 143") mlw(0.1) )
+		(sc walkhealth_cat or if or>1 & activity==2 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("84 39 143") mlw(0.1) )
+		
+		, xline(1, lcolor(black))
+		
+				ylab(1"Surveillance" 2"Experience" 3"Traffic Safety" 4"Community" 5"Greenspace" 6"Density"
+				 7"Connectivity" 8"Land Use" 
+			,
+			angle(0) nogrid glc(gs16) labsize(2))
+			
+			ytitle("{bf:Built Environment Domain}", size(2) ) 
+			yscale(reverse)
+			
+			xscale(fill)
+			xlab(0.4(0.2)2.7 "1.0", labs(2.5) nogrid glc(gs16))
+			xtitle("{bf:Odds Ratio}", size(2) )
+			
+			title("{bf:Active Communting}", color(black) size(small))
+			
+				legend(size(2) position(1) ring(0) bm(t=1 b=4 l=5 r=0) colf cols(2)
+                region(fcolor(gs16) lw(vthin) margin(l=2 r=2 t=2 b=2)) 
+                order(2 4) 
+                lab(2 "Negative/Null") lab(4 "Positive")  
+				title("{bf:Relationships}", color(black) size(small))
+                )
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) ilcolor(black) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(6) xsize(10)
+			
+			name(active_commute, replace)
+		;
+		#delimit cr
+*-------------------------------------------------------------------------------
+*Leisure-time activity
+	#delimit;
+	graph twoway
+		(sc walkhealth_cat or if or<=1 & activity==3 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) ) 
+		
+		(sc walkhealth_cat or if or>1 & activity==3 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("84 39 143") mlw(0.1) )
+		
+		, xline(1, lcolor(black))
+		
+				ylab(1"Surveillance" 2"Experience" 3"Traffic Safety" 4"Community" 5"Greenspace" 6"Density"
+				 7"Connectivity" 8"Land Use" 
+			,
+			angle(0) nogrid glc(gs16) labsize(2))
+			ytitle("{bf:Built Environment Domain}", size(2) ) 
+			yscale(reverse)
+			
+			xscale(fill)
+			xlab(0.40(0.2)3.0 "1.0", labs(2.5) nogrid glc(gs16))
+			xtitle("{bf:Odds Ratio}", size(2) )
+			
+			title("{bf:Leisure-time PA}", color(black) size(small))
+			
+			legend(off)
+			
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(6) xsize(10)
+			
+			name(leisure, replace)
+		;
+		#delimit cr
+*-------------------------------------------------------------------------------
+*MVPA and Total PA
+	#delimit;
+	graph twoway
+		(sc walkhealth_cat or if or<=1 & activity==4 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) jitter(0.5)) 
+		(sc walkhealth_cat or if or<=1 & activity==5 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) jitter(0.5)) 
+		
+		(sc walkhealth_cat or if or>1 & activity==4 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("84 39 143") mlw(0.1) jitter(0.5))
+		(sc walkhealth_cat or if or>1 & activity==5 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("84 39 143") mlw(0.1) jitter(0.5))	
+		, xline(1, lcolor(black))
+		
+				ylab(1"Surveillance" 2"Experience" 3"Traffic Safety" 4"Community" 5"Greenspace" 6"Density"
+				 7"Connectivity" 8"Land Use" 
+			,
+			angle(0) nogrid glc(gs16) labsize(2))
+			ytitle("{bf:Built Environment Domain}", size(2) ) 
+			yscale(reverse)
+			
+			xscale(fill)
+			xlab(0.80(0.1)1.8 "1.0", labs(2.5) nogrid glc(gs16))
+			xtitle("{bf:Odds Ratio}", size(2) )
+			
+			title("{bf:MVPA and Total Activity}", color(black) size(small))
+			
+			legend(off)
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(6) xsize(10)
+			
+			name(mvpa_total, replace)
+		;
+		#delimit cr
+*-------------------------------------------------------------------------------
+*Combine graphs
+
+	#delimit;
+	
+	graph combine active_commute leisure mvpa_total	
+		, 
+		
+		col(1)
+		
+		plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+        graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+        ysize(6) xsize(10)
+			
+		name(combine_BE, replace)
+		;
+		#delimit cr
+*-------------------------------------------------------------------------------
+
 
 
 /*
