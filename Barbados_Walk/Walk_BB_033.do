@@ -9,7 +9,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	09/03/2021
-**	Date Modified: 	09/03/2021
+**	Date Modified: 	04/05/2022
 **  Algorithm Task: Analysis of IPEN Walkability paper
 
 
@@ -34,9 +34,9 @@ set linesize 150
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
-local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p120"
-local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p124"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
+local echornpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p120"
+local hotnpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p124"
 local dopath "/Volumes/Secomba/kernrocke/Boxcryptor/OneDrive - The UWI - Cave Hill Campus/Github Repositories"
 *Save dataset
 use "`datapath'/version01/2-working/Walkability/walkability_SES.dta", clear
@@ -103,6 +103,13 @@ xtile SES_cat= SES_census, nq(3)
 *Create Walkability tertiles
 xtile walk_cat3 = walkability, nq(3)
 xtile walk_cat4 = walkability, nq(4)
+
+*Walkabiluty Index (min-max scaled)
+gen walkability_new = (walkability - -3.099427)/(15.65749 - -3.099427)
+replace walkability_new = walkability_new*100
+
+*To represent 10% increase in walkabilty index (Use for regression models)
+gen walkability_new_10 = walkability_new/10
 		
 *Save dataset
 save "`datapath'/version01/2-working/Walkability/walkability_paper_001.dta", replace
