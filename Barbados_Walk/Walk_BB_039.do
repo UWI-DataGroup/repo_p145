@@ -266,6 +266,8 @@ gen walk_school = .
 replace walk_school = 1 if q3_15==1 | q3_15==2
 replace walk_school = 0 if q3_15==3 | q3_15==4 | q3_15==5 | q3_15==6 | q3_15==7
 
+xtile walk_3 = walkability_new, nq(3)
+
 svy linearized: logistic walk_school walkability_new_10 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
 svy linearized: logistic walk_school i.walk_3 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
 
