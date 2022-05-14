@@ -874,6 +874,8 @@ encode walkhealth, gen(walkhealth_cat)
 		name(combine_BE, replace)
 		;
 		#delimit cr
+		
+graph export "`outputpath'/version01/3-output/Scoping Review/BE-PA_Relationships_Bubble.png", as(png) replace height(6000) width(5000)
 *-------------------------------------------------------------------------------
 
 
