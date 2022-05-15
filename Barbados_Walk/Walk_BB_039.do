@@ -270,6 +270,37 @@ xtile walk_3 = walkability_new, nq(3)
 
 svy linearized: logistic walk_school walkability_new_10 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
 svy linearized: logistic walk_school i.walk_3 q1_04 i.q1_03 i.q1_06b i.q1_07b i.educ_new SES_census, cformat(%9.2f)
+*-------------------------------------------------------------------------------
+
+*BMI estimation in the entire population
+gen bmi = (q5_01p/2.2)/((q5_02/100)^2)
+
+*BMI estimation in children less than 20
+egen ba_who = zanthro(bmi,ba,WHO), xvar(q1_04) gender(q1_03) gencode(male = 1, female = 2)  ageunit(year) 
+egen ba_who = zanthro(bmi,ba,WHO), xvar(q1_04) gender(q1_03) gencode(male = 1, female = 2)  ageunit(year)  
+
+*Create Overweight and Obese variable
+gen over = 1 if ba_who>=1 & ba_who!=.
+replace over = 0 if ba_who!=. & over!=1
+replace over = 1 if bmi>=25 & q1_04>=20 & bmi!=.
+replace over = 0 if bmi<25 & q1_04>=20 & bmi!=.
+label var over "Overweight/Obese"
+proportion over, cformat(%9.2f) percent
+
+*Create Obese variable
+gen obese = 1 if ba_who>=2 & ba_who!=.
+replace obese = 0 if ba_who!=. & obese!=1
+replace obese = 1 if bmi>=30 & q1_04>=20 & bmi!=.
+replace obese = 0 if bmi<30 & q1_04>=20 & bmi!=.
+label var obese "Obese"
+proportion obese, cformat(%9.2f) percent
+
+*Build regression models
+svy linearized : melogit over walkability_new_10 Greenspace_Density SES_census q1_04 i.q3_22b walk_cat q5_06ad q5_06bh i.q9_04b q1_08c || hhid: || ED: , cformat(%9.2f) or
+
+svy linearized : melogit obese walkability_new_10 Greenspace_Density SES_census q1_04 i.q3_22b walk_cat q5_06ad q5_06bh i.q9_04b q1_08c || hhid: || ED: , cformat(%9.2f) or
+*-------------------------------------------------------------------------------
+
 
 /*
 svy linearized : tobit q3_14 walkability_new_10 if q1_04 <18 & q1_04>=5 & q1_04!=., ll(0) cformat(%9.2f)
