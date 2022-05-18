@@ -5,7 +5,7 @@
 **	Sub-Project:	Walkability Index Computation
 **  Analyst:		Kern Rocke
 **	Date Created:	31/07/2020
-**	Date Modified: 	02/10/2021
+**	Date Modified: 	18/05/2022
 **  Algorithm Task: IPEN Walkability Country/Site Comparison (boxplot)
 
 
@@ -25,7 +25,7 @@ set linesize 150
 *local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -45,7 +45,7 @@ local dopath "/Users/kernrocke/OneDrive - The University of the West Indies/Gith
 *local logpath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -55,12 +55,12 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West 
 *local outputpath "X:/The University of the West Indies/DataGroup - PROJECT_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
 *Open log file to store results
-log using "`logpath'/version01/3-output/Walkability/walk_BB_013.log",  replace
+*log using "`logpath'/version01/3-output/Walkability/walk_BB_013.log",  replace
 
 *Import data from encrypted location
 import excel "`datapath'/version01/1-input/Walkability/IPEN_BIM.xlsx", sheet("Sheet1") firstrow clear
@@ -107,11 +107,11 @@ replace graph = 2 if study >8
 
 twoway 
 	   rbar p_25 Median study, 
-								fcolor(gs14) lcolor(gs0) lwidth(.4)  barw(.4) 
+								fcolor(gs14) lcolor(gs0) lwidth(.4)  barw(.6) 
 								horizontal || 
 								
        rbar  Median p_75 study, 
-								fcolor(gs14) lcolor(gs0) lwidth (.4) barw(.4) 
+								fcolor(gs14) lcolor(gs0) lwidth (.4) barw(.6) 
 								horizontal || 
 								
        rspike p_25 Min study, 
@@ -128,15 +128,15 @@ twoway
 								
 	   rbar p_25 Median study if study == 17, 
 								fcolor(blue*.5) lcolor(black) lwidth(.4) 
-								barw(.4) horizontal || 
+								barw(.6) horizontal || 
 								
        rbar  Median p_75 study if study == 17, 
 								fcolor(blue*.5) lcolor(black) lwidth(.4) 
-								barw(.4) horizontal || 
+								barw(.6) horizontal || 
 								
        scatter study Mean, 
 								yscale(reverse) xlabel(-6(1)12) msymbol(X) 
-								msize(*1) fcolor(gs12) mcolor(black) 
+								msize(*2) fcolor(gs12) mcolor(black) 
 								legend(off)  
 								ylabel(  1 "Pooled IPEN Data" 
 										 2 "Adelaide, AUS" 
