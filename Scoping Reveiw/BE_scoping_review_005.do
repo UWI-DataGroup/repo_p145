@@ -878,6 +878,194 @@ encode walkhealth, gen(walkhealth_cat)
 graph export "`outputpath'/version01/3-output/Scoping Review/BE-PA_Relationships_Bubble.png", as(png) replace height(6000) width(5000)
 *-------------------------------------------------------------------------------
 
+gen walkhealth_graph = .
+
+replace walkhealth_graph =  12 if PA == "1.Leisure-time PA" & walkhealth_cat == 1
+replace walkhealth_graph =  13 if PA == "1.Leisure-time PA" & walkhealth_cat == 2
+replace walkhealth_graph =  14 if PA == "1.Leisure-time PA" & walkhealth_cat == 3
+replace walkhealth_graph =  15 if PA == "1.Leisure-time PA" & walkhealth_cat == 4
+replace walkhealth_graph =  16 if PA == "1.Leisure-time PA" & walkhealth_cat == 5
+replace walkhealth_graph =  17 if PA == "1.Leisure-time PA" & walkhealth_cat == 6
+replace walkhealth_graph =  18 if PA == "1.Leisure-time PA" & walkhealth_cat == 7
+replace walkhealth_graph =  19 if PA == "1.Leisure-time PA" & walkhealth_cat == 8
+
+
+replace walkhealth_graph =  22 if PA == "2.MVPA" & walkhealth_cat == 1
+replace walkhealth_graph =  23 if PA == "2.MVPA" & walkhealth_cat == 2
+replace walkhealth_graph =  24 if PA == "2.MVPA" & walkhealth_cat == 3
+replace walkhealth_graph =  25 if PA == "2.MVPA" & walkhealth_cat == 4
+replace walkhealth_graph =  26 if PA == "2.MVPA" & walkhealth_cat == 5
+replace walkhealth_graph =  27 if PA == "2.MVPA" & walkhealth_cat == 6
+replace walkhealth_graph =  28 if PA == "2.MVPA" & walkhealth_cat == 7
+replace walkhealth_graph =  29 if PA == "2.MVPA" & walkhealth_cat == 8
+
+
+replace walkhealth_graph =  2 if PA == "3.Active Transport" & walkhealth_cat == 1
+replace walkhealth_graph =  3 if PA == "3.Active Transport" & walkhealth_cat == 2
+replace walkhealth_graph =  4 if PA == "3.Active Transport" & walkhealth_cat == 3
+replace walkhealth_graph =  5 if PA == "3.Active Transport" & walkhealth_cat == 4
+replace walkhealth_graph =  6 if PA == "3.Active Transport" & walkhealth_cat == 5
+replace walkhealth_graph =  7 if PA == "3.Active Transport" & walkhealth_cat == 6
+replace walkhealth_graph =  8 if PA == "3.Active Transport" & walkhealth_cat == 7
+replace walkhealth_graph =  9 if PA == "3.Active Transport" & walkhealth_cat == 8
+
+
+label var walkhealth_graph "Walkability for Helath Domains"
+
+label define walkhealth_graph 2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density" 8"Connectivity" 9"Land Use" 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density" 18"Connectivity" 19"Land Use" 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density" 28"Connectivity" 29"Land Use" 
+
+label value walkhealth_graph walkhealth_graph
+
+tab walkhealth_graph
+tab walkhealth_graph, nolabel
+
+unique walkhealth_graph
+
+*Note: 10 18 missing
+
+gen ln_or = ln(or)
+
+	#delimit;
+	graph twoway
+		(sc walkhealth_graph ln_or if or<=1 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) jitter(0.5)) 
+		(sc walkhealth_graph ln_or if or<=1 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) jitter(0.5)) 
+		
+		(sc walkhealth_graph ln_or if or>1 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("222 203 228") mlw(0.1) jitter(0.5))
+		(sc walkhealth_graph ln_or if or>1 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("222 203 228") mlw(0.1) jitter(0.5))	
+		
+		
+		, 
+		
+		xline(0, lcolor(black))
+		
+		yline(2 3 4 5 6 7 8 9 12 13 14 15 16 17 18 19 22 23 24 25 26 27 28 29,  lcolor(gs15))
+		
+	
+			ytitle("{bf:Walkability for Health Framework Domains}", size(3) ) 
+			yscale(reverse)
+			
+			ylab(2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
+				 8"Connectivity" 9"Land Use" 10" " 11" " 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density"
+				 18"Connectivity" 19"Land Use" 20" " 21" " 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density"
+				 28"Connectivity" 29"Land Use" 
+			,
+			angle(0) nogrid notick glc(gs16) labsize(3))
+			
+			
+			xscale(fill)
+			xlab("0", labs(2.5) nogrid glc(gs16))
+			xtitle("", size(2) )
+			
+			xlab(1.3"Positive" -1"Negative" 0"Null"
+			,
+			angle(0) nogrid glc(gs16) labsize(3))
+			
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(12) xsize(28)
+			
+			
+			legend(size(3) position(11) ring(10) bm(t=0 b=0 l=0 r=0) colf cols(2)
+            region(fcolor(gs16) lw(vthin) margin(l=0 r=0 t=0 b=0)) 
+            order(2 4) 
+            lab(2 "Negative/Null") lab(4 "Positive")  
+			title("{bf:Relationships}", color(black) size(small))
+                )
+			
+			text(0.4 1.23 "Ratio" "Negative/Postive", size(small))
+			text(12 1.23 "1/2", size(small))
+			text(13 1.23 "4/1", size(small))
+			text(14 1.23 "5/4", size(small))
+			text(15 1.23 "1/7", size(small))
+			text(16 1.23 "2/7", size(small))
+			text(17 1.23 "2/3", size(small))
+			text(18 1.23 "5/2", size(small))
+			text(19 1.23 "4/10", size(small))
+			
+			text(2 1.23 "1/2", size(small))
+			text(3 1.23 "0/0", size(small))
+			text(4 1.23 "6/5", size(small))
+			text(5 1.23 "4/1", size(small))
+			text(6 1.23 "2/4", size(small))
+			text(7 1.23 "1/6", size(small))
+			text(8 1.23 "3/5", size(small))
+			text(9 1.23 "6/7", size(small))
+			
+			text(22 1.23 "1/0", size(small))
+			text(23 1.23 "0/0", size(small))
+			text(24 1.23 "0/2", size(small))
+			text(25 1.23 "0/2", size(small))
+			text(26 1.23 "1/0", size(small))
+			text(27 1.23 "1/0", size(small))
+			text(28 1.23 "1/0", size(small))
+			text(29 1.23 "2/1", size(small))
+			
+			text(1 0.23 "{bf:Active Transport}", size(small))
+			text(11 0.22 "{bf:Leisure-time PA}", size(small))
+			text(21 0.1 "{bf:MVPA}", size(small))
+			
+			name(new_graph_1, replace)
+			
+		;
+		#delimit cr
+		
+graph export "`outputpath'/version01/3-output/Scoping Review/BE-PA_Relationships_Bubble_combined.png", as(png) replace height(6000) width(5000)
+*-------------------------------------------------------------------------------
+*Creating Evidence Gap Map Matrix
+*Counting the number of relationships and collapsing by activity and BE domain
+gen count = 1
+collapse (sum) count, by(walkhealth activity)
+*Create coded PA variable. 
+gen PA = .
+replace PA = 1 if activity == 1 | activity ==2
+replace PA = 2 if activity == 3 
+replace PA = 3 if activity == 4 | activity ==5
+label var PA "Physical Activity"
+label define PA 1"Active Transport" 2"Leisure-time PA" 3"MVPA"
+label value PA PA
+*Convert string to coded categories
+encode walkhealth, gen(walk_health)
+*Recode to include parking for mapping purposes
+recode walk_health (3=4) (4=5) (5=6) (6=7) (7=8) (8=9)
+*Minot adjustment for mapping purposes
+replace PA = 1.2 if PA==1
+
+#delimit;
+	graph twoway
+			(scatter walk_health PA [w=count] if count<=3, mfc("252 141 89") mlc(gs0) msize(1))
+			(scatter walk_health PA [w=count] if count>=4 & count<=5, mfc("254 224 139") mlc(gs0) msize(3))
+			(scatter walk_health PA [w=count] if count>=6 & count<=8, mfc("217 239 139") mlc(gs0) msize(4))
+			(scatter walk_health PA [w=count] if count>=9 & count<=10, mfc("145 207 96") mlc(gs0) msize(5))
+			(scatter walk_health PA [w=count] if count>10 , mfc("26 152 80") mlc(gs0) msize(5.4))
+				,		
+			ylab(1"Surveillance" 2"Experience" 3"Parking" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
+				 8"Connectivity" 9"Land Use" 0.1" " 9.5" "
+			,
+			angle(0) nogrid notick glc(gs16) labsize(3))
+			yscale(reverse)
+			xscale(fill)
+			xscale(alt)
+			xlab(1"_" 1.2"Active Transport" 2"Leisure-time PA" 3"MVPA" 3.5" ", labs(2.5) nogrid notick glc(gs16))
+			xtitle("{bf:Physical Activity Outcome}", size(3) )
+
+			yline(0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5,  lcolor(gs8))
+			xline(1.5 2.5 3.5 ,  lcolor(gs8))
+			
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+			
+			legend(size(3) position(3) ring(10) bm(t=0 b=0 l=0 r=0) colf cols(2)
+            region(fcolor(gs16) lw(vthin) margin(l=0 r=0 t=0 b=0)) 
+            order(1 2 3 4 5) 
+            lab(1 "1-3") lab(2 "4-5")  lab(3 "6-8") lab(4 "9-10") lab(5 ">10") 
+			title("{bf:Number of Relationships}", color(black) size(small))
+                )
+					;
+		#delimit cr
+*-------------------------------------------------------------------------------
 
 
 /*
@@ -976,3 +1164,196 @@ replace seven_c = "Coexistence" if coexistence == "Coexistence"
 replace seven_c = "Commitment" if commitment == "Commitment"
 
 tab seven_c PA
+
+
+
+
+
+___________
+
+
+cls
+preserve
+gen walkhealth_graph = .
+
+replace walkhealth_graph =  12 if PA == "1.Leisure-time PA" & walkhealth_cat == 1
+replace walkhealth_graph =  13 if PA == "1.Leisure-time PA" & walkhealth_cat == 2
+replace walkhealth_graph =  14 if PA == "1.Leisure-time PA" & walkhealth_cat == 3
+replace walkhealth_graph =  15 if PA == "1.Leisure-time PA" & walkhealth_cat == 4
+replace walkhealth_graph =  16 if PA == "1.Leisure-time PA" & walkhealth_cat == 5
+replace walkhealth_graph =  17 if PA == "1.Leisure-time PA" & walkhealth_cat == 6
+replace walkhealth_graph =  18 if PA == "1.Leisure-time PA" & walkhealth_cat == 7
+replace walkhealth_graph =  19 if PA == "1.Leisure-time PA" & walkhealth_cat == 8
+
+
+replace walkhealth_graph =  22 if PA == "2.MVPA" & walkhealth_cat == 1
+replace walkhealth_graph =  23 if PA == "2.MVPA" & walkhealth_cat == 2
+replace walkhealth_graph =  24 if PA == "2.MVPA" & walkhealth_cat == 3
+replace walkhealth_graph =  25 if PA == "2.MVPA" & walkhealth_cat == 4
+replace walkhealth_graph =  26 if PA == "2.MVPA" & walkhealth_cat == 5
+replace walkhealth_graph =  27 if PA == "2.MVPA" & walkhealth_cat == 6
+replace walkhealth_graph =  28 if PA == "2.MVPA" & walkhealth_cat == 7
+replace walkhealth_graph =  29 if PA == "2.MVPA" & walkhealth_cat == 8
+
+
+replace walkhealth_graph =  2 if PA == "3.Active Transport" & walkhealth_cat == 1
+replace walkhealth_graph =  3 if PA == "3.Active Transport" & walkhealth_cat == 2
+replace walkhealth_graph =  4 if PA == "3.Active Transport" & walkhealth_cat == 3
+replace walkhealth_graph =  5 if PA == "3.Active Transport" & walkhealth_cat == 4
+replace walkhealth_graph =  6 if PA == "3.Active Transport" & walkhealth_cat == 5
+replace walkhealth_graph =  7 if PA == "3.Active Transport" & walkhealth_cat == 6
+replace walkhealth_graph =  8 if PA == "3.Active Transport" & walkhealth_cat == 7
+replace walkhealth_graph =  9 if PA == "3.Active Transport" & walkhealth_cat == 8
+
+
+label var walkhealth_graph "Walkability for Helath Domains"
+
+label define walkhealth_graph 2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density" 8"Connectivity" 9"Land Use" 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density" 18"Connectivity" 19"Land Use" 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density" 28"Connectivity" 29"Land Use" 10"" 11"" 20"" 21""
+
+label value walkhealth_graph walkhealth_graph
+
+tab walkhealth_graph
+tab walkhealth_graph, nolabel
+
+unique walkhealth_graph
+
+*Note: 10 18 missing
+
+gen ln_or = ln(or)
+
+	#delimit;
+	graph twoway
+		(sc walkhealth_graph ln_or if or<=1 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) jitter(0.5)) 
+		(sc walkhealth_graph ln_or if or<=1 & ipen!=1, msize(3) msymbol(smcircle_hollow) mlc(gs0) mlw(0.1) jitter(0.5)) 
+		
+		(sc walkhealth_graph ln_or if or>1 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("222 203 228") mlw(0.1) jitter(0.5))
+		(sc walkhealth_graph ln_or if or>1 & ipen!=1, msize(3) msymbol(smcircle) mlc(gs0) mfc("222 203 228") mlw(0.1) jitter(0.5))	
+		
+		
+		, xline(0, lcolor(black))
+		yline(2 3 4 5 6 7 8 9 12 13 14 15 16 17 18 19 22 23 24 25 26 27 28 29,  lcolor(gs15))
+		
+				ylab(1(1)24
+			,
+			angle(0) nogrid glc(gs16) labsize(2))
+			ytitle("{bf:Built Environment Domain}", size(2) ) 
+			yscale(reverse)
+			
+			ylab(1"_" 2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
+				 8"Connectivity" 9"Land Use" 10"_" 11"_" 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density"
+				 18"Connectivity" 19"Land Use" 20"_" 21"_" 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density"
+				 28"Connectivity" 29"Land Use" 
+			,
+			angle(0) nogrid notick glc(gs16) labsize(2))
+			
+			
+			xscale(fill)
+			xlab("0", labs(2.5) nogrid glc(gs16))
+			xtitle("", size(2) )
+			
+			xlab(1.3"Positive" -1"Negative" 0"Null"
+			,
+			angle(0) nogrid glc(gs16) labsize(2))
+			
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(12) xsize(18)
+			
+			legend(off)
+			
+			legend(size(2) position(5) ring(1) bm(t=1 b=4 l=5 r=0) colf cols(2)
+            region(fcolor(gs16) lw(vthin) margin(l=2 r=2 t=2 b=2)) 
+            order(2 4) 
+            lab(2 "Negative/Null") lab(4 "Positive")  
+			title("{bf:Relationships}", color(black) size(small))
+                )
+			
+			text(0 1.23 "Ratio" "Negative/Postive", size(vsmall))
+			text(12 1.23 "1/2", size(vsmall))
+			text(13 1.23 "4/1", size(vsmall))
+			text(14 1.23 "5/4", size(vsmall))
+			text(15 1.23 "1/7", size(vsmall))
+			text(16 1.23 "2/7", size(vsmall))
+			text(17 1.23 "2/3", size(vsmall))
+			text(18 1.23 "5/2", size(vsmall))
+			text(19 1.23 "4/10", size(vsmall))
+			
+			text(2 1.23 "1/2", size(vsmall))
+			text(3 1.23 "0/0", size(vsmall))
+			text(4 1.23 "6/5", size(vsmall))
+			text(5 1.23 "4/1", size(vsmall))
+			text(6 1.23 "2/4", size(vsmall))
+			text(7 1.23 "1/6", size(vsmall))
+			text(8 1.23 "3/5", size(vsmall))
+			text(9 1.23 "6/7", size(vsmall))
+			
+			text(22 1.23 "1/0", size(vsmall))
+			text(23 1.23 "0/0", size(vsmall))
+			text(24 1.23 "0/2", size(vsmall))
+			text(25 1.23 "0/2", size(vsmall))
+			text(26 1.23 "1/0", size(vsmall))
+			text(27 1.23 "1/0", size(vsmall))
+			text(28 1.23 "1/0", size(vsmall))
+			text(29 1.23 "2/1", size(vsmall))
+			
+			text(1 0.23 "{bf:Active Transport}", size(vsmall))
+			text(11 0.22 "{bf:Leisure-time PA}", size(vsmall))
+			text(21 0.1 "{bf:MVPA}", size(vsmall))
+			
+			name(new_graph_1, replace)
+			
+		;
+		#delimit cr
+
+restore
+
+/*
+Negative/Positive
+
+Leisure-time
+
+Surveillance 	= 1/2
+Experience 		= 4/1
+Traffic Safety 	= 5/4
+Community 		= 1/7
+Greenspace 		= 2/7
+Density 		= 2/3
+Connectivity 	= 5/2
+Land Use 		= 4/10
+
+
+
+MVPA
+
+Surveillance 	= 1/0
+Experience 		= 0/0
+Traffic Safety 	= 0/2
+Community 		= 0/2
+Greenspace 		= 1/0
+Density 		= 1/0
+Connectivity 	= 1/0
+Land Use 		= 2/1
+
+
+Active Transport
+
+Surveillance 	= 1/2
+Experience 		= 0/0
+Traffic Safety 	= 6/5
+Community 		= 4/1
+Greenspace 		= 2/4
+Density 		= 1/6
+Connectivity 	= 3/5
+Land Use 		= 6/7
+
+*/
+cls
+
+tab walkhealth_cat if PA == "1.Leisure-time PA" & or>1 & ipen!=1
+tab walkhealth_cat if PA == "1.Leisure-time PA" & or<=1 & ipen!=1
+tab walkhealth_cat if PA == "2.MVPA" & or>1 & ipen!=1
+tab walkhealth_cat if PA == "2.MVPA" & or<=1 & ipen!=1
+tab walkhealth_cat if PA == "3.Active Transport" & or>1 & ipen!=1
+tab walkhealth_cat if PA == "3.Active Transport" & or<=1 & ipen!=1
