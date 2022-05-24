@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	Built Environment Scoping Review
 **  Analyst:		Kern Rocke
 **	Date Created:	20/01/2021
-**	Date Modified: 	23/05/2022
+**	Date Modified: 	24/05/2022
 **  Algorithm Task: Creating Funnel and Forest Plots
 
 
@@ -1029,40 +1029,55 @@ label value PA PA
 encode walkhealth, gen(walk_health)
 *Recode to include parking for mapping purposes
 recode walk_health (3=4) (4=5) (5=6) (6=7) (7=8) (8=9)
+
+*Including domains with zero relationships
+fillin walk_health PA
+set obs 31
+replace PA = 1 in 29
+replace PA = 2 in 30
+replace PA = 3 in 31
+replace count = 0 if count == .
+replace walk_health = 3 if walk_health==.
+
 *Minot adjustment for mapping purposes
 replace PA = 1.2 if PA==1
+replace PA = 1 if PA ==1.2
+replace PA = 2.85 if PA>2
 
 #delimit;
 	graph twoway
-			(scatter walk_health PA [w=count] if count<=3, mfc("252 141 89") mlc(gs0) msize(1))
-			(scatter walk_health PA [w=count] if count>=4 & count<=5, mfc("254 224 139") mlc(gs0) msize(3))
-			(scatter walk_health PA [w=count] if count>=6 & count<=8, mfc("217 239 139") mlc(gs0) msize(4))
-			(scatter walk_health PA [w=count] if count>=9 & count<=10, mfc("145 207 96") mlc(gs0) msize(5))
-			(scatter walk_health PA [w=count] if count>10 , mfc("26 152 80") mlc(gs0) msize(5.4))
+			(scatter walk_health PA if count==0, mfc("215 48 39") mlc(gs0) msize(7))
+			(scatter walk_health PA if count>0 & count<=3, mfc("252 141 89") mlc(gs0) msize(7))
+			(scatter walk_health PA if count>=4 & count<=5, mfc("254 224 139") mlc(gs0) msize(7))
+			(scatter walk_health PA if count>=6 & count<=8, mfc("217 239 139") mlc(gs0) msize(7))
+			(scatter walk_health PA if count>=9 & count<=10, mfc("145 207 96") mlc(gs0) msize(7))
+			(scatter walk_health PA if count>10 , mfc("26 152 80") mlc(gs0) msize(7))
 				,		
 			ylab(1"Surveillance" 2"Experience" 3"Parking" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
-				 8"Connectivity" 9"Land Use" 0.1" " 9.5" "
+				 8"Connectivity" 9"Land Use" 0.751" " 9.5" "
 			,
 			angle(0) nogrid notick glc(gs16) labsize(3))
 			yscale(reverse)
 			xscale(fill)
 			xscale(alt)
-			xlab(1"Active" 1.2"            Transport" 2"Leisure-time PA" 3"MVPA" 3.5" ", labs(3) nogrid notick glc(gs16))
+			xlab(1"Active" 1.2"            Transport" 2.05"Leisure-time PA" 2.85"MVPA" 3.2" ", labs(3) nogrid notick glc(gs16))
 			xtitle("{bf:Physical Activity Outcome}", size(3) )
 
-			yline(0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5,  lcolor(gs8) noextend)
-			xline(1.5 2.5 3.5 ,  lcolor(gs8) noextend)
+			yline(0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.73,  lcolor(gs8) )
+			xline(1.6 2.45 3.28 ,  lcolor(gs8) )
 			
 			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
             graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
             bgcolor(white) 
 			
-			legend(size(3) position(3) ring(10) bm(t=0 b=0 l=0 r=0) colf cols(1)
+			legend(size(3) position(3) ring(10) bm(t=0 b=0 l=4 r=0) colf cols(1)
             region(fcolor(gs16) lw(vthin) margin(l=0 r=0 t=0 b=0)) 
-            order(1 2 3 4 5) 
-            lab(1 "1-3") lab(2 "4-5")  lab(3 "6-8") lab(4 "9-10") lab(5 ">10") 
+            order(1 2 3 4 5 6) 
+            lab(1 "0") lab(2 "1-3") lab(3 "4-5")  lab(4 "6-8") lab(5 "9-10") lab(6 ">10") 
 			title("{bf:Number of}" "{bf:Relationships}", color(black) size(small))
                 )
+				
+			xsize(5)
 					;
 		#delimit cr
 *-------------------------------------------------------------------------------
