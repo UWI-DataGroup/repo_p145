@@ -12,7 +12,7 @@ cls
 	//	sub-project:			Built environment scoping review
     //  analysts:               Kern ROCKE
     //  date first created      25/08/2020
-    // 	date last modified      01/11/2021
+    // 	date last modified      23/05/2022
     //  algorithm task          Creating graphics of basic descriptives of included studies (Counts)
     //  status                  Ongoing
 
@@ -36,7 +36,7 @@ set linesize 150
 
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/The University of the West Indies/DataGroup - data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 

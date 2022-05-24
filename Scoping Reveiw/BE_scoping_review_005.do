@@ -10,7 +10,7 @@ cls
 **	Sub-Project:	Built Environment Scoping Review
 **  Analyst:		Kern Rocke
 **	Date Created:	20/01/2021
-**	Date Modified: 	10/02/2022
+**	Date Modified: 	23/05/2022
 **  Algorithm Task: Creating Funnel and Forest Plots
 
 
@@ -1047,21 +1047,21 @@ replace PA = 1.2 if PA==1
 			yscale(reverse)
 			xscale(fill)
 			xscale(alt)
-			xlab(1"_" 1.2"Active Transport" 2"Leisure-time PA" 3"MVPA" 3.5" ", labs(2.5) nogrid notick glc(gs16))
+			xlab(1"Active" 1.2"            Transport" 2"Leisure-time PA" 3"MVPA" 3.5" ", labs(3) nogrid notick glc(gs16))
 			xtitle("{bf:Physical Activity Outcome}", size(3) )
 
-			yline(0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5,  lcolor(gs8))
-			xline(1.5 2.5 3.5 ,  lcolor(gs8))
+			yline(0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5,  lcolor(gs8) noextend)
+			xline(1.5 2.5 3.5 ,  lcolor(gs8) noextend)
 			
 			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
             graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
             bgcolor(white) 
 			
-			legend(size(3) position(3) ring(10) bm(t=0 b=0 l=0 r=0) colf cols(2)
+			legend(size(3) position(3) ring(10) bm(t=0 b=0 l=0 r=0) colf cols(1)
             region(fcolor(gs16) lw(vthin) margin(l=0 r=0 t=0 b=0)) 
             order(1 2 3 4 5) 
             lab(1 "1-3") lab(2 "4-5")  lab(3 "6-8") lab(4 "9-10") lab(5 ">10") 
-			title("{bf:Number of Relationships}", color(black) size(small))
+			title("{bf:Number of}" "{bf:Relationships}", color(black) size(small))
                 )
 					;
 		#delimit cr
