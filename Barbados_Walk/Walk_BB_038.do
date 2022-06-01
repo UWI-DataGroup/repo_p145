@@ -134,6 +134,13 @@ merge 1:1 ED using "`datapath'/version01/2-working/Walkability/neighbourhood_cha
 spmatrix create contiguity W, replace
 spmatrix create idistance M, replace
 
+*Walkabiluty Index (min-max scaled)
+gen walkability_new = (walkability - -3.099427)/(15.65749 - -3.099427)
+replace walkability_new = walkability_new*100
+
+*To represent 10% increase in walkabilty index (Use for regression models)
+gen walkability_new_10 = walkability_new/10
+
 
 *Spatial Autoregressive Models
 spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) 
@@ -298,5 +305,12 @@ graph combine Walkability_Index_ED Walkability_Index_parish,
 
 
 
-
+import delimited "/Users/kernrocke/Downloads/Health_ED_BB.csv", clear 
+rename enum_no1 ED
+egen cncd= rowmean(asthma diabetes kidney_dis heart_dise hypertensi)
+save "/Users/kernrocke/Downloads/Health_ED_BB.dta", replace
+merge 1:1 ED using "/Users/kernrocke/Downloads/Health_ED_BB.dta"
+zscore ndvi
+zscore Greenspace_Density
+egen ndvi_green = rowtotal(z_ndvi z_Greenspace_Density)
 
