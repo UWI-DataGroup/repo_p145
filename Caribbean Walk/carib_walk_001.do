@@ -12,7 +12,7 @@ cls
 **  Analyst:		Kern Rocke
 **	Date Created:	06/06/2022
 **	Date Modified: 	10/06/2022
-**  Algorithm Task: Creating Google Plus Codes
+**  Algorithm Task: Estimating Walk Score within 250m x 250m grid of Caribbean countries
 
 
 ** DO-FILE SET UP COMMANDS
@@ -51,6 +51,39 @@ data exchange. Layer grid is then created over the country extent and cliped usi
 the intersection tool based on the country's geographical dimensions. The centroid
 of each grid is developed and geographicl geometry attributes are added to each
 point. All spatial analysis was done using QGIS. 
+
+CARIBBEAN COUNTRIES
+
+Antigua_Barbuda 
+Aruba 
+Bahamas 
+Barbados 
+Belize 
+Bonaire 
+BVI 
+Cayman 
+Cuba 
+Curacao 
+Dominica 
+Dominican_Republic 
+French_Martinque 
+Grenada 
+Guyana 
+Haiti 
+Jamaica 
+Montserrat 
+Puerto_Rico 
+Saba 
+Saint_Barthelemy 
+Saint_Kitts_Nevis 
+Saint_Lucia 
+Saint_Vincent 
+Sint_Eustatius 
+Sint Martin 
+Suriname 
+Trinidad_Tobago 
+Turks_Caicos 
+USVI
 
 */
 
