@@ -1,4 +1,3 @@
-preserve 
 
 
 clear
@@ -97,6 +96,8 @@ reporting continous estimates.
 
 import excel "`datapath'/version01/1-input/Scoping Review/Relationships_Scoping_Review.xlsx", sheet("Sheet1") firstrow clear
 
+
+
 /*
 *Install user-driven commands for forest and funnel plots
 ssc install admetan, replace
@@ -117,7 +118,7 @@ rename estimate or
 rename lowerlimit Lower
 rename upperlimit Upper
 
-*drop if or <0
+drop if or <0
 
 gen ipen = .
 replace ipen = 1 if Author == "Sallis 2016"
@@ -206,6 +207,10 @@ gen experience = ""
 replace experience = "Experience" if BEMeasure == "High slope"
 replace experience = "Experience" if BEMeasure == "High Slope"
 replace experience = "Experience" if BEMeasure == "Sidewalks/Trees for shading"
+replace experience = "Experience" if BEMeasure == "flat surface (experience)"
+replace experience = "Experience" if BEMeasure == "Pedestrian facilities"
+replace experience = "Experience" if BEMeasure == "Pedestrian facilities (experience)"
+replace experience = "Experience" if BEMeasure == "pedestrian infrastructure"
 
 *Traffic Safety
 gen traffic = ""
@@ -216,6 +221,17 @@ replace traffic = "Traffic Safety" if BEMeasure == "Sidewalks"
 replace traffic = "Traffic Safety" if BEMeasure == "walking paths"
 replace traffic = "Traffic Safety" if BEMeasure == "Bus Stop"
 replace traffic = "Traffic Safety" if BEMeasure == "Bus stops"
+replace traffic = "Traffic Safety" if BEMeasure == "Distance to bicycle path"
+replace traffic = "Traffic Safety" if BEMeasure == "Presence of bike path"
+replace traffic = "Traffic Safety" if BEMeasure == "Distance to transit"
+replace traffic = "Traffic Safety" if BEMeasure == "Bike paths"
+replace traffic = "Traffic Safety" if BEMeasure == "Bike lanes"
+replace traffic = "Traffic Safety" if BEMeasure == "Speed reducers"
+replace traffic = "Traffic Safety" if BEMeasure == "School signage"
+replace traffic = "Traffic Safety" if BEMeasure == "Traffic signs"
+replace traffic = "Traffic Safety" if BEMeasure == "Route signage"
+
+
 
 *Greenspace
 gen greenspace = ""
@@ -224,6 +240,9 @@ replace greenspace = "Greenspace" if BEMeasure == "Presence of parks, spaces and
 replace greenspace = "Greenspace" if BEMeasure == "Parks"
 replace greenspace = "Greenspace" if BEMeasure == "Presence of trees and gardens"
 replace greenspace = "Greenspace" if BEMeasure == "High park density"
+replace greenspace = "Greenspace" if BEMeasure == "Park access"
+replace greenspace = "Greenspace" if BEMeasure == "Distance to parks and squares"
+replace greenspace = "Greenspace" if BEMeasure == "Distance to park"
 
 *Community 
 gen community = ""
@@ -235,6 +254,10 @@ replace community = "Community" if BEMeasure == "Number of public spaces"
 replace community = "Community" if BEMeasure == "Presence of parks and squares"
 replace community = "Community" if BEMeasure == "Presence of parks, spaces and facilities for physical activity"
 replace community = "Community" if BEMeasure == "Proximity to squares"
+replace community = "Community" if BEMeasure == "Public space access"
+replace community = "Community" if BEMeasure == "Distance to parks and squares"
+replace community = "Community" if BEMeasure == "Park access"
+replace community = "Community" if BEMeasure == "Distance to park"
 
 *Land Use
 gen land_use = ""
@@ -257,6 +280,13 @@ replace land_use = "Land Use" if BEMeasure == "Near to outdoor gym equipment"
 replace land_use = "Land Use" if BEMeasure == "Near to waterfront"
 replace land_use = "Land Use" if BEMeasure == "Retail Floor"
 replace land_use = "Land Use" if BEMeasure == "Walkability Index"
+replace land_use = "Land Use" if BEMeasure == "Distance to center"
+replace land_use = "Land Use" if BEMeasure == "land use mix"
+replace land_use = "Land Use" if BEMeasure == "Sports and leisure centers"
+replace land_use = "Land Use" if BEMeasure == "Distance to school"
+replace land_use = "Land Use" if BEMeasure == "Distance to utiliarian destinations"
+replace land_use = "Land Use" if BEMeasure == "Distance to recreational facilities"
+replace land_use = "Land Use" if BEMeasure == "Distance to nearest transit station"
 
 *Density
 gen density = ""
@@ -278,6 +308,14 @@ replace connectivity = "Connectivity" if BEMeasure == "Presence of bike path"
 replace connectivity = "Connectivity" if BEMeasure == "Street connectivity"
 replace connectivity = "Connectivity" if BEMeasure == "Street density"
 replace connectivity = "Connectivity" if BEMeasure == "Walkability Index"
+replace connectivity = "Connectivity" if BEMeasure == "Block density"
+replace connectivity = "Connectivity" if BEMeasure == "Connectivity between streets"
+replace connectivity = "Connectivity" if BEMeasure == "Average size of blocks"
+replace connectivity = "Connectivity" if BEMeasure == "Average block length"
+replace connectivity = "Connectivity" if BEMeasure == "Block area"
+replace connectivity = "Connectivity" if BEMeasure == "Bike path length"
+replace connectivity = "Connectivity" if BEMeasure == "Length of footpath"
+
 
 *Creating and Bolding Walkability for Health Dimensions String
 gen walkhealth = ""
@@ -543,11 +581,98 @@ unique walkhealth_graph
 
 gen ln_or = ln(or)
 
-
+gen zero = 0
 
 by walkhealth_graph, sort : egen float min_or = min(ln_or)
 by walkhealth_graph, sort : egen float max_or = max(ln_or)
 
+	#delimit;
+	graph twoway
+		(rspike min_or max_or walkhealth_graph, hor lcolor(gs4) lwidth(0.01))
+		(sc walkhealth_graph ln_or if or<=1, msize(2) msymbol(o) mlc(gs0) mfc("222 203 228 %10") mlw(0.1) ) 
+		(sc walkhealth_graph ln_or if or>1 , msize(2) msymbol(o) mlc(gs0) mfc("222 203 228 %10") mlw(0.1) )	
+		(sc walkhealth_graph min_or,  msize(2) msymbol(o) mlc(gs0) mfc("222 203 228") mlw(0.1) )
+		(sc walkhealth_graph max_or,  msize(2) msymbol(o) mlc(gs0) mfc("222 203 228") mlw(0.1) )
+				
+		(line walkhealth_graph zero if PA=="3.Active Transport", lcolor(gs9))
+		(line walkhealth_graph zero if PA=="2.MVPA", lcolor(gs9))
+		(line walkhealth_graph zero if PA=="1.Leisure-time PA", lcolor(gs9))
+		, 
+		
+
+			ytitle("{bf:Built Environment Domains (Increased presence and proximity)}", size(3) ) 
+			yscale(reverse)
+			
+			ylab(2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
+				 8"Connectivity" 9"Land Use" 10" " 11" " 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density"
+				 18"Connectivity" 19"Land Use" 20" " 21" " 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density"
+				 28"Connectivity" 29"Land Use" 
+			,
+			angle(0) nogrid notick glc(gs16) labsize(3))
+			
+			
+			xscale(fill titlegap(5))
+
+			xtitle("{bf:Physical Activity}", size(3) margin(2-pt)  )
+			
+			xlab(0"1" 2.2"{bf:More}"  -2"{bf:Less}" -1.2039728"0.3" -.51082562"0.6" .69314718"2.0" 1.3862944"4.0"
+			,
+			angle(0) nogrid glc(gs16) labsize(3) noticks )
+			
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+
+			ysize(10)
+			
+			legend(off)
+
+             
+			text(0.3 2.10 "Number of", size(small))
+			text(0.8 2.00 "Relationships", size(small))
+			text(12 2.35 "1|2", size(small))
+			text(13 2.35 "2|3", size(small))
+			text(14 2.35 "14|8", size(small))
+			text(15 2.35 "4|3", size(small))
+			text(16 2.35 "5|4", size(small))
+			text(17 2.35 "2|11", size(small))
+			text(18 2.35 "8|12", size(small))
+			text(19 2.35 "13|14", size(small))
+			
+			text(2 2.35 "1|2", size(small))
+			text(3 2.35 "4|3", size(small))
+			text(4 2.35 "5|5", size(small))
+			text(5 2.35 "2|8", size(small))
+			text(6 2.35 "3|11", size(small))
+			text(7 2.35 "3|3", size(small))
+			text(8 2.35 "6|5", size(small))
+			text(9 2.35 "4|10", size(small))
+			
+			text(22 2.35 "1|0", size(small))
+			text(23 2.35 "0|2", size(small))
+			text(24 2.35 "0|6", size(small))
+			text(25 2.35 "2|2", size(small))
+			text(26 2.35 "1|6", size(small))
+			text(27 2.35 "1|3", size(small))
+			text(28 2.35 "1|4", size(small))
+			text(29 2.35 "2|8", size(small))
+			
+			text(1.27 0.43 "{bf:Active Transport}", size(small))
+			text(11 0.40 "{bf:Leisure-time PA}", size(small))
+			text(21 0.18 "{bf:MVPA}", size(small))
+			
+			name(new_graph_1, replace)
+			text(1.3 2.35 "(-|+)", size(small))
+			text(30.3 2.20 "{bf:Activity}", size(small))
+			text(30.3 -2.0 "{bf:Activity}", size(small))
+			
+			
+			title(" ")
+		;
+		#delimit cr
+
+/*
 
 	#delimit;
 	graph twoway
@@ -634,7 +759,7 @@ by walkhealth_graph, sort : egen float max_or = max(ln_or)
 		#delimit cr
 		
 *-------------------------------------------------------------------------------
-
+/*
 gen count = 1
 gen direction = .
 replace direction = 1 if or<=1 // Negativ/Null
@@ -649,4 +774,183 @@ cls
 list walkhealth_cat count if direction ==1 & PA== "2.MVPA"
 *Positive		
 list walkhealth_cat count if direction ==2 & PA== "2.MVPA"	
-		restore
+
+
+		
+		
+			#delimit;
+	graph twoway
+		(rspike min_or max_or walkhealth_graph, hor lcolor(gs4) lwidth(0.01))
+		(sc walkhealth_graph ln_or if or<=1, msize(2) msymbol(o) mlc(gs0) mfc(gs15) mlw(0.1) ) 
+		(sc walkhealth_graph ln_or if or>1 , msize(2) msymbol(o) mlc(gs0) mfc(gs15) mlw(0.1) )	
+		(sc walkhealth_graph min_or,  msize(2) msymbol(o) mlc(gs0) mfc("222 203 228") mlw(0.1) )
+		(sc walkhealth_graph max_or,  msize(2) msymbol(o) mlc(gs0) mfc("222 203 228") mlw(0.1) )
+		
+
+		, 
+		
+		xline(0, lcolor(gs10))
+		
+		
+	
+			ytitle("{bf:Walkability for Health Framework Domains}", size(3) ) 
+			yscale(reverse)
+			
+			ylab(2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
+				 8"Connectivity" 9"Land Use" 10" " 11" " 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density"
+				 18"Connectivity" 19"Land Use" 20" " 21" " 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density"
+				 28"Connectivity" 29"Land Use" 
+			,
+			angle(0) nogrid notick glc(gs16) labsize(3))
+			
+			
+			xscale(fill)
+			xlab("0", labs(2.5) nogrid glc(gs16))
+			xtitle("{bf:Physical Activity}", size(3) margin(2-pt)  )
+			
+			xlab(1.2"Increase" 1.3" " -1"Decrease" 0"No change"
+			,
+			angle(0) nogrid glc(gs16) labsize(3))
+			
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(50) xsize(28)
+			
+			legend(off)
+
+             
+			
+			text(0.4 1.23 "Ratio" "Negative/Postive", size(small))
+			text(12 1.23 "1/2", size(small))
+			text(13 1.23 "4/1", size(small))
+			text(14 1.23 "5/4", size(small))
+			text(15 1.23 "1/7", size(small))
+			text(16 1.23 "2/9", size(small))
+			text(17 1.23 "2/3", size(small))
+			text(18 1.23 "5/2", size(small))
+			text(19 1.23 "4/10", size(small))
+			
+			text(2 1.23 "1/2", size(small))
+			text(3 1.23 "0/0", size(small))
+			text(4 1.23 "6/5", size(small))
+			text(5 1.23 "4/1", size(small))
+			text(6 1.23 "4/4", size(small))
+			text(7 1.23 "1/8", size(small))
+			text(8 1.23 "3/7", size(small))
+			text(9 1.23 "6/9", size(small))
+			
+			text(22 1.23 "1/0", size(small))
+			text(23 1.23 "0/0", size(small))
+			text(24 1.23 "0/6", size(small))
+			text(25 1.23 "0/2", size(small))
+			text(26 1.23 "1/6", size(small))
+			text(27 1.23 "1/3", size(small))
+			text(28 1.23 "1/4", size(small))
+			text(29 1.23 "2/7", size(small))
+			
+			text(1.27 0.43 "{bf:Active Transport}", size(small))
+			text(11 0.40 "{bf:Leisure-time PA}", size(small))
+			text(21 0.18 "{bf:MVPA}", size(small))
+			
+			name(new_graph_1, replace)
+			
+		;
+		#delimit cr
+		
+		
+		
+
+*NEW GRAPH
+
+	
+	#delimit;
+	graph twoway
+		(rspike min_or max_or walkhealth_graph, hor lcolor(gs4) lwidth(0.01))
+		(sc walkhealth_graph ln_or if or<=1, msize(2) msymbol(o) mlc(gs0) mfc("222 203 228 %10") mlw(0.1) ) 
+		(sc walkhealth_graph ln_or if or>1 , msize(2) msymbol(o) mlc(gs0) mfc("222 203 228 %10") mlw(0.1) )	
+		(sc walkhealth_graph min_or,  msize(2) msymbol(o) mlc(gs0) mfc("222 203 228") mlw(0.1) )
+		(sc walkhealth_graph max_or,  msize(2) msymbol(o) mlc(gs0) mfc("222 203 228") mlw(0.1) )
+				
+		(line walkhealth_graph zero if PA=="3.Active Transport", lcolor(gs9))
+		(line walkhealth_graph zero if PA=="2.MVPA", lcolor(gs9))
+		(line walkhealth_graph zero if PA=="1.Leisure-time PA", lcolor(gs9))
+		, 
+		
+
+			ytitle("{bf:Built Environment Domains (Increased presence and proximity)}", size(3) ) 
+			yscale(reverse)
+			
+			ylab(2"Surveillance" 3"Experience" 4"Traffic Safety" 5"Community" 6"Greenspace" 7"Density"
+				 8"Connectivity" 9"Land Use" 10" " 11" " 12"Surveillance" 13"Experience" 14"Traffic Safety" 15"Community" 16"Greenspace" 17"Density"
+				 18"Connectivity" 19"Land Use" 20" " 21" " 22"Surveillance" 23"Experience" 24"Traffic Safety" 25"Community" 26"Greenspace" 27"Density"
+				 28"Connectivity" 29"Land Use" 
+			,
+			angle(0) nogrid notick glc(gs16) labsize(3))
+			
+			
+			xscale(fill titlegap(5))
+
+			xtitle("{bf:Physical Activity}", size(3) margin(2-pt)  )
+			
+			xlab(0"1" 1.2"{bf:More}"  -1"{bf:Less}" -.69314718"0.5" -.22314355"0.8" .40546511"1.5" .69314718"2.0"
+			,
+			angle(0) nogrid glc(gs16) labsize(3) noticks )
+			
+				
+			plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
+            graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin) lcolor(black)) 
+            bgcolor(white) 
+            ysize(60) xsize(38)
+			
+			legend(off)
+
+             
+			text(0 1.10 "Number of", size(small))
+			text(0.5 1.10 "Relationships", size(small))
+			text(12 1.23 "1|2", size(small))
+			text(13 1.23 "4|1", size(small))
+			text(14 1.23 "5|4", size(small))
+			text(15 1.23 "1|7", size(small))
+			text(16 1.23 "2|9", size(small))
+			text(17 1.23 "2|3", size(small))
+			text(18 1.23 "5|2", size(small))
+			text(19 1.23 "4|10", size(small))
+			
+			text(2 1.23 "1|2", size(small))
+			text(3 1.23 "0|0", size(small))
+			text(4 1.23 "6|5", size(small))
+			text(5 1.23 "4|1", size(small))
+			text(6 1.23 "4|4", size(small))
+			text(7 1.23 "1|8", size(small))
+			text(8 1.23 "3|7", size(small))
+			text(9 1.23 "6|9", size(small))
+			
+			text(22 1.23 "1|0", size(small))
+			text(23 1.23 "0|0", size(small))
+			text(24 1.23 "0|6", size(small))
+			text(25 1.23 "0|2", size(small))
+			text(26 1.23 "1|6", size(small))
+			text(27 1.23 "1|3", size(small))
+			text(28 1.23 "1|4", size(small))
+			text(29 1.23 "2|7", size(small))
+			
+			text(1.27 0.43 "{bf:Active Transport}", size(small))
+			text(11 0.40 "{bf:Leisure-time PA}", size(small))
+			text(21 0.18 "{bf:MVPA}", size(small))
+			
+			name(new_graph_1, replace)
+			text(1.2 1.23 "(-|+)", size(small))
+			text(30.6 1.20 "{bf:Activity}", size(small))
+			text(30.6 -1.0 "{bf:Activity}", size(small))
+			
+			
+			title(" ")
+		;
+		#delimit cr
+		
+		
+		
+		/*
+		

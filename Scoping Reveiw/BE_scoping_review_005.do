@@ -105,7 +105,7 @@ ssc install metabias, replace
 
 *Minor Cleaning
 encode Estimatetype, gen(type)
-drop if type == 1 | type == 6
+*drop if type == 1 | type == 6
 replace Author = "Christiansen 2016" if Author == "christiansen 2016"
 sort Author
 encode BEMeasure, gen(built)
@@ -115,7 +115,7 @@ rename estimate or
 rename lowerlimit Lower
 rename upperlimit Upper
 
-drop if or <0
+*drop if or <0
 
 gen ipen = .
 replace ipen = 1 if Author == "Sallis 2016"
@@ -727,7 +727,7 @@ metabias lnor or_se if activity_new == 3, egger
 #delimit;
 confunnel lnor or_se if ipen!=1, contours(0.1 1 5 10) name(funnel, replace) 
 			xlab(-2.0 -1.2 0 1.2 2.0, labsize(small)) xtitle("Odds Ratio (log scale)") 
-			ylab(.8(.1)0) ytitle("Standard Error") 
+			ylab(.43(.1)0) ytitle("Standard Error") 
 			
 			twowayopts(plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 
             graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
