@@ -33,7 +33,7 @@ set linesize 150
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -46,7 +46,7 @@ local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data
 *local logpath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 
@@ -59,7 +59,7 @@ local logpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_
 *local outputpath "X:/The UWI - Cave Hill Campus/DataGroup - PROJECT_p145"
 
 *MAC OS
-local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/DataGroup - repo_data/data_p145"
+local outputpath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 *-------------------------------------------------------------------------------
 

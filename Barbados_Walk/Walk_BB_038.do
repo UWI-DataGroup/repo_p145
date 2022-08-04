@@ -129,6 +129,7 @@ destring crime_pop, replace
 rename ENUM_NO1 ED
 
 merge 1:1 ED using "`datapath'/version01/2-working/Walkability/neighbourhood_charc_add.dta", nogenerate
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/walkability_SES.dta", nogenerate
 
 *Create Spatial Matrix
 spmatrix create contiguity W, replace
@@ -160,6 +161,7 @@ spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) errorlag(W)
 		fcolor(RdYlGn) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(Walkability_Index, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -175,6 +177,7 @@ spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) errorlag(W)
 		fcolor(RdYlGn) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(Walkscore, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -190,6 +193,7 @@ spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) errorlag(W)
 		fcolor(YlOrBr) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(SES, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -205,6 +209,7 @@ spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) errorlag(W)
 		fcolor(Oranges) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(ERS, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -219,6 +224,7 @@ spregress walkability ndvi SES pop_density, gs2sls dvarlag(W) errorlag(W)
 		fcolor(Greens) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(IED, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -231,6 +237,7 @@ graph combine SES ERS IED,
 			size(vsmall) color(black)) 
 			title("Spatial Distribution of Social Neighbourhood Measures", color(black)) 
 			name(social, replace)
+			
 ;
 #delimit cr
 
@@ -261,6 +268,7 @@ graph combine Walkability_Index Walkscore,
 		fcolor(RdYlGn) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(Walkability_Index_ED, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -289,6 +297,7 @@ merge 1:1 parish_id using "walkability_parish"
 		fcolor(RdYlGn) clmethod(quantile) clnumber(5) 
 		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
 		name(Walkability_Index_parish, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(-100) size(1))
 ;
 #delimit cr
 
@@ -314,3 +323,66 @@ zscore ndvi
 zscore Greenspace_Density
 egen ndvi_green = rowtotal(z_ndvi z_Greenspace_Density)
 
+
+
+
+*Walkability Index
+#delimit;
+	grmap walkability, 
+		legend(off)
+		fcolor(RdYlBu) clmethod(quantile) clnumber(5) 
+		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
+		name(Walkability_Index, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(100) size(1))
+		title("Walkability Index", color(black)) 
+;
+#delimit cr
+
+*Residential Density
+#delimit;
+	grmap Residential, 
+		legend(off)
+		fcolor(RdYlBu) clmethod(quantile) clnumber(5) 
+		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
+		name(Residential, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(100) size(1))
+		title("Residential Density", color(black)) 
+;
+#delimit cr
+
+*Land Use Mix
+#delimit;
+	grmap LUM, 
+		legend(off)
+		fcolor(RdYlBu) clmethod(quantile) clnumber(6) 
+		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
+		name(LUM, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(100) size(1))
+		title("Land Use Mix", color(black)) 
+;
+#delimit cr
+
+*Street Connectivity
+#delimit;
+	grmap Road_Foot_I_Density, 
+		legend(off)
+		fcolor(RdYlBu) clmethod(quantile) clnumber(5) 
+		legenda(on) legtitle(Key) legorder(lohi) legstyle(1)
+		name(Connectivity, replace)
+		scalebar(units(10) scale(1/1000) label(Kilometers) xpos(100) size(1))
+		title("Street Connectivity", color(black)) 
+;
+#delimit cr
+
+
+
+
+*Combine Graphs Social Structure graphs
+#delimit;
+graph combine Residential Connectivity LUM Walkability_Index, 
+			row(2) col(2)
+			imargin(0 0 0 0) graphregion(margin(l=10 r=2))
+			name(walk_comp, replace)
+			
+;
+#delimit cr
