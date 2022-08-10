@@ -82,8 +82,8 @@ tabstat walkability ndvi, by(cluster) statistics( median p25 p75 ) columns(stati
 *Mapping
 
 *Convert shapefile to be loaded in STATA
-spshape2dta /Users/kernrocke/Downloads/ED_fix_BB/ED_analysis.shp, replace
-use "/Users/kernrocke/Downloads/ED_analysis.dta", replace
+spshape2dta /Users/kernrocke/Downloads/ED_fix_BB/ED_analysis1.shp, replace
+use "/Users/kernrocke/Downloads/ED_analysis1.dta", replace
 spset
 
 *Minor cleaning
@@ -385,4 +385,85 @@ graph combine Residential Connectivity LUM Walkability_Index,
 			name(walk_comp, replace)
 			
 ;
+#delimit cr
+
+
+/*
+BIVARIATE MAPPING
+
+ssc install bimap, replace
+ssc install spmap, replace
+ssc install palettes, replace
+ssc install colrspace, replace
+
+*Mapping
+
+*Convert shapefile to be loaded in STATA
+spshape2dta /Users/kernrocke/Downloads/ED_analysis1.shp, replace
+use "/Users/kernrocke/Downloads/ED_analysis1.dta", replace
+
+spset
+
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/neighbourhood_charc_add.dta", nogenerate
+merge 1:1 ED using "`datapath'/version01/2-working/Walkability/walkability_SES.dta", nogenerate
+
+rename _CY _Y
+rename _CX _X
+drop if ED == .
+
+gen _CX = _X
+gen _CY = _Y
+preserve
+
+use "/Users/kernrocke/Downloads/ED_analysis1.dta", clear
+rename _CY _Y
+rename _CX _X
+drop if ED == .
+save "/Users/kernrocke/Downloads/ED_analysis1.dta", replace
+
+restore
+
+*bimap SES walkability using "/Users/kernrocke/Downloads/ED_analysis1_shp.dta", cut(pctile) palette(pinkgreen) count values
+
+foreach x of newlist pinkgreen bluered greenblue purpleyellow yellowblue orangeblue brew1 brew2 brew3 census{
+
+#delimit;
+bimap SES walkability using "/Users/kernrocke/Downloads/ED_analysis1_shp.dta", 
+
+	cut(pctile) palette(`x') 
+	count values 
+	polygon(data("ED_analysis1_shp.dta") ocolor(black) osize(0.3))	
+	name(`x', replace)
+	
+	plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 		
+	graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+	plotregion(style(none))
+	
+	title("{fontface Arial Bold:Bivariate Map of Neighbourhood Walkability and SES}", color(black)) 
+	;
+#delimit cr
+}
+
+set scheme white_tableau 
+set scheme black_tableau 
+
+#delimit;
+bimap walkability SES using "/Users/kernrocke/Downloads/ED_analysis1_shp.dta", 
+
+	cut(pctile) palette(bluered) 
+	
+	polygon(data("ED_analysis1_shp.dta") ocolor(black) osize(0.3))	
+	name(g1, replace)
+	
+	plotregion(c(gs16) ic(gs16) ilw(thin) lw(thin)) 		
+	graphregion(color(gs16) ic(gs16) ilw(thin) lw(thin)) 
+	plotregion(style(none))
+	
+	title("{fontface Arial Bold:Bivariate Map of Neighbourhood}" "{fontface Arial Bold:Walkability and SES}", color(white)) 
+	
+	textx("SES") texty("Walkability") textsize(4) textlabsize(10) boxsize(10)
+	count 
+	scheme(white)
+	
+	;
 #delimit cr
