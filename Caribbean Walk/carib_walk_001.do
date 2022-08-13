@@ -11,7 +11,7 @@ cls
 **	Sub-Project:	Walkability Index 
 **  Analyst:		Kern Rocke
 **	Date Created:	06/06/2022
-**	Date Modified: 	10/06/2022
+**	Date Modified: 	14/06/2022
 **  Algorithm Task: Estimating Walk Score within 250m x 250m grid of Caribbean countries
 
 
@@ -29,13 +29,13 @@ scalar t1 = c(current_time)
 
 *-------------------------------------------------------------------------------
 *WINDOWS OS
-*local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
+local datapath "X:/The University of the West Indies/DataGroup - repo_data/data_p145"
 
 *WINDOWS OS (Alternative)
 *local datapath "X:/The UWI - Cave Hill Campus/DataGroup - repo_data/data_p145"
 
 *MAC OS
-local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
+*local datapath "/Volumes/Secomba/kernrocke/Boxcryptor/SharePoint - The University of the West Indies/DataGroup - data_p145"
 
 /*
 NOTE:
@@ -54,7 +54,7 @@ point. All spatial analysis was done using QGIS.
 
 CARIBBEAN COUNTRIES
 
-Antigua_Barbuda 
+Antigua Barbuda 
 Aruba 
 Bahamas 
 Barbados 
@@ -65,30 +65,30 @@ Cayman
 Cuba 
 Curacao 
 Dominica 
-Dominican_Republic 
-French_Martinque 
+Dominican Republic 
+French Martinque 
 Grenada 
 Guyana 
 Haiti 
 Jamaica 
 Montserrat 
-Puerto_Rico 
+Puerto Rico 
 Saba 
-Saint_Barthelemy 
-Saint_Kitts_Nevis 
-Saint_Lucia 
-Saint_Vincent 
-Sint_Eustatius 
+Saint Barthelemy 
+Saint Kitts Nevis 
+Saint Lucia 
+Saint Vincent 
+Sint Eustatius 
 Sint Martin 
 Suriname 
 Trinidad_Tobago 
-Turks_Caicos 
+Turks Caicos 
 USVI
 
 */
 
 
-foreach x in Anguilla Antigua_Barbuda Aruba Bahamas Barbados Belize Bonaire BVI Cayman Cuba Curacao Dominica Dominican_Republic French_Martinque Grenada Guyana Haiti Jamaica Montserrat Puerto_Rico Saba Saint_Barthelemy Saint_Kitts_Nevis Saint_Lucia Saint_Vincent Sint_Eustatius Sint Martin Suriname Trinidad_Tobago Turks_Caicos USVI{
+foreach x in Antigua_Barbuda Aruba Bahamas Barbados Bonaire BVI Cayman Cuba Curacao Dominica Dominican_Republic French_Martinique Grenada Guyana Haiti Jamaica Montserrat Puerto_Rico Saba Saint_Barthelemy Saint_Kitts_Nevis Saint_Lucia Saint_Vincent Sint_Eustatius Sint_Martin Suriname Trinidad_Tobago Turks_Caicos USVI{
 	
 *Set working directory for shapefile export
 cd "`datapath'/version01/1-input/GIS Data/Country Buildings/`x'/Centroid"
@@ -116,10 +116,10 @@ local address address
 
 drop part*
 
-
+*Create google pluscode webaddress
 gen code =  fileread(address)
 
-split code
+split code, limit(5)
 rename code5 pluscode
 label var pluscode "Google Plus code"
 replace pluscode = subinstr(pluscode, ",", "",.) 
@@ -137,19 +137,21 @@ gen walkscore_result = fileread(walkscore_address)
 gen last = substr(walkscore_result, strpos(walkscore_result, "This location has a Walk Score of") + 33, .)
 
 *Split remaining string into seperate variables to obtain walk score into one variable
-split last, limit(5) 
+*split last, limit(5) 
 
 
 *Rename variable
-rename last1 walkscore
-label var walkscore "Walkscore"
+*rename last1 walkscore
+*label var walkscore "Walkscore"
 
 *Remove unneccessary variables
-drop last*
+*drop last*
 
 *Create country variables
 gen country = "`x'"
-label country "Country"
+label var country "Country"
+
+keep _ID longitude latitude walkscore_address walkscore_result last
 
 *Save file 
 save "`datapath'/version01/2-working/Walkability/WalkScore/Walkscore_`x'", replace
@@ -158,9 +160,9 @@ save "`datapath'/version01/2-working/Walkability/WalkScore/Walkscore_`x'", repla
 }
 *-------------------------------------------------------------------------------
 *Merge in country data into one dataset
-use "`datapath'/version01/2-working/Walkability/WalkScore/Walkscore_Anguilla"
+use "`datapath'/version01/2-working/Walkability/WalkScore/Walkscore_Anguilla", clear
 
-foreach x in Antigua_Barbuda Aruba Bahamas Barbados Belize Bonaire BVI Cayman Cuba Curacao Dominica Dominican_Republic French_Martinque Grenada Guyana Haiti Jamaica Montserrat Puerto_Rico Saba Saint_Barthelemy Saint_Kitts_Nevis Saint_Lucia Saint_Vincent Sint_Eustatius Sint Martin Suriname Trinidad_Tobago Turks_Caicos USVI{
+foreach x in Antigua_Barbuda Aruba Bahamas Barbados Bonaire BVI Cayman Cuba Curacao Dominica Dominican_Republic French_Martinique Grenada Guyana Haiti Jamaica Montserrat Puerto_Rico Saba Saint_Barthelemy Saint_Kitts_Nevis Saint_Lucia Saint_Vincent Sint_Eustatius Sint_Martin Suriname Trinidad_Tobago Turks_Caicos USVI{
 	
 append using "`datapath'/version01/2-working/Walkability/WalkScore/Walkscore_`x'"	
 }
@@ -198,3 +200,6 @@ label var walkscore "Walkscore"
 drop last*
 
 sum walkscore
+
+
+split walkscore_result, gen(pos1) parse("a Walk Score of ")
