@@ -171,4 +171,4 @@ twoway
     ;
 #delimit cr
 
-log close
+
